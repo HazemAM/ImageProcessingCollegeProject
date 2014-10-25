@@ -36,6 +36,7 @@ namespace ImageProcessing
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.leftPictureBox = new System.Windows.Forms.PictureBox();
             this.rightPictureBox = new System.Windows.Forms.PictureBox();
+            this.saveDialog = new System.Windows.Forms.SaveFileDialog();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.leftPictureBox)).BeginInit();
@@ -102,6 +103,8 @@ namespace ImageProcessing
             this.leftPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.leftPictureBox.TabIndex = 0;
             this.leftPictureBox.TabStop = false;
+            this.leftPictureBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox_DoubleClick);
+            this.leftPictureBox.MouseHover += new System.EventHandler(this.pictureBox_MouseHover);
             // 
             // rightPictureBox
             // 
@@ -114,6 +117,14 @@ namespace ImageProcessing
             this.rightPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.rightPictureBox.TabIndex = 11;
             this.rightPictureBox.TabStop = false;
+            this.rightPictureBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox_DoubleClick);
+            this.rightPictureBox.MouseHover += new System.EventHandler(this.pictureBox_MouseHover);
+            // 
+            // saveDialog
+            // 
+            this.saveDialog.DefaultExt = "jpg";
+            this.saveDialog.FileName = "image";
+            this.saveDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.saveDialog_FileOk);
             // 
             // mainForm
             // 
@@ -141,6 +152,7 @@ namespace ImageProcessing
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.PictureBox leftPictureBox;
         private System.Windows.Forms.PictureBox rightPictureBox;
+        private System.Windows.Forms.SaveFileDialog saveDialog;
     }
 }
 

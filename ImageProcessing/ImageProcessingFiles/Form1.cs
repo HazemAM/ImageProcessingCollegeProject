@@ -18,21 +18,19 @@ namespace ImageProcessing
         }
 
         Bitmap theBitmapImage;
+        Image  imageToSave=null;
 
         private void btnOpen_Click(object sender, EventArgs e){
             OpenFileDialog fileDialog = new OpenFileDialog();
             if(fileDialog.ShowDialog()==DialogResult.OK){
                 //Open the image:
-                string imageFilePath = fileDialog.FileName.ToLower();
+                String imageFilePath = fileDialog.FileName.ToLower();
                 if(imageFilePath.EndsWith(".jpg") || imageFilePath.EndsWith(".png") ||
                    imageFilePath.EndsWith(".gif") || imageFilePath.EndsWith(".bmp")){
                     theBitmapImage = new Bitmap(imageFilePath);
                 }
-                else if(imageFilePath.EndsWith(".ppm")){
+                else if(imageFilePath.EndsWith(".ppm"))
                     theBitmapImage = GetPPMBitmap(imageFilePath);
-                    /*MessageBox.Show("Hmm...\nWe promise to support PPM files in the future.",
-                        "Not Supported", MessageBoxButtons.OK);*/
-                }
                 else{
                     MessageBox.Show("This type of files is not supported... yet.\n(Are you sure it's an image?)", "Not Supported", MessageBoxButtons.OK);
                     return;
@@ -41,118 +39,96 @@ namespace ImageProcessing
             }
         }
 
-        private void rightPictureBox_Click(object sender, EventArgs e){
-            rightPictureBox.Image = null;
+        private Bitmap GetPPMBitmap(String filePath){
+            var reader = new BinaryReader(new FileStream(filePath, FileMode.Open));
+            
+            reader.ReadChar(); //Eat 'P' of type
+            char type = reader.ReadChar(); //PPM MagicNumber
+            if(type!='3' && type!='6'){
+                MessageBox.Show("This file is not a real .PPM file.\nA .PPM file can only be of type P3 or P6.",
+                        "What?", MessageBoxButtons.OK);
+                return null;
+            }
+            reader.ReadChar(); //Eat newline
+
+            char temp;
+            String widthStr="", heightStr="";
+            if((temp = reader.ReadChar())=='#') //Comment
+                while((temp = reader.ReadChar())!='\n'){ /*do nothing*/ }
+            else widthStr += temp;
+
+            while((temp=reader.ReadChar())!=' ') //Width
+                widthStr+=temp;
+            while((temp=reader.ReadChar())>='0' && temp<='9') //Height
+                heightStr+=temp;
+            
+            if(reader.ReadChar()!='2' || reader.ReadChar()!='5' || reader.ReadChar()!='5'){ //Levels
+                MessageBox.Show("Sorry, only PPM's of 255 levels are currently supported.",
+                        "Nope", MessageBoxButtons.OK);
+                return null;
+            }
+
+            reader.ReadChar(); //Eat newline
+            int width  = int.Parse(widthStr),
+                height = int.Parse(heightStr);
+
+            Bitmap bitmap = new Bitmap(width, height);
+
+            /*****P3*****/
+            if(type=='3')
+                for(int y=0; y<height; y++) //Read the pixels
+                    for(int x=0; x<width; x++){
+                        String r="", g="", b="";
+                        while((temp=reader.ReadChar())!=' ') r+=temp;
+                        while((temp=reader.ReadChar())!=' ') g+=temp;
+                        while((temp=reader.ReadChar())!=' ') b+=temp;
+
+                        Color color = Color.FromArgb(int.Parse(r), int.Parse(g), int.Parse(b));
+                        bitmap.SetPixel(x, y, color);
+                    }
+
+            /*****P6*****/
+            else if(type=='6')
+                for(int y=0; y<height; y++) //Read the pixels
+                    for(int x=0; x<width; x++){
+                        Color color = Color.FromArgb(reader.ReadByte(), reader.ReadByte(), reader.ReadByte());
+                        bitmap.SetPixel(x, y, color);
+                    }
+
+            //Done.
+            reader.Close();
+            reader = null;
+            return bitmap;
         }
 
-        private void rightPictureBox_MouseHover(object sender, EventArgs e){
-            if(rightPictureBox.Image != null){
+        /*private void pictureBox_Click(object sender, EventArgs e){
+            ((PictureBox)sender).Image = null;
+        }*/
+
+        private void pictureBox_MouseHover(object sender, EventArgs e)
+        {
+            PictureBox pictureBox = ((PictureBox)sender);
+            if(pictureBox.Image != null){
                 toolTip.Active = true;
-                toolTip.SetToolTip(rightPictureBox, "Click to remove");
+                toolTip.SetToolTip(pictureBox, "Double click to save");
             }
             else
                 toolTip.Active = false;
         }
 
-        private String[] PPMToString(String filePath){
-            String theFile = "";
-            String type="", widthHeight="", levels="";
-
-            String line = "";
-            int counter = 1;
-            short headerMax = 3;
-
-            try{
-                StreamReader file = new StreamReader(filePath);
-                while((line=file.ReadLine()) != null){ //instead of myFile.ReadToEnd().
-                    if(counter<=headerMax){
-                        switch(counter){
-                        case 1:
-                            type = line;
-                            break;
-                        case 2:
-                            if(line.StartsWith("#")) headerMax = 4;
-                            else widthHeight = line;
-                            break;
-                        case 3:
-                            if (headerMax == 3) levels = line;
-                            else if (headerMax == 4) widthHeight = line;
-                            break;
-                        case 4:
-                            levels = line;
-                            break;
-                        }
-                    }
-                    else{
-                        theFile += line;
-                    }
-                    
-                    counter++;
-                }
-            } catch(Exception e){
-                Console.WriteLine("The file could not be read:"+" "+e.Message);
-                return null;
+        private void pictureBox_DoubleClick(object sender, EventArgs e){
+            //Save the image.
+            if(((PictureBox)sender).Image!=null){
+                saveDialog.FileName = "image.jpg";
+                saveDialog.Filter   = "JPEG|*.jpg|All files|*.*";
+                imageToSave = ((PictureBox)sender).Image;
+                saveDialog.ShowDialog();
             }
-
-            return (new String[] {type,widthHeight,levels,theFile});
         }
 
-        private Bitmap GetPPMBitmap(string filePath){
-            String[] theWholeFile = PPMToString(filePath);
-            String[] WH = theWholeFile[1].Split(' ');
-            String[] fileData = theWholeFile[3].Split(' ');
-            int width  = int.Parse(WH[0]);
-            int height = int.Parse(WH[1]);
-
-            if(!theWholeFile[0].Equals("P3")){
-                MessageBox.Show("Only P3 type is currently supported.",
-                        "Not Supported", MessageBoxButtons.OK);
-                return null;
-            }
-
-            Bitmap bmp = new Bitmap(width, height);
-
-            /*METHOD 1: USING SetPixel()*/
-            int c = 0; //RGB data counter
-            for(int i=0; i<height; i++){
-                for(int j=0; j<width; j++){
-                    Color color = Color.FromArgb(byte.Parse(fileData[c]),byte.Parse(fileData[c+1]),byte.Parse(fileData[c+2]));
-                    bmp.SetPixel(j,i,color);
-                    c += 3;
-                }
-            }
-
-            /*METHOD 2: USING LockBits() // UNFINISHED, WORKS WITH PROBLEMS*/
-                //PixelFormat format = PixelFormat.Format24bppRgb; //The pixel format.
-                //Rectangle rect = new Rectangle(0, 0, bmp.Width, bmp.Height); //The piece of image to work on
-
-                ////Locking Bitmap's bits into memory.
-                //BitmapData bmpData = bmp.LockBits(rect, ImageLockMode.ReadWrite, format);
-
-                ////Getting the address of the first line.
-                //IntPtr ptr = bmpData.Scan0;
-
-                ////The array to hold the bitmap bytes in.
-                //int numBytes = bmp.Width * bmp.Height * 3; //bmpData.Stride*bmp.Height;
-                //byte[] rgbValues = new byte[numBytes];
-
-                ////Copy the RGB values into the array.
-                //Marshal.Copy(ptr, rgbValues, 0, numBytes);
-
-                ////Converting and copying.
-                //for (int i = 0; i < rgbValues.Length; i++)
-                //{
-                //    rgbValues[i] = byte.Parse(fileData[i]);
-                //}
-
-                ////Copy the RGB values back to the bitmap.
-                //Marshal.Copy(rgbValues, 0, ptr, numBytes);
-
-                ////Unlock the bits.
-                //bmp.UnlockBits(bmpData);
-
-            //Done.
-            return bmp;
+        private void saveDialog_FileOk(object sender, CancelEventArgs e){
+            imageToSave.Save(saveDialog.FileName, System.Drawing.Imaging.ImageFormat.Jpeg);
+            imageToSave = null;
         }
     }
 }
