@@ -24,9 +24,6 @@ namespace ImageProcessing
                     break;
                 case 2:// in case of roatating 1st input is Xpos of center of rotation,2nd input is Ypos of center of rotation,3rd intput is the angle
                     angle = (float)opprands[2];
-                    //W.Translate(-(OrigBuf.Width- X), -(OrigBuf.Height-Y));
-                    //W.Rotate(angle);
-                    //W.Translate(OrigBuf.Width-X,OrigBuf.Height- Y);
                     W.RotateAt(angle, new PointF((int)X, (int)Y),MatrixOrder.Prepend);
                     break;
                 case 3:// in case of shearing 1st input is X,2nd input is Y,3rd intput is ignored
@@ -50,7 +47,7 @@ namespace ImageProcessing
                 {
                     org[i, j] = OrigBuf.GetPixel(i, j);
                 }
-            PointF[] arr = new PointF[] { new PointF(0, 0), new PointF(0, maxW), new PointF(0, maxH), new PointF(maxW, maxH) };
+            PointF[] arr = new PointF[] { new PointF(0, 0), new PointF(maxW, 0), new PointF(0, maxH), new PointF(maxW, maxH) };
             try
             {
                 W.TransformPoints(arr);
