@@ -32,7 +32,8 @@ namespace ImageProcessing
                 else if(imageFilePath.EndsWith(".ppm"))
                     theBitmapImage = GetPPMBitmap(imageFilePath);
                 else{
-                    MessageBox.Show("This type of files is not supported... yet.\n(Are you sure it's an image?)", "Not Supported", MessageBoxButtons.OK);
+                    MessageBox.Show("This type of files is not supported... yet.\n(Are you sure it's an image?)",
+                        "Not Supported", MessageBoxButtons.OK);
                     return;
                 }
                 leftPictureBox.Image = theBitmapImage;
@@ -129,6 +130,24 @@ namespace ImageProcessing
         private void saveDialog_FileOk(object sender, CancelEventArgs e){
             imageToSave.Save(saveDialog.FileName, System.Drawing.Imaging.ImageFormat.Jpeg);
             imageToSave = null;
+        }
+
+        private void btnScale_Click(object sender, EventArgs e){
+            rightPictureBox.Image = Transformations.Ops(theBitmapImage, 1, new double[]{1.5,1.5});
+        }
+
+        private void btnRotate_Click(object sender, EventArgs e){
+            rightPictureBox.Image = Transformations.Ops(theBitmapImage, 2, new double[]{0,0,90});
+        }
+
+        private void btnShear_Click(object sender, EventArgs e){
+            rightPictureBox.Image = Transformations.Ops(theBitmapImage, 3, new double[]{1.1,0});
+        }
+
+        private void btnTransAll_Click(object sender, EventArgs e){
+            rightPictureBox.Image = Transformations.Ops(theBitmapImage, 1, new double[]{1.5,1.5});
+            rightPictureBox.Image = Transformations.Ops((Bitmap)rightPictureBox.Image, 2, new double[]{0,0,90});
+            rightPictureBox.Image = Transformations.Ops((Bitmap)rightPictureBox.Image, 3, new double[]{1.1,0});
         }
     }
 }
