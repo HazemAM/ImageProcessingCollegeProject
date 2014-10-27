@@ -12,31 +12,32 @@ namespace ImageProcessing
 
         public static Bitmap Ops(Bitmap OrigBuf, int id, double[] opprands)
         {
-            float angle = 0;
-            float X = (float)opprands[0];
-            float Y = (float)opprands[1];
+            float X;
+            float Y;
+            float angle = (float)opprands[4];
             Matrix W = new Matrix();
             // 1= scaling, 2=roating,3=shearing,4=all
             switch (id)
             {
                 case 1:// in case of scaling 1st input is X,2nd input is Y,3rd intput is ignored
+                    X=(float)opprands[0]; Y=(float)opprands[1];
                     W.Scale(X, Y);
                     break;
                 case 2:// in case of roatating 1st input is Xpos of center of rotation,2nd input is Ypos of center of rotation,3rd intput is the angle
-                    angle = (float)opprands[2];
+                    X=(float)opprands[2]; Y=(float)opprands[3];
                     W.RotateAt(angle, new PointF((int)X, (int)Y),MatrixOrder.Prepend);
                     break;
                 case 3:// in case of shearing 1st input is X,2nd input is Y,3rd intput is ignored
+                    X=(float)opprands[5]; Y=(float)opprands[6];
                     W.Shear(X, Y);
                     break;
                 case 4://in case of all 1st 2 opperands scale next 3 rotate and last 2 shear
-                    W.Scale(X, Y);
-                    angle = (float)opprands[2];
-                    W.RotateAt(angle, new PointF((int)opprands[3], (int)opprands[4]), MatrixOrder.Prepend);
+                    W.Scale((float)opprands[0], (float)opprands[1]);
+                    W.RotateAt(angle, new PointF((int)opprands[2], (int)opprands[3]));
                     W.Shear((float)opprands[5],(float) opprands[6]);
                     break;
                 default:
-                    MessageBox.Show("Wrong id");
+                    Console.WriteLine("Wrong operation ID.");
                     return null;
             }
 
@@ -69,7 +70,7 @@ namespace ImageProcessing
                 W.Translate(-n.X, -n.Y, MatrixOrder.Append);
                 if (!W.IsInvertible)
                 {
-                    MessageBox.Show("invalid Transformation");
+                    Console.WriteLine("Invalid transformation operand.");
                     return null;
                 }
                 W.Invert();

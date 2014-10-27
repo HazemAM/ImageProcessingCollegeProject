@@ -15,6 +15,7 @@ namespace ImageProcessing
     {
         public mainForm(){
             InitializeComponent();
+            rdioScale.Checked = true;
         }
 
         Bitmap theBitmapImage;
@@ -132,20 +133,30 @@ namespace ImageProcessing
             imageToSave = null;
         }
 
-        private void btnScale_Click(object sender, EventArgs e){
-            rightPictureBox.Image = Transformations.Ops(theBitmapImage, 1, new double[]{1.5,1.5});
-        }
+        private void btnApply_Click(object sender, EventArgs e){
+            if(leftPictureBox.Image==null){
+                MessageBox.Show("Sorry, we don't support 0×0 pictures yet.\nFuture updates? Who knows.",
+                        "Empty", MessageBoxButtons.OK);
+                return;
+            }
 
-        private void btnRotate_Click(object sender, EventArgs e){
-            rightPictureBox.Image = Transformations.Ops(theBitmapImage, 2, new double[]{0,0,90});
-        }
+            //The operation:
+            int operation=0;
+            if(rdioScale.Checked) operation=1; else if(rdioRotation.Checked) operation=2;
+            else if(rdioShear.Checked) operation=3; else if(rdioAll.Checked) operation=4;
+            else{
+                MessageBox.Show("Choose an operation first.",
+                        "NOOP (not n00b)", MessageBoxButtons.OK);
+                return;
+            }
 
-        private void btnShear_Click(object sender, EventArgs e){
-            rightPictureBox.Image = Transformations.Ops(theBitmapImage, 3, new double[]{1.1,0});
-        }
+            //Get operands:
+            double scaleX=(double)numScaleX.Value, scaleY=(double)numScaleY.Value;
+            double rotX=(double)numRotX.Value, rotY=(double)numRotY.Value, rotAngle=(double)numRotAngle.Value;
+            double shearX=(double)numShearX.Value, shearY=(double)numShearY.Value;
 
-        private void btnTransAll_Click(object sender, EventArgs e){
-            rightPictureBox.Image = Transformations.Ops(theBitmapImage, 4, new double[]{1.5,1.5,45,0,0,1,0});
+            //Do it:
+            rightPictureBox.Image = Transformations.Ops(theBitmapImage, operation, new double[]{scaleX,scaleY, rotX,rotY,rotAngle, shearX,shearY});
         }
     }
 }
