@@ -16,7 +16,7 @@ namespace ImageProcessing
             float X = (float)opprands[0];
             float Y = (float)opprands[1];
             Matrix W = new Matrix();
-            // 1= scaling, 2=roating,3=shearing
+            // 1= scaling, 2=roating,3=shearing,4=all
             switch (id)
             {
                 case 1:// in case of scaling 1st input is X,2nd input is Y,3rd intput is ignored
@@ -24,13 +24,16 @@ namespace ImageProcessing
                     break;
                 case 2:// in case of roatating 1st input is Xpos of center of rotation,2nd input is Ypos of center of rotation,3rd intput is the angle
                     angle = (float)opprands[2];
-                    //W.Translate(-(OrigBuf.Width- X), -(OrigBuf.Height-Y));
-                    //W.Rotate(angle);
-                    //W.Translate(OrigBuf.Width-X,OrigBuf.Height- Y);
                     W.RotateAt(angle, new PointF((int)X, (int)Y),MatrixOrder.Prepend);
                     break;
                 case 3:// in case of shearing 1st input is X,2nd input is Y,3rd intput is ignored
                     W.Shear(X, Y);
+                    break;
+                case 4://in case of all 1st 2 opperands scale next 3 rotate and last 2 shear
+                    W.Scale(X, Y);
+                    angle = (float)opprands[2];
+                    W.RotateAt(angle, new PointF((int)opprands[3], (int)opprands[4]), MatrixOrder.Prepend);
+                    W.Shear((float)opprands[5],(float) opprands[6]);
                     break;
                 default:
                     MessageBox.Show("Wrong id");
@@ -50,7 +53,7 @@ namespace ImageProcessing
                 {
                     org[i, j] = OrigBuf.GetPixel(i, j);
                 }
-            PointF[] arr = new PointF[] { new PointF(0, 0), new PointF(0, maxW), new PointF(0, maxH), new PointF(maxW, maxH) };
+            PointF[] arr = new PointF[] { new PointF(0, 0), new PointF(maxW, 0), new PointF(0, maxH), new PointF(maxW, maxH) };
             try
             {
                 W.TransformPoints(arr);
