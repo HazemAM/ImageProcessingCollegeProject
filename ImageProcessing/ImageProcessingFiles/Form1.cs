@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -135,7 +135,7 @@ namespace ImageProcessing
 
         private void btnApply_Click(object sender, EventArgs e){
             if(leftPictureBox.Image==null){
-                MessageBox.Show("Sorry, we don't support 0�0 pictures yet.\nFuture updates? Who knows.",
+                MessageBox.Show("Sorry, we don't support 0×0 pictures yet.\nFuture updates? Who knows.",
                         "Empty", MessageBoxButtons.OK);
                 return;
             }
