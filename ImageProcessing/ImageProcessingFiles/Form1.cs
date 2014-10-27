@@ -145,9 +145,7 @@ namespace ImageProcessing
         }
 
         private void btnTransAll_Click(object sender, EventArgs e){
-            rightPictureBox.Image = Transformations.Ops(theBitmapImage, 1, new double[]{1.5,1.5});
-            rightPictureBox.Image = Transformations.Ops((Bitmap)rightPictureBox.Image, 2, new double[]{0,0,90});
-            rightPictureBox.Image = Transformations.Ops((Bitmap)rightPictureBox.Image, 3, new double[]{1.1,0});
+            rightPictureBox.Image = Transformations.Ops(theBitmapImage, 4, new double[]{1.5,1.5,45,0,0,1,0});
         }
     }
 }
