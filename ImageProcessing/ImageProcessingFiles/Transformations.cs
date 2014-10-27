@@ -80,15 +80,15 @@ namespace ImageProcessing
                     {
                         PointF[] temp = { new PointF(i, j) };
                         W.TransformPoints(temp);
-                        if (temp[0].X > 0 && temp[0].X < maxW - 1)
+                        if (temp[0].X >= 0 && temp[0].X < maxW - 1)
                         {
-                            if (temp[0].Y > 0 && temp[0].Y < maxH - 1)
+                            if (temp[0].Y >= 0 && temp[0].Y < maxH - 1)
                             {
                                 double oldX = (double)temp[0].X;
                                 double oldY = (double)temp[0].Y;
                                 int X1 = (int)Math.Floor(oldX);
                                 int X2 = X1 + 1;
-                                int Y1 = (int)Math.Floor(oldY); ;
+                                int Y1 = (int)Math.Floor(oldY);
                                 int Y2 = Y1 + 1; ;
                                 Color P1 = org[X1, Y1];
                                 Color P2 = org[X2, Y1];
@@ -111,12 +111,12 @@ namespace ImageProcessing
                             }
                             else
                             {
-                                NewBuf.SetPixel(i, j, Color.Black);
+                                NewBuf.SetPixel(i, j, Color.FromArgb(240,240,240));
                             }
                         }
                         else
                         {
-                            NewBuf.SetPixel(i, j, Color.Black);
+                            NewBuf.SetPixel(i, j, Color.FromArgb(240,240,240));
                         }
                     }
                 return NewBuf;

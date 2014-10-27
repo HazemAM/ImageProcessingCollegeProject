@@ -131,7 +131,7 @@ namespace ImageProcessing
             0,
             -2147483648});
             this.numRotAngle.Name = "numRotAngle";
-            this.numRotAngle.Size = new System.Drawing.Size(38, 20);
+            this.numRotAngle.Size = new System.Drawing.Size(48, 20);
             this.numRotAngle.TabIndex = 8;
             this.toolTip.SetToolTip(this.numRotAngle, "Rotation angle");
             // 
