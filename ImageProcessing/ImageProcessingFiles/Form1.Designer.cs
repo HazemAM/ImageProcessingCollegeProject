@@ -154,7 +154,7 @@ namespace ImageProcessing
             1,
             0,
             0,
-            0});
+            131072});
             this.numScaleY.Name = "numScaleY";
             this.numScaleY.Size = new System.Drawing.Size(48, 20);
             this.numScaleY.TabIndex = 11;
@@ -184,7 +184,7 @@ namespace ImageProcessing
             1,
             0,
             0,
-            0});
+            131072});
             this.numScaleX.Name = "numScaleX";
             this.numScaleX.Size = new System.Drawing.Size(48, 20);
             this.numScaleX.TabIndex = 10;
@@ -293,6 +293,7 @@ namespace ImageProcessing
             // 
             this.rdioAll.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.rdioAll.AutoSize = true;
+            this.rdioAll.Checked = true;
             this.rdioAll.Location = new System.Drawing.Point(37, 92);
             this.rdioAll.Name = "rdioAll";
             this.rdioAll.Size = new System.Drawing.Size(42, 17);
@@ -309,7 +310,6 @@ namespace ImageProcessing
             this.rdioShear.Name = "rdioShear";
             this.rdioShear.Size = new System.Drawing.Size(53, 17);
             this.rdioShear.TabIndex = 17;
-            this.rdioShear.TabStop = true;
             this.rdioShear.Text = "Shear";
             this.rdioShear.UseVisualStyleBackColor = true;
             // 
@@ -321,7 +321,6 @@ namespace ImageProcessing
             this.rdioRotation.Name = "rdioRotation";
             this.rdioRotation.Size = new System.Drawing.Size(65, 17);
             this.rdioRotation.TabIndex = 16;
-            this.rdioRotation.TabStop = true;
             this.rdioRotation.Text = "Rotation";
             this.rdioRotation.UseVisualStyleBackColor = true;
             // 
@@ -333,7 +332,6 @@ namespace ImageProcessing
             this.rdioScale.Name = "rdioScale";
             this.rdioScale.Size = new System.Drawing.Size(52, 17);
             this.rdioScale.TabIndex = 15;
-            this.rdioScale.TabStop = true;
             this.rdioScale.Text = "Scale";
             this.rdioScale.UseVisualStyleBackColor = true;
             // 

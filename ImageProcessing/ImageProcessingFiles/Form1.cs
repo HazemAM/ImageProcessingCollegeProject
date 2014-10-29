@@ -15,7 +15,6 @@ namespace ImageProcessing
     {
         public mainForm(){
             InitializeComponent();
-            rdioScale.Checked = true;
         }
 
         Bitmap theBitmapImage;
