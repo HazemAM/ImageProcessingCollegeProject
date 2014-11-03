@@ -29,25 +29,52 @@ namespace ImageProcessing
 
         public Bitmap Gamma(Bitmap img, double gamma)
         {
-            double[,] nimg = new double[img.Width, img.Height];
+            double[][,] res = new double[3] [,];
+            res[0] = new double[img.Width, img.Height];
+            res[1] = new double[img.Width, img.Height];
+            res[2] = new double[img.Width, img.Height];
+            Bitmap res2 = new Bitmap(img);
+            double[] min = new double[] { 256, 256, 256 };
+            double[] max = new double[] { -1, -1, -1 };
             for (int i = 0; i < img.Width; i++)
             {
                 for (int j = 0; j < img.Height; j++)
                 {
                     Color temp = img.GetPixel(i, j);
-                    int or = temp.R;
-                    int og = temp.G;
-                    int ob = temp.B;
                     double r = Math.Pow(temp.R,gamma);
                     double g = Math.Pow(temp.G, gamma);
                     double b = Math.Pow(temp.B, gamma);
-                    or = Calc(0, (int)Math.Max(255, r), 0, 255, r);
-                    og = Calc(0, (int)Math.Max(255, g), 0, 255, g);
-                    ob = Calc(0, (int)Math.Max(255, b), 0, 255, b);
-                    img.SetPixel(i,j,Color.FromArgb(or,og,ob));
+                    r = r < 0 ? 0 : r;
+                    g = g < 0 ? 0 : g;
+                    b = b < 0 ? 0 : b;
+                    max[0]= r>max[0] ? r:max[0];
+                    max[1] = g > max[1] ? g : max[1];
+                    max[2] = b > max[2] ? b : max[2];
+                    min[0] = r < min[0] ? r : min[0];
+                    min[1] = g < min[1] ? g : min[1];
+                    min[2] = b < min[2] ? b : min[2];
+                    res[0][i,j]=r;
+                    res[1][i, j] = g;
+                    res[2][i, j] = b;
                 }
             }
-            return img;
+            for (int i = 0; i < img.Width; i++)
+            {
+                for (int j = 0; j < img.Height; j++)
+                {
+                    double or =res[0][i,j];
+                    double og =res[1][i, j];
+                    double ob =res[2][i, j];
+                    or = Calc(min[0], max[0], 0, 255, or);
+                    og = Calc(min[1], max[1], 0, 255, og);
+                    ob = Calc(min[2], max[2], 0, 255, ob);
+                    or = or > 255 ? 255 : or; or = or < 0 ? 0 : or;
+                    og = og > 255 ? 255 : og; og = og < 0 ? 0 : og;
+                    ob = ob > 255 ? 255 : ob; ob = ob < 0 ? 0 : ob;
+                    res2.SetPixel(i, j, Color.FromArgb((int)or,(int) og,(int) ob));
+                }
+            }
+            return res2;
         }
 
         public Bitmap Match(Bitmap img1, Bitmap img2)
@@ -109,10 +136,10 @@ namespace ImageProcessing
             return value;
         }
 
-        private int Calc(int oldmin, int oldMax, int NewMin, int newMax, double value)
+        private int Calc(double oldmin, double oldMax, int NewMin, int newMax, double value)
         {
 
-            return (int) ((value-oldmin)/(oldMax-oldmin))*(newMax-NewMin)+NewMin;
+            return (int)Math.Round(((value - oldmin) / (oldMax - oldmin)) * (newMax - NewMin) + NewMin);
         }
 
         public Bitmap Arithmetic(Bitmap img1, Bitmap img2, double fraction, int mode)
