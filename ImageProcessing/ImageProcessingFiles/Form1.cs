@@ -15,6 +15,7 @@ namespace ImageProcessing
     {
         public mainForm(){
             InitializeComponent();
+            btnOpen.Select();
         }
 
         Bitmap theBitmapImage;
@@ -23,21 +24,35 @@ namespace ImageProcessing
         private void btnOpen_Click(object sender, EventArgs e){
             OpenFileDialog fileDialog = new OpenFileDialog();
             if(fileDialog.ShowDialog()==DialogResult.OK){
-                //Open the image:
-                String imageFilePath = fileDialog.FileName.ToLower();
-                if(imageFilePath.EndsWith(".jpg") || imageFilePath.EndsWith(".png") ||
-                   imageFilePath.EndsWith(".gif") || imageFilePath.EndsWith(".bmp")){
-                    theBitmapImage = new Bitmap(imageFilePath);
-                }
-                else if(imageFilePath.EndsWith(".ppm"))
-                    theBitmapImage = GetPPMBitmap(imageFilePath);
-                else{
-                    MessageBox.Show("This type of files is not supported... yet.\n(Are you sure it's an image?)",
-                        "Not Supported", MessageBoxButtons.OK);
-                    return;
-                }
-                leftPictureBox.Image = theBitmapImage;
+                theBitmapImage = openImage(fileDialog);
+                leftPictureBox.Image  = theBitmapImage;
+                rightPictureBox.Image = getHistogramBitmap(theBitmapImage,null,256,256);
             }
+        }
+
+        private void btnOpenSecond_Click(object sender, EventArgs e){
+            OpenFileDialog fileDialog = new OpenFileDialog();
+            if(fileDialog.ShowDialog()==DialogResult.OK){
+                Bitmap bitmap = openImage(fileDialog);
+                middlePictureBox.Image = bitmap;
+                rightPictureBox.Image  = getHistogramBitmap(bitmap,null,256,256);
+            }
+        }
+
+        private Bitmap openImage(OpenFileDialog fileDialog){
+            String imageFilePath = fileDialog.FileName.ToLower();
+            Bitmap bitmap = null;
+            if(imageFilePath.EndsWith(".jpg")  || imageFilePath.EndsWith(".png") ||
+                imageFilePath.EndsWith(".gif") || imageFilePath.EndsWith(".bmp") ||
+                imageFilePath.EndsWith(".tiff")|| imageFilePath.EndsWith(".tif")){
+                bitmap = new Bitmap(imageFilePath);
+            }
+            else if(imageFilePath.EndsWith(".ppm"))
+                bitmap = GetPPMBitmap(imageFilePath);
+            else
+                MessageBox.Show("This type of files is not supported... yet.\n(Are you sure it's an image?)",
+                    "Not Supported", MessageBoxButtons.OK);
+            return bitmap;
         }
 
         private Bitmap GetPPMBitmap(String filePath){
@@ -117,7 +132,7 @@ namespace ImageProcessing
                 toolTip.Active = false;
         }
 
-        private void pictureBox_DoubleClick(object sender, EventArgs e){
+        private void pictureBox_DoubleClick(object sender, MouseEventArgs e){
             //Save the image.
             if(((PictureBox)sender).Image!=null){
                 saveDialog.FileName = "image.jpg";
@@ -156,6 +171,215 @@ namespace ImageProcessing
 
             //Do it:
             rightPictureBox.Image = Transformations.Ops(theBitmapImage, operation, new double[]{scaleX,scaleY, rotX,rotY,rotAngle, shearX,shearY});
+        }
+
+        private Bitmap toGrayScale(Bitmap bitmap){
+            Bitmap newBitmap = new Bitmap(bitmap.Width,bitmap.Height);
+            for(int j=0; j<newBitmap.Height; j++)
+                for(int i=0; i<newBitmap.Width; i++){
+                    Color oldColor = bitmap.GetPixel(i, j);
+                    int greyValue = (int)(0.2126*oldColor.R + 0.7152*oldColor.G + 0.0722*oldColor.B);
+                    Color newColor = Color.FromArgb(greyValue,greyValue,greyValue);
+                    newBitmap.SetPixel(i,j,newColor);
+                }
+            return newBitmap;
+        }
+
+        private Bitmap toNegative(Bitmap bitmap){
+            Bitmap newBitmap = new Bitmap(bitmap.Width,bitmap.Height);
+            for(int j=0; j<newBitmap.Height; j++)
+                for(int i=0; i<newBitmap.Width; i++){
+                    Color oldColor = bitmap.GetPixel(i, j);
+                    int newR=255-oldColor.R, newG=255-oldColor.G, newB=255-oldColor.B;
+                    Color newColor = Color.FromArgb(newR,newG,newB);
+                    newBitmap.SetPixel(i,j,newColor);
+                }
+            return newBitmap;
+        }
+
+        public static int[,] getHistogramArray(Bitmap bitmap){
+            int[,] histogram = new int[3,256];
+            for(int j=0; j<bitmap.Height; j++)
+                for(int i=0; i<bitmap.Width; i++){
+                    Color pixel = bitmap.GetPixel(i,j);
+                    histogram[0,pixel.R]++;
+                    histogram[1,pixel.G]++;
+                    histogram[2,pixel.B]++;
+                }
+            return histogram;
+        }
+
+        private Bitmap getHistogramBitmap(Bitmap bitmap, int[,] histogramArray, int histoWidth, int histoHeight){
+            Bitmap histogramBitmap = new Bitmap(histoWidth, histoHeight);
+            histogramArray = histogramArray==null ? getHistogramArray(bitmap) : histogramArray;
+
+            int barWidth = histoWidth/256;
+                barWidth = barWidth<=0 ? 1 : barWidth;
+            double pixelCount = bitmap.Height*bitmap.Width;
+            
+            Pen penR = new Pen(Color.FromArgb(125,255,0,0), barWidth);
+            Pen penG = new Pen(Color.FromArgb(125,0,255,0), barWidth);
+            Pen penB = new Pen(Color.FromArgb(125,0,0,255), barWidth);
+
+            for(int i=0; i<histogramArray.GetLength(1); i++){
+                double probR = ((double)histogramArray[0,i]/pixelCount);
+                double probG = ((double)histogramArray[1,i]/pixelCount);
+                double probB = ((double)histogramArray[2,i]/pixelCount);
+
+                int barHeightR = (int)(probR*histoHeight*20);
+                int barHeightG = (int)(probG*histoHeight*20);
+                int barHeightB = (int)(probB*histoHeight*20);
+
+                using(Graphics graphics = Graphics.FromImage(histogramBitmap)){
+                    graphics.DrawLine(penR, i*barWidth,histoHeight,i*barWidth,histoHeight-barHeightR); //Draw line into bitmap.
+                    graphics.DrawLine(penG, i*barWidth,histoHeight,i*barWidth,histoHeight-barHeightG);
+                    graphics.DrawLine(penB, i*barWidth,histoHeight,i*barWidth,histoHeight-barHeightB);
+                }
+            }
+
+            return histogramBitmap;
+        }
+
+        private Bitmap contrast(Bitmap bitmap, int[,] histogram, int value){
+            Bitmap newBitmap = new Bitmap(bitmap.Width,bitmap.Height);
+            histogram = histogram==null ? getHistogramArray(bitmap) : histogram;
+
+            int minR=-1, maxR=-1, minG=-1, maxG=-1, minB=-1, maxB=-1;
+
+            for(int i=0; i<histogram.GetLength(1); i++){ //Get minimum.
+                if(minR==-1) if(histogram[0,i]>0) minR=i;
+                if(minG==-1) if(histogram[1,i]>0) minG=i;
+                if(minB==-1) if(histogram[2,i]>0) minB=i;
+            }
+            for(int i=histogram.GetLength(1)-1; i>=0; i--){ //Get maximum.
+                if(maxR==-1) if(histogram[0,i]>0) maxR=i;
+                if(maxG==-1) if(histogram[1,i]>0) maxG=i;
+                if(maxB==-1) if(histogram[2,i]>0) maxB=i;
+            }
+
+            for(int j=0; j<newBitmap.Height; j++)
+                for(int i=0; i<newBitmap.Width; i++){
+                    Color pixel = bitmap.GetPixel(i,j);
+                    int newMinR=minR-value, newMaxR=maxR+value;
+                    int newMinG=minG-value, newMaxG=maxG+value;
+                    int newMinB=minB-value, newMaxB=maxB+value;
+                    double newR = (double)((double)((double)pixel.R-(double)minR)/(double)((double)maxR-(double)minR)) * (double)((double)newMaxR-(double)newMinR)+(double)newMinR;
+                    double newG = (double)((double)((double)pixel.G-(double)minG)/(double)((double)maxG-(double)minG)) * (double)((double)newMaxG-(double)newMinG)+(double)newMinG;
+                    double newB = (double)((double)((double)pixel.B-(double)minB)/(double)((double)maxB-(double)minB)) * (double)((double)newMaxB-(double)newMinB)+(double)newMinB;
+
+                    newR=newR>255?255:newR; newR=newR<0?0:newR;
+                    newG=newG>255?255:newG; newG=newG<0?0:newG;
+                    newB=newB>255?255:newB; newB=newB<0?0:newB;
+
+                    //Console.WriteLine("{0},{1},{2} -- {3},{4},{5}", pixel.R,pixel.G,pixel.B,newR,newG,newB);
+                    newBitmap.SetPixel(i,j,Color.FromArgb((int)newR,(int)newG,(int)newB));
+                }
+            return newBitmap;
+        }
+
+        public static int[,] getRoundArray(int[,] histogram, int width, int height){
+            int[,] runningSum = new int[histogram.GetLength(0), histogram.GetLength(1)];
+            int[,] round = new int[histogram.GetLength(0), histogram.GetLength(1)];
+            runningSum[0,0]=histogram[0,0]; runningSum[1,0]=histogram[1,0]; runningSum[2,0]=histogram[2,0];
+
+            for(int i=0; i<histogram.GetLength(0); i++)
+                for(int j=1; j<histogram.GetLength(1); j++){
+                    runningSum[i,j] = runningSum[i,j-1]+histogram[i,j];
+                    double roundValue = ((double)runningSum[i,j] / ((double)width*(double)height)) * (double)histogram.GetLength(1)-1;
+                    round[i,j] = (int)Math.Round(roundValue,0);
+                    round[i,j] = round[i,j]<0 ? 0 : round[i,j];
+                    round[i,j] = round[i,j]>255 ? 255 : round[i,j];
+                    //Console.WriteLine("{0}+{1} = {2}",runningSum[i,i-1],histogram[i,i],runningSum[i,i]);
+                    //Console.WriteLine("{0}/{1}*{2} = {3} ({4})",runningSum[i,i],width*height,histogram.GetLength(1)-1,roundValue,round[i,i]);
+                }
+
+            return round;
+        }
+
+        private Bitmap equalization(Bitmap bitmap, int[,] histogram){
+            Bitmap newBitmap = new Bitmap(bitmap.Width, bitmap.Height);
+            histogram = histogram == null ? getHistogramArray(bitmap) : histogram;
+
+            int[,] round = getRoundArray(histogram,bitmap.Width,bitmap.Height);
+
+            for(int j=0; j<bitmap.Height; j++)
+                for(int i=0; i<bitmap.Width; i++){
+                    Color oldColor = bitmap.GetPixel(i,j);
+                    Color newColor = Color.FromArgb(round[0,oldColor.R], round[1,oldColor.G], round[2,oldColor.B]);
+                    newBitmap.SetPixel(i,j,newColor);
+                }
+
+            return newBitmap;
+        }
+
+
+        private void btnGrayscale_Click(object sender, EventArgs e){
+            if(theBitmapImage==null) return;
+            Bitmap bitmap = toGrayScale(theBitmapImage);
+            middlePictureBox.Image = bitmap;
+            rightPictureBox.Image = getHistogramBitmap(bitmap,null,256,256);
+        }
+
+        private void btnNegative_Click(object sender, EventArgs e){
+            if(theBitmapImage==null) return;
+            Bitmap bitmap = toNegative(theBitmapImage);
+            middlePictureBox.Image = bitmap;
+            rightPictureBox.Image = getHistogramBitmap(bitmap,null,256,256);
+        }
+
+        private void btnEqualize_Click(object sender, EventArgs e){
+            if(theBitmapImage==null) return;
+            Bitmap bitmap = equalization(theBitmapImage,null);
+            middlePictureBox.Image = bitmap;
+            rightPictureBox.Image = getHistogramBitmap(bitmap,null,256,256);
+        }
+
+        private void slideContrast_ValueChanged(object sender, EventArgs e){
+            if(theBitmapImage==null) return;
+            int value = ((TrackBar)sender).Value;
+            Bitmap bitmap = contrast(theBitmapImage,null,value);
+            middlePictureBox.Image = bitmap;
+            rightPictureBox.Image = getHistogramBitmap(bitmap,null,256,256);
+        }
+
+        private void slideBrightness_ValueChanged(object sender, EventArgs e){
+            if(theBitmapImage==null) return;
+            int value = ((TrackBar)sender).Value;
+            Bitmap bitmap = new Enhancments().Bright(theBitmapImage,value);
+            middlePictureBox.Image = bitmap;
+            rightPictureBox.Image = getHistogramBitmap(bitmap,null,256,256);
+        }
+
+        private void btnSlice_Click(object sender, EventArgs e){
+            if(theBitmapImage==null) return;
+            Bitmap bitmap = new Enhancments().BitSlice(theBitmapImage,txtBitMask.Text);
+            middlePictureBox.Image = bitmap;
+            rightPictureBox.Image = getHistogramBitmap(bitmap,null,256,256);
+        }
+
+        private void btnGamma_Click(object sender, EventArgs e){
+            if(theBitmapImage==null) return;
+            Bitmap bitmap = new Enhancments().Gamma(theBitmapImage,(double)numGamma.Value);
+            middlePictureBox.Image = bitmap;
+            rightPictureBox.Image = getHistogramBitmap(bitmap,null,256,256);
+        }
+
+        private void btnMatch_Click(object sender, EventArgs e){
+            if(theBitmapImage==null||middlePictureBox.Image==null) return;
+            Bitmap bitmap = new Enhancments().Match(theBitmapImage,(Bitmap)middlePictureBox.Image);
+            rightPictureBox.Image = bitmap;
+        }
+
+        private void btnSubtract_Click(object sender, EventArgs e){
+            if(theBitmapImage==null||middlePictureBox.Image==null) return;
+            Bitmap bitmap = new Enhancments().Arithmetic(theBitmapImage,(Bitmap)middlePictureBox.Image,0,2);
+            rightPictureBox.Image = bitmap;
+        }
+
+        private void btnAdd_Click(object sender, EventArgs e){
+            if(theBitmapImage==null||middlePictureBox.Image==null) return;
+            Bitmap bitmap = new Enhancments().Arithmetic(theBitmapImage,(Bitmap)middlePictureBox.Image,(double)numAddFraction.Value,1);
+            rightPictureBox.Image = bitmap;
         }
     }
 }

@@ -7,13 +7,14 @@ namespace ImageProcessing
 {
     class Enhancments
     {
-        public Bitmap Bright(Bitmap img,int offset)
+        public Bitmap Bright(Bitmap bitmap, int offset)
         {
+            Bitmap img = new Bitmap(bitmap.Width, bitmap.Height);
             for (int i = 0; i < img.Width; i++)
             {
                 for (int j = 0; j < img.Height; j++)
                 {
-                    Color temp = img.GetPixel(i, j);
+                    Color temp = bitmap.GetPixel(i, j);
                     int r = temp.R+offset;
                     int g = temp.G + offset;
                     int b = temp.B + offset;
@@ -25,6 +26,7 @@ namespace ImageProcessing
             }
             return img;
         }
+
         public Bitmap Gamma(Bitmap img, double gamma)
         {
             double[,] nimg = new double[img.Width, img.Height];
@@ -47,15 +49,16 @@ namespace ImageProcessing
             }
             return img;
         }
+
         public Bitmap Match(Bitmap img1, Bitmap img2)
         {
             Bitmap res = new Bitmap(img1);
-            int[,] hist = GetHist(img1);
-            int[,] hist2 = GetHist(img2);
+            int[,] hist = mainForm.getHistogramArray(img1);
+            int[,] hist2 = mainForm.getHistogramArray(img2);
             int[,] reshist = new int[3, 256];
             int index;
-            hist = HistEQ(hist);
-            hist2 = HistEQ(hist2);
+            hist = mainForm.getRoundArray(hist,img1.Width,img1.Height);
+            hist2 = mainForm.getRoundArray(hist2,img2.Width,img2.Height);
             for (int i = 0; i < 255; i++)
             {
                 for (int j = 0; j <3 ; j++)
@@ -80,20 +83,6 @@ namespace ImageProcessing
             return res;
         }
 
-        private int[,] HistEQ(int[,] hist)
-        {
-            throw new NotImplementedException();
-        }
-
-        private int[,] GetHist(Bitmap img1)
-        {
-            throw new NotImplementedException();
-        }
-
-        private int[] Contrast(int[] hist)
-        {
-            throw new NotImplementedException();
-        }
         private int getNearest(int[,] input1, int[,] input2, int i,int k)
         {
             int index=0;
@@ -119,11 +108,13 @@ namespace ImageProcessing
                 value = 0;
             return value;
         }
+
         private int Calc(int oldmin, int oldMax, int NewMin, int newMax, double value)
         {
 
             return (int) ((value-oldmin)/(oldMax-oldmin))*(newMax-NewMin)+NewMin;
         }
+
         public Bitmap Arithmetic(Bitmap img1, Bitmap img2, double fraction, int mode)
         {
             Bitmap res = new Bitmap(img1);
@@ -173,16 +164,18 @@ namespace ImageProcessing
             }
             return null;
         }
-        public Bitmap BitSlice(Bitmap img,string mask)
+
+        public Bitmap BitSlice(Bitmap bitmap, string mask)
         {
+            Bitmap img = new Bitmap(bitmap.Width, bitmap.Height);
             int msk=Convert.ToInt32(mask,2);
              for (int i = 0; i < img.Width; i++)
                 {
                     for (int j = 0; j < img.Height; j++)
                     {
-                        int r = img.GetPixel(i, j).R&msk;
-                        int g = img.GetPixel(i, j).G & msk;
-                        int b = img.GetPixel(i, j).B & msk;
+                        int r = bitmap.GetPixel(i, j).R&msk;
+                        int g = bitmap.GetPixel(i, j).G&msk;
+                        int b = bitmap.GetPixel(i, j).B&msk;
                         img.SetPixel(i, j, Color.FromArgb(r, g, b));
                     }
                 }
