@@ -113,7 +113,7 @@ namespace ImageProcessing
         private int getNearest(int[,] input1, int[,] input2, int i,int k)
         {
             int index=0;
-            int min=Math.Abs(input1[i,0]-input2[i,0]);
+            int min = 256;
             int temp;
             for (int j = 0; j < 255; j++)
             {
