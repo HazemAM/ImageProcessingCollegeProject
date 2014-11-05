@@ -135,15 +135,15 @@ namespace ImageProcessing
         private void pictureBox_DoubleClick(object sender, MouseEventArgs e){
             //Save the image.
             if(((PictureBox)sender).Image!=null){
-                saveDialog.FileName = "image.jpg";
-                saveDialog.Filter   = "JPEG|*.jpg|All files|*.*";
+                saveDialog.FileName = "image.png";
+                saveDialog.Filter   = "PNG|*.png|All files|*.*";
                 imageToSave = ((PictureBox)sender).Image;
                 saveDialog.ShowDialog();
             }
         }
 
         private void saveDialog_FileOk(object sender, CancelEventArgs e){
-            imageToSave.Save(saveDialog.FileName, System.Drawing.Imaging.ImageFormat.Jpeg);
+            imageToSave.Save(saveDialog.FileName, System.Drawing.Imaging.ImageFormat.Png);
             imageToSave = null;
         }
 
@@ -350,16 +350,17 @@ namespace ImageProcessing
             rightPictureBox.Image = getHistogramBitmap(bitmap,null,256,256);
         }
 
-        private void btnSlice_Click(object sender, EventArgs e){
+        private void slideGamma_ValueChanged(object sender, EventArgs e){
             if(theBitmapImage==null) return;
-            Bitmap bitmap = new Enhancments().BitSlice(theBitmapImage,txtBitMask.Text);
+            int value = ((TrackBar)sender).Value;
+            Bitmap bitmap = new Enhancments().Gamma(theBitmapImage,(double)value/10);
             middlePictureBox.Image = bitmap;
             rightPictureBox.Image = getHistogramBitmap(bitmap,null,256,256);
         }
 
-        private void btnGamma_Click(object sender, EventArgs e){
+        private void btnSlice_Click(object sender, EventArgs e){
             if(theBitmapImage==null) return;
-            Bitmap bitmap = new Enhancments().Gamma(theBitmapImage,(double)numGamma.Value);
+            Bitmap bitmap = new Enhancments().BitSlice(theBitmapImage,txtBitMask.Text);
             middlePictureBox.Image = bitmap;
             rightPictureBox.Image = getHistogramBitmap(bitmap,null,256,256);
         }
@@ -380,6 +381,12 @@ namespace ImageProcessing
             if(theBitmapImage==null||middlePictureBox.Image==null) return;
             Bitmap bitmap = new Enhancments().Arithmetic(theBitmapImage,(Bitmap)middlePictureBox.Image,(double)numAddFraction.Value,1);
             rightPictureBox.Image = bitmap;
+        }
+
+        private void btnOrgnlHisto_Click(object sender, EventArgs e){
+            if(theBitmapImage==null) return;
+            middlePictureBox.Image=null; middlePictureBox.Refresh();
+            rightPictureBox.Image = getHistogramBitmap(theBitmapImage,null,256,256);
         }
     }
 }

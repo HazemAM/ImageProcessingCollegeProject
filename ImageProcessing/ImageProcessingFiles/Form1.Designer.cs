@@ -50,8 +50,7 @@ namespace ImageProcessing
             this.rdioScale = new System.Windows.Forms.RadioButton();
             this.btnApply = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.numGamma = new System.Windows.Forms.NumericUpDown();
-            this.btnGamma = new System.Windows.Forms.Button();
+            this.numAddFraction = new System.Windows.Forms.NumericUpDown();
             this.label4 = new System.Windows.Forms.Label();
             this.btnSlice = new System.Windows.Forms.Button();
             this.txtBitMask = new System.Windows.Forms.TextBox();
@@ -71,7 +70,8 @@ namespace ImageProcessing
             this.middlePictureBox = new System.Windows.Forms.PictureBox();
             this.leftPictureBox = new System.Windows.Forms.PictureBox();
             this.saveDialog = new System.Windows.Forms.SaveFileDialog();
-            this.numAddFraction = new System.Windows.Forms.NumericUpDown();
+            this.btnOrgnlHisto = new System.Windows.Forms.Button();
+            this.slideGamma = new System.Windows.Forms.TrackBar();
             ((System.ComponentModel.ISupportInitialize)(this.numRotX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numRotY)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numRotAngle)).BeginInit();
@@ -84,14 +84,14 @@ namespace ImageProcessing
             this.groupBox3.SuspendLayout();
             this.grpboxTask1.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numGamma)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numAddFraction)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.slideBrightness)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.slideContrast)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.rightPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.middlePictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.leftPictureBox)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numAddFraction)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.slideGamma)).BeginInit();
             this.SuspendLayout();
             // 
             // btnOpen
@@ -399,9 +399,8 @@ namespace ImageProcessing
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.btnOrgnlHisto);
             this.groupBox1.Controls.Add(this.numAddFraction);
-            this.groupBox1.Controls.Add(this.numGamma);
-            this.groupBox1.Controls.Add(this.btnGamma);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.btnSlice);
             this.groupBox1.Controls.Add(this.txtBitMask);
@@ -412,6 +411,7 @@ namespace ImageProcessing
             this.groupBox1.Controls.Add(this.btnMatch);
             this.groupBox1.Controls.Add(this.btnEqualize);
             this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Controls.Add(this.slideGamma);
             this.groupBox1.Controls.Add(this.slideBrightness);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.slideContrast);
@@ -424,34 +424,29 @@ namespace ImageProcessing
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Task 2";
             // 
-            // numGamma
+            // numAddFraction
             // 
-            this.numGamma.DecimalPlaces = 3;
-            this.numGamma.Increment = new decimal(new int[] {
+            this.numAddFraction.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.numAddFraction.DecimalPlaces = 2;
+            this.numAddFraction.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            131072});
+            this.numAddFraction.Location = new System.Drawing.Point(276, 42);
+            this.numAddFraction.Maximum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numAddFraction.Name = "numAddFraction";
+            this.numAddFraction.Size = new System.Drawing.Size(42, 20);
+            this.numAddFraction.TabIndex = 20;
+            this.numAddFraction.Value = new decimal(new int[] {
             5,
             0,
             0,
             65536});
-            this.numGamma.Location = new System.Drawing.Point(68, 64);
-            this.numGamma.Name = "numGamma";
-            this.numGamma.Size = new System.Drawing.Size(75, 20);
-            this.numGamma.TabIndex = 18;
-            this.numGamma.Value = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
-            // 
-            // btnGamma
-            // 
-            this.btnGamma.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.btnGamma.Location = new System.Drawing.Point(144, 62);
-            this.btnGamma.Name = "btnGamma";
-            this.btnGamma.Size = new System.Drawing.Size(52, 23);
-            this.btnGamma.TabIndex = 17;
-            this.btnGamma.Text = "Apply";
-            this.btnGamma.UseVisualStyleBackColor = true;
-            this.btnGamma.Click += new System.EventHandler(this.btnGamma_Click);
             // 
             // label4
             // 
@@ -496,7 +491,7 @@ namespace ImageProcessing
             // btnNegative
             // 
             this.btnNegative.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.btnNegative.Location = new System.Drawing.Point(319, 76);
+            this.btnNegative.Location = new System.Drawing.Point(319, 63);
             this.btnNegative.Name = "btnNegative";
             this.btnNegative.Size = new System.Drawing.Size(89, 23);
             this.btnNegative.TabIndex = 10;
@@ -507,7 +502,7 @@ namespace ImageProcessing
             // btnSubtract
             // 
             this.btnSubtract.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.btnSubtract.Location = new System.Drawing.Point(408, 53);
+            this.btnSubtract.Location = new System.Drawing.Point(408, 40);
             this.btnSubtract.Name = "btnSubtract";
             this.btnSubtract.Size = new System.Drawing.Size(89, 23);
             this.btnSubtract.TabIndex = 9;
@@ -518,7 +513,7 @@ namespace ImageProcessing
             // btnAdd
             // 
             this.btnAdd.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.btnAdd.Location = new System.Drawing.Point(319, 53);
+            this.btnAdd.Location = new System.Drawing.Point(319, 40);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(89, 23);
             this.btnAdd.TabIndex = 8;
@@ -529,7 +524,7 @@ namespace ImageProcessing
             // btnMatch
             // 
             this.btnMatch.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.btnMatch.Location = new System.Drawing.Point(408, 30);
+            this.btnMatch.Location = new System.Drawing.Point(408, 17);
             this.btnMatch.Name = "btnMatch";
             this.btnMatch.Size = new System.Drawing.Size(89, 23);
             this.btnMatch.TabIndex = 7;
@@ -540,7 +535,7 @@ namespace ImageProcessing
             // btnEqualize
             // 
             this.btnEqualize.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.btnEqualize.Location = new System.Drawing.Point(319, 30);
+            this.btnEqualize.Location = new System.Drawing.Point(319, 17);
             this.btnEqualize.Name = "btnEqualize";
             this.btnEqualize.Size = new System.Drawing.Size(89, 23);
             this.btnEqualize.TabIndex = 6;
@@ -552,7 +547,7 @@ namespace ImageProcessing
             // 
             this.label2.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 43);
+            this.label2.Location = new System.Drawing.Point(6, 44);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(59, 13);
             this.label2.TabIndex = 4;
@@ -562,7 +557,7 @@ namespace ImageProcessing
             // 
             this.slideBrightness.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.slideBrightness.LargeChange = 15;
-            this.slideBrightness.Location = new System.Drawing.Point(60, 40);
+            this.slideBrightness.Location = new System.Drawing.Point(60, 41);
             this.slideBrightness.Margin = new System.Windows.Forms.Padding(0);
             this.slideBrightness.Maximum = 100;
             this.slideBrightness.Minimum = -100;
@@ -599,7 +594,7 @@ namespace ImageProcessing
             // btnGrayscale
             // 
             this.btnGrayscale.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.btnGrayscale.Location = new System.Drawing.Point(408, 76);
+            this.btnGrayscale.Location = new System.Drawing.Point(408, 63);
             this.btnGrayscale.Name = "btnGrayscale";
             this.btnGrayscale.Size = new System.Drawing.Size(89, 23);
             this.btnGrayscale.TabIndex = 0;
@@ -673,28 +668,30 @@ namespace ImageProcessing
             this.saveDialog.FileName = "image";
             this.saveDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.saveDialog_FileOk);
             // 
-            // numAddFraction
+            // btnOrgnlHisto
             // 
-            this.numAddFraction.DecimalPlaces = 2;
-            this.numAddFraction.Increment = new decimal(new int[] {
-            5,
-            0,
-            0,
-            131072});
-            this.numAddFraction.Location = new System.Drawing.Point(276, 55);
-            this.numAddFraction.Maximum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numAddFraction.Name = "numAddFraction";
-            this.numAddFraction.Size = new System.Drawing.Size(42, 20);
-            this.numAddFraction.TabIndex = 20;
-            this.numAddFraction.Value = new decimal(new int[] {
-            5,
-            0,
-            0,
-            65536});
+            this.btnOrgnlHisto.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.btnOrgnlHisto.Location = new System.Drawing.Point(319, 86);
+            this.btnOrgnlHisto.Name = "btnOrgnlHisto";
+            this.btnOrgnlHisto.Size = new System.Drawing.Size(178, 23);
+            this.btnOrgnlHisto.TabIndex = 21;
+            this.btnOrgnlHisto.Text = "Show Original Histogram";
+            this.btnOrgnlHisto.UseVisualStyleBackColor = true;
+            this.btnOrgnlHisto.Click += new System.EventHandler(this.btnOrgnlHisto_Click);
+            // 
+            // slideGamma
+            // 
+            this.slideGamma.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.slideGamma.LargeChange = 2;
+            this.slideGamma.Location = new System.Drawing.Point(60, 65);
+            this.slideGamma.Margin = new System.Windows.Forms.Padding(0);
+            this.slideGamma.Maximum = 100;
+            this.slideGamma.Name = "slideGamma";
+            this.slideGamma.Size = new System.Drawing.Size(143, 45);
+            this.slideGamma.TabIndex = 5;
+            this.slideGamma.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.slideGamma.Value = 10;
+            this.slideGamma.ValueChanged += new System.EventHandler(this.slideGamma_ValueChanged);
             // 
             // mainForm
             // 
@@ -720,14 +717,14 @@ namespace ImageProcessing
             this.grpboxTask1.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numGamma)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numAddFraction)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.slideBrightness)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.slideContrast)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.rightPictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.middlePictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.leftPictureBox)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numAddFraction)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.slideGamma)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -770,12 +767,12 @@ namespace ImageProcessing
         private System.Windows.Forms.Button btnSlice;
         private System.Windows.Forms.TextBox txtBitMask;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Button btnGamma;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.NumericUpDown numGamma;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Button button9;
         private System.Windows.Forms.NumericUpDown numAddFraction;
+        private System.Windows.Forms.Button btnOrgnlHisto;
+        private System.Windows.Forms.TrackBar slideGamma;
     }
 }
 
