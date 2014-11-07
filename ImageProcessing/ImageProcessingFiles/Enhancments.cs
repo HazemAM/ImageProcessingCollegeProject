@@ -168,6 +168,12 @@ namespace ImageProcessing
             }
             else if (mode == 2)
             {
+                double[] min = new double[] { 256, 256, 256 };
+                double[] max = new double[] { -1, -1, -1 };
+                double[][,] re = new double[3][,];
+                re[0] = new double[img1.Width, img1.Height];
+                re[1] = new double[img1.Width, img1.Height];
+                re[2] = new double[img1.Width, img1.Height];
                 for (int i = 0; i < img1.Width; i++)
                 {
                     for (int j = 0; j < img1.Height; j++)
@@ -178,13 +184,29 @@ namespace ImageProcessing
                         int r2 = temp.GetPixel(i, j).R;
                         int g2 = temp.GetPixel(i, j).G;
                         int b2 = temp.GetPixel(i, j).B;
-                        r1 = r1-r2;
-                        g1 = g1 - g2;
-                        b1 = b1 - b2;
-                        r1 = crop(r1);
-                        g1 = crop(g1);
-                        b1 = crop(b1);
-                        res.SetPixel(i, j, Color.FromArgb(r1, g1, b1));
+                        re[0][i,j] = r1-r2;
+                        re[1][i, j] = g1 - g2;
+                        re[2][i, j] = b1 - b2;
+                        max[0] = re[0][i, j] > max[0] ? re[0][i, j] : max[0];
+                        max[1] = re[1][i, j] > max[1] ? re[1][i, j] : max[1];
+                        max[2] = re[2][i, j] > max[2] ? re[2][i, j] : max[2];
+                        min[0] = re[0][i, j] < min[0] ? re[0][i, j] : min[0];
+                        min[1] = re[1][i, j] < min[1] ? re[1][i, j] : min[1];
+                        min[2] = re[2][i, j] < min[2] ? re[2][i, j] : min[2];
+                        
+                    }
+                }
+                for (int i = 0; i < img1.Width; i++)
+                {
+                    for (int j = 0; j < img1.Height; j++)
+                    {
+                        double or = re[0][i, j];
+                        double og = re[1][i, j];
+                        double ob = re[2][i, j];
+                        or = Calc(min[0], max[0], 0, 255, or);
+                        og = Calc(min[1], max[1], 0, 255, og);
+                        ob = Calc(min[2], max[2], 0, 255, ob);
+                        res.SetPixel(i, j, Color.FromArgb((int)or, (int)og, (int)ob));
                     }
                 }
                 return res;
