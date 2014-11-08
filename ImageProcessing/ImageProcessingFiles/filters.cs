@@ -11,15 +11,93 @@ namespace ImageProcessing
         {
             Bitmap res=new Bitmap(inp);
             Filter f = new Filter(width, height);
-            f.CreateFilter(1/(width*height));
+            f.CreateFilter( (double)1/((double)width*(double)height) );
             res = LinearFilter(inp,f,xOrig,yOrig,PostProcessing.No);
             return res;
         }
 
-        private static Bitmap LinearFilter(Bitmap inp, Filter f, int xOrig, int yOrig, PostProcessing postProcessing)
+        private static Bitmap LinearFilter(Bitmap bitmap, Filter f, int originX, int originY, PostProcessing postProcessing)
         {
-            throw new NotImplementedException();
+            Bitmap newBitmap = new Bitmap(bitmap.Width,bitmap.Height);
+            double[,,] image = new double[3,bitmap.Width,bitmap.Height];
+
+            double[,] mask = f.getFilter();
+            int maskWidth = mask.GetLength(0);
+            int maskHeight = mask.GetLength(1);
+
+            double minR=double.MaxValue, minG=double.MaxValue, minB=double.MaxValue;
+            double maxR=double.MinValue, maxG=double.MinValue, maxB=double.MinValue;
+
+            for(int i=0; i<bitmap.Width; i++)
+                for(int j=0; j<bitmap.Height; j++){
+                    //Anything here happens to every pixel in the bitmap. Be careful.
+
+                    //Applying mask:
+                    double newR=0, newG=0, newB=0;
+                    for(int k=0, a=i-originX; k<maskWidth; k++,a++) //K: mask width index. A: image pixel index.
+                        for(int l=0, b=j-originY; l<maskHeight; l++,b++){
+                            int newX=0, newY=0; //New positions if out of image boundaries.
+                            if(a<0) newX=0;
+                            else if(a>bitmap.Width-1)  newX=bitmap.Width-1;
+                            else newX=a;
+                            if(b<0) newY=0;
+                            else if(b>bitmap.Height-1) newY=bitmap.Height-1;
+                            else newY=b;
+
+                            Color thePixel = bitmap.GetPixel(newX,newY);
+                            newR += (double)thePixel.R * mask[k,l];
+                            newG += (double)thePixel.G * mask[k,l];
+                            newB += (double)thePixel.B * mask[k,l];
+                        }
+
+                    minR = newR<minR ? newR : minR; //Minimum value for normalization.
+                    minG = newG<minG ? newG : minG;
+                    minB = newB<minB ? newB : minB;
+
+                    maxR = newR>maxR ? newR : maxR; //Maximum value for normalization.
+                    maxG = newG>maxG ? newG : maxG;
+                    maxB = newB>maxB ? newB : maxB;
+                    
+                    switch(postProcessing){
+                        case(PostProcessing.CutOff):
+                            newR = crop(newR);
+                            newG = crop(newG);
+                            newB = crop(newB);
+                            break;
+                        case(PostProcessing.Abs):
+                            newR = Math.Abs(newR);
+                            newG = Math.Abs(newG);
+                            newB = Math.Abs(newB);
+                            break;
+                    }
+
+                    //If normalization, add to matrix instead of setting the pixel:
+                    if(postProcessing==PostProcessing.Normalization){
+                        image[0,i,j] = newR;
+                        image[1,i,j] = newG;
+                        image[2,i,j] = newB;
+                    }
+                    else newBitmap.SetPixel(i,j, Color.FromArgb((int)newR,(int)newG,(int)newB));
+                }
+
+            if(postProcessing==PostProcessing.Normalization)
+                normalize(newBitmap,image, minR,minG,minB, maxR,maxG,maxB);
+            
+            return newBitmap;
         }
+
+        private static void normalize(Bitmap newBitmap, double[,,] image, double minR,double minG,double minB, double maxR,double maxG,double maxB){
+            for(int i=0; i<image.GetLength(1); i++)
+                for(int j=0; j<image.GetLength(2); j++){
+                    double newR = crop( Enhancments.Calc(minR,maxR, 0,255, image[0,i,j]) );
+                    double newG = crop( Enhancments.Calc(minG,maxG, 0,255, image[1,i,j]) );
+                    double newB = crop( Enhancments.Calc(minB,maxB, 0,255, image[2,i,j]) );
+
+                    Color newPixel = Color.FromArgb((int)newR, (int)newG, (int)newB);
+                    newBitmap.SetPixel(i,j,newPixel);
+                }
+        }
+
         static public Bitmap LaplacianSharpen(Bitmap inp, int type)
         {
             Bitmap res = new Bitmap(inp);
@@ -65,9 +143,9 @@ namespace ImageProcessing
             res = LinearFilter(inp, f, 1,1, PostProcessing.CutOff);
             return res;
         }
-        static public Bitmap highBoost(Bitmap inp, int size,double sigma,double k)
+        static public Bitmap highBoost(Bitmap inp,double size,double sigma,double k)
         {
-            Bitmap blurred=Gaussian(inp,size,sigma);
+            Bitmap blurred=Gaussian(inp,(int)size,sigma);
             Bitmap mask= new Enhancments().Arithmetic(inp, blurred, 1, 2);
             double[][,] main = getArr(inp);
             double[][,] msk = getArr(mask);
@@ -112,16 +190,15 @@ namespace ImageProcessing
         }
         private static double crop(double value)
         {
-            if (value > 255)
-                value = 255;
-            else if (value < 0)
-                value = 0;
+            if(value>255)    value=255;
+            else if(value<0) value=0;
             return value;
         }
         static public Bitmap kirsch(Bitmap inp, KirschType t)
         {
             Bitmap res = new Bitmap(inp);
             Filter f = new Filter(3, 3);
+            f.CreateFilter();
             double[,] filter = f.getFilter();
             if (t == KirschType.Horizontal)
             {
@@ -171,12 +248,30 @@ namespace ImageProcessing
                 filter[2, 1] = -3;
                 filter[2, 2] = -3;
             }
-            LinearFilter(inp,f,1,1,PostProcessing.Normalization);
+            res = LinearFilter(inp,f,1,1,PostProcessing.Normalization);
             return res;
         }
-        private static Bitmap Gaussian(Bitmap inp, int size, double sigma)
-        {
-            throw new NotImplementedException();
+        
+        public static Bitmap Gaussian(Bitmap bitmap, int maskSize, double sigma){
+            Bitmap newBitmap = new Bitmap(bitmap.Width,bitmap.Height);
+
+            Filter f = new Filter(maskSize,maskSize);
+            f.CreateFilter();
+            double[,] mask = f.getFilter();
+
+            double sum=0;
+            for(int i=0; i<mask.GetLength(0); i++)
+                for(int j=0; j<mask.GetLength(0); j++){
+                    mask[i,j] = Math.Exp( -((Math.Pow(i,2)+Math.Pow(j,2)) / (2*Math.Pow(sigma,2))) );
+                    sum += mask[i,j];
+                }
+
+            for(int i=0; i<mask.GetLength(0); i++)
+                for(int j=0; j<mask.GetLength(0); j++)
+                    mask[i,j] /= sum;
+
+            newBitmap = LinearFilter(bitmap, f, 0,0, PostProcessing.No);
+            return newBitmap;
         }
     }
 }

@@ -136,7 +136,7 @@ namespace ImageProcessing
             return value;
         }
 
-        private int Calc(double oldmin, double oldMax, int NewMin, int newMax, double value)
+        public static int Calc(double oldmin, double oldMax, int NewMin, int newMax, double value)
         {
 
             return (int)Math.Round(((value - oldmin) / (oldMax - oldmin)) * (newMax - NewMin) + NewMin);

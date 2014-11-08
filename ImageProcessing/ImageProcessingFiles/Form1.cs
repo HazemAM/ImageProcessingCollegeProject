@@ -147,7 +147,7 @@ namespace ImageProcessing
             imageToSave = null;
         }
 
-        private void btnApply_Click(object sender, EventArgs e){
+        private void btnTask1Apply_Click(object sender, EventArgs e){
             if(leftPictureBox.Image==null){
                 MessageBox.Show("Sorry, we don't support 0×0 pictures yet.\nFuture updates? Who knows.",
                         "Empty", MessageBoxButtons.OK);
@@ -387,6 +387,23 @@ namespace ImageProcessing
             if(theBitmapImage==null) return;
             middlePictureBox.Image=null; middlePictureBox.Refresh();
             rightPictureBox.Image = getHistogramBitmap(theBitmapImage,null,256,256);
+        }
+
+        private void btnTask3Apply_Click(object sender, EventArgs e){
+            Bitmap bitmap = null;
+            if(rdioMean.Checked)
+                bitmap = filters.Mean(theBitmapImage, (int)numMeanMaskWidth.Value, (int)numMeanMaskHeight.Value, (int)numMeanOriginX.Value, (int)numMeanOriginY.Value);
+            else if(rdioGaussian.Checked)
+                bitmap = filters.Gaussian(theBitmapImage, (int)numGaussMaskSize.Value, (double)numGaussSigma.Value);
+            else if(rdioUnsharp.Checked)
+                bitmap = filters.highBoost(theBitmapImage, (int)numUnsharpMaskSize.Value, (double)numUnsharpSigma.Value, (int)numUnsharpK.Value);
+            else if(rdioLaplaceSharp.Checked)
+                bitmap = filters.LaplacianSharpen(theBitmapImage, 1);
+            else if(rdioKirschEdge.Checked)
+                bitmap = filters.kirsch(theBitmapImage, KirschType.Horizontal);
+
+            middlePictureBox.Image = bitmap;
+            rightPictureBox.Image = getHistogramBitmap(bitmap,null,256,256);
         }
     }
 }
