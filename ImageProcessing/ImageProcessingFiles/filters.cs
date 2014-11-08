@@ -145,7 +145,10 @@ namespace ImageProcessing
         }
         static public Bitmap highBoost(Bitmap inp,double size,double sigma,double k)
         {
-            Bitmap blurred=Gaussian(inp,(int)size,sigma);
+            Bitmap blurred;
+            if(size==0) blurred = Gaussian(inp,sigma);
+            else blurred = Gaussian(inp,(int)size,sigma);
+
             Bitmap mask= new Enhancments().Arithmetic(inp, blurred, 1, 2);
             double[][,] main = getArr(inp);
             double[][,] msk = getArr(mask);
@@ -188,7 +191,7 @@ namespace ImageProcessing
                 }
             return img;
         }
-        private static double crop(double value)
+        public static double crop(double value)
         {
             if(value>255)    value=255;
             else if(value<0) value=0;
@@ -259,19 +262,49 @@ namespace ImageProcessing
             f.CreateFilter();
             double[,] mask = f.getFilter();
 
-            double sum=0;
-            for(int i=0; i<mask.GetLength(0); i++)
-                for(int j=0; j<mask.GetLength(0); j++){
-                    mask[i,j] = Math.Exp( -((Math.Pow(i,2)+Math.Pow(j,2)) / (2*Math.Pow(sigma,2))) );
+            double sum=0, x=-((double)maskSize/2), y=0;
+            for(int i=0; i<mask.GetLength(0); i++,x++){
+                y = -((double)maskSize/2);
+                for(int j=0; j<mask.GetLength(0); j++,y++){
+                    mask[i,j] = gaussianCalc(x,y,sigma);
                     sum += mask[i,j];
                 }
+            }
 
-            for(int i=0; i<mask.GetLength(0); i++)
+            for(int i=0; i<mask.GetLength(0); i++) //Normalizing (to: mask.Sum()=1)
                 for(int j=0; j<mask.GetLength(0); j++)
                     mask[i,j] /= sum;
 
-            newBitmap = LinearFilter(bitmap, f, 0,0, PostProcessing.No);
+            newBitmap = LinearFilter(bitmap, f, (int)maskSize/2, (int)maskSize/2, PostProcessing.No);
             return newBitmap;
+        }
+
+        public static Bitmap Gaussian(Bitmap bitmap, double sigma){
+            Bitmap newBitmap = new Bitmap(bitmap.Width,bitmap.Height);
+
+            double maskSize = (2*((3.7*sigma)-0.5))+1;
+            maskSize = (int)maskSize;
+
+            Filter f = new Filter((int)maskSize,(int)maskSize);
+            f.CreateFilter();
+            double[,] mask = f.getFilter();
+
+            double x=-((double)maskSize/2), y=0;
+            for(int i=0; i<mask.GetLength(0); i++,x++){
+                y = -((double)maskSize/2);
+                for(int j=0; j<mask.GetLength(0); j++,y++){
+                    double value = 1/(2*Math.PI*Math.Pow(sigma,2));
+                    mask[i,j] = value * gaussianCalc(x,y,sigma);
+                }
+            }
+
+            newBitmap = LinearFilter(bitmap, f, (int)maskSize/2, (int)maskSize/2, PostProcessing.No);
+            return newBitmap;
+        }
+
+        private static double gaussianCalc(double x, double y, double sigma)
+        {
+            return Math.Exp(  -(((Math.Pow(x,2))+(Math.Pow(y,2)))/(2*(Math.Pow(sigma,2))))  );
         }
     }
 }

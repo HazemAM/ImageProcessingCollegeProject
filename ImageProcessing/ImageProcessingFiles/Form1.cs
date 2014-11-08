@@ -16,6 +16,7 @@ namespace ImageProcessing
         public mainForm(){
             InitializeComponent();
             btnOpen.Select();
+            cmboKirsch.SelectedIndex = 0;
         }
 
         Bitmap theBitmapImage;
@@ -393,14 +394,23 @@ namespace ImageProcessing
             Bitmap bitmap = null;
             if(rdioMean.Checked)
                 bitmap = filters.Mean(theBitmapImage, (int)numMeanMaskWidth.Value, (int)numMeanMaskHeight.Value, (int)numMeanOriginX.Value, (int)numMeanOriginY.Value);
-            else if(rdioGaussian.Checked)
-                bitmap = filters.Gaussian(theBitmapImage, (int)numGaussMaskSize.Value, (double)numGaussSigma.Value);
+            else if(rdioGaussian.Checked){
+                if(numGaussMaskSize.Value==0) bitmap = filters.Gaussian(theBitmapImage, (double)numGaussSigma.Value);
+                else bitmap = filters.Gaussian(theBitmapImage, (int)numGaussMaskSize.Value, (double)numGaussSigma.Value);
+            }
             else if(rdioUnsharp.Checked)
-                bitmap = filters.highBoost(theBitmapImage, (int)numUnsharpMaskSize.Value, (double)numUnsharpSigma.Value, (int)numUnsharpK.Value);
+                bitmap = filters.highBoost(theBitmapImage, (int)numUnsharpMaskSize.Value, (double)numUnsharpSigma.Value, (double)numUnsharpK.Value);
             else if(rdioLaplaceSharp.Checked)
                 bitmap = filters.LaplacianSharpen(theBitmapImage, 1);
-            else if(rdioKirschEdge.Checked)
-                bitmap = filters.kirsch(theBitmapImage, KirschType.Horizontal);
+            else if(rdioKirschEdge.Checked){
+                KirschType type;
+                if(cmboKirsch.SelectedIndex==0) type=KirschType.Horizontal;
+                else if(cmboKirsch.SelectedIndex==1) type=KirschType.Vertical;
+                else if(cmboKirsch.SelectedIndex==2) type=KirschType.Diagonal1;
+                else if(cmboKirsch.SelectedIndex==3) type=KirschType.Diagonal2;
+                else type=KirschType.Horizontal;
+                bitmap = filters.kirsch(theBitmapImage, type);
+            }
 
             middlePictureBox.Image = bitmap;
             rightPictureBox.Image = getHistogramBitmap(bitmap,null,256,256);

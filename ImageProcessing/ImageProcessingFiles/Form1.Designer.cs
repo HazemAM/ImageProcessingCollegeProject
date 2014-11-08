@@ -89,6 +89,7 @@ namespace ImageProcessing
             this.middlePictureBox = new System.Windows.Forms.PictureBox();
             this.leftPictureBox = new System.Windows.Forms.PictureBox();
             this.saveDialog = new System.Windows.Forms.SaveFileDialog();
+            this.cmboKirsch = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.numShearX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numScaleY)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numShearY)).BeginInit();
@@ -294,7 +295,7 @@ namespace ImageProcessing
             // numGaussMaskSize
             // 
             this.numGaussMaskSize.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.numGaussMaskSize.Location = new System.Drawing.Point(177, 28);
+            this.numGaussMaskSize.Location = new System.Drawing.Point(177, 25);
             this.numGaussMaskSize.Minimum = new decimal(new int[] {
             100,
             0,
@@ -314,7 +315,7 @@ namespace ImageProcessing
             0,
             0,
             65536});
-            this.numGaussSigma.Location = new System.Drawing.Point(228, 28);
+            this.numGaussSigma.Location = new System.Drawing.Point(228, 25);
             this.numGaussSigma.Minimum = new decimal(new int[] {
             100,
             0,
@@ -328,7 +329,7 @@ namespace ImageProcessing
             // numMeanMaskWidth
             // 
             this.numMeanMaskWidth.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.numMeanMaskWidth.Location = new System.Drawing.Point(177, 6);
+            this.numMeanMaskWidth.Location = new System.Drawing.Point(177, 3);
             this.numMeanMaskWidth.Minimum = new decimal(new int[] {
             100,
             0,
@@ -348,7 +349,7 @@ namespace ImageProcessing
             0,
             0,
             65536});
-            this.numUnsharpSigma.Location = new System.Drawing.Point(228, 50);
+            this.numUnsharpSigma.Location = new System.Drawing.Point(228, 47);
             this.numUnsharpSigma.Minimum = new decimal(new int[] {
             100,
             0,
@@ -362,7 +363,7 @@ namespace ImageProcessing
             // numMeanMaskHeight
             // 
             this.numMeanMaskHeight.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.numMeanMaskHeight.Location = new System.Drawing.Point(228, 6);
+            this.numMeanMaskHeight.Location = new System.Drawing.Point(228, 3);
             this.numMeanMaskHeight.Minimum = new decimal(new int[] {
             100,
             0,
@@ -376,7 +377,7 @@ namespace ImageProcessing
             // numUnsharpMaskSize
             // 
             this.numUnsharpMaskSize.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.numUnsharpMaskSize.Location = new System.Drawing.Point(177, 50);
+            this.numUnsharpMaskSize.Location = new System.Drawing.Point(177, 47);
             this.numUnsharpMaskSize.Minimum = new decimal(new int[] {
             100,
             0,
@@ -390,7 +391,7 @@ namespace ImageProcessing
             // numMeanOriginX
             // 
             this.numMeanOriginX.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.numMeanOriginX.Location = new System.Drawing.Point(279, 6);
+            this.numMeanOriginX.Location = new System.Drawing.Point(279, 3);
             this.numMeanOriginX.Minimum = new decimal(new int[] {
             100,
             0,
@@ -404,7 +405,7 @@ namespace ImageProcessing
             // numMeanOriginY
             // 
             this.numMeanOriginY.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.numMeanOriginY.Location = new System.Drawing.Point(330, 6);
+            this.numMeanOriginY.Location = new System.Drawing.Point(330, 3);
             this.numMeanOriginY.Minimum = new decimal(new int[] {
             100,
             0,
@@ -418,7 +419,8 @@ namespace ImageProcessing
             // numUnsharpK
             // 
             this.numUnsharpK.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.numUnsharpK.Location = new System.Drawing.Point(279, 50);
+            this.numUnsharpK.DecimalPlaces = 1;
+            this.numUnsharpK.Location = new System.Drawing.Point(279, 47);
             this.numUnsharpK.Minimum = new decimal(new int[] {
             100,
             0,
@@ -476,6 +478,7 @@ namespace ImageProcessing
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.cmboKirsch);
             this.tabPage2.Controls.Add(this.numUnsharpK);
             this.tabPage2.Controls.Add(this.numMeanOriginX);
             this.tabPage2.Controls.Add(this.numMeanOriginY);
@@ -503,7 +506,7 @@ namespace ImageProcessing
             // 
             this.rdioLaplaceSharp.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.rdioLaplaceSharp.AutoSize = true;
-            this.rdioLaplaceSharp.Location = new System.Drawing.Point(44, 69);
+            this.rdioLaplaceSharp.Location = new System.Drawing.Point(44, 90);
             this.rdioLaplaceSharp.Name = "rdioLaplaceSharp";
             this.rdioLaplaceSharp.Size = new System.Drawing.Size(128, 17);
             this.rdioLaplaceSharp.TabIndex = 29;
@@ -514,7 +517,7 @@ namespace ImageProcessing
             // 
             this.rdioKirschEdge.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.rdioKirschEdge.AutoSize = true;
-            this.rdioKirschEdge.Location = new System.Drawing.Point(44, 89);
+            this.rdioKirschEdge.Location = new System.Drawing.Point(44, 69);
             this.rdioKirschEdge.Name = "rdioKirschEdge";
             this.rdioKirschEdge.Size = new System.Drawing.Size(131, 17);
             this.rdioKirschEdge.TabIndex = 31;
@@ -526,7 +529,7 @@ namespace ImageProcessing
             this.rdioMean.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.rdioMean.AutoSize = true;
             this.rdioMean.Checked = true;
-            this.rdioMean.Location = new System.Drawing.Point(44, 8);
+            this.rdioMean.Location = new System.Drawing.Point(44, 5);
             this.rdioMean.Name = "rdioMean";
             this.rdioMean.Size = new System.Drawing.Size(73, 17);
             this.rdioMean.TabIndex = 27;
@@ -537,7 +540,7 @@ namespace ImageProcessing
             // btnTask3Apply
             // 
             this.btnTask3Apply.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btnTask3Apply.Location = new System.Drawing.Point(388, 36);
+            this.btnTask3Apply.Location = new System.Drawing.Point(388, 33);
             this.btnTask3Apply.Name = "btnTask3Apply";
             this.btnTask3Apply.Size = new System.Drawing.Size(63, 44);
             this.btnTask3Apply.TabIndex = 19;
@@ -549,7 +552,7 @@ namespace ImageProcessing
             // 
             this.rdioGaussian.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.rdioGaussian.AutoSize = true;
-            this.rdioGaussian.Location = new System.Drawing.Point(44, 29);
+            this.rdioGaussian.Location = new System.Drawing.Point(44, 26);
             this.rdioGaussian.Name = "rdioGaussian";
             this.rdioGaussian.Size = new System.Drawing.Size(90, 17);
             this.rdioGaussian.TabIndex = 28;
@@ -560,7 +563,7 @@ namespace ImageProcessing
             // 
             this.rdioUnsharp.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.rdioUnsharp.AutoSize = true;
-            this.rdioUnsharp.Location = new System.Drawing.Point(44, 49);
+            this.rdioUnsharp.Location = new System.Drawing.Point(44, 48);
             this.rdioUnsharp.Name = "rdioUnsharp";
             this.rdioUnsharp.Size = new System.Drawing.Size(65, 17);
             this.rdioUnsharp.TabIndex = 30;
@@ -964,6 +967,20 @@ namespace ImageProcessing
             this.saveDialog.FileName = "image";
             this.saveDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.saveDialog_FileOk);
             // 
+            // cmboKirsch
+            // 
+            this.cmboKirsch.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmboKirsch.FormattingEnabled = true;
+            this.cmboKirsch.Items.AddRange(new object[] {
+            "Horizontal",
+            "Vertical",
+            "Diagonal 1 (\\)",
+            "Diagonal 2 (/)"});
+            this.cmboKirsch.Location = new System.Drawing.Point(177, 69);
+            this.cmboKirsch.Name = "cmboKirsch";
+            this.cmboKirsch.Size = new System.Drawing.Size(99, 21);
+            this.cmboKirsch.TabIndex = 35;
+            // 
             // mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1073,6 +1090,7 @@ namespace ImageProcessing
         private System.Windows.Forms.NumericUpDown numMeanOriginX;
         private System.Windows.Forms.NumericUpDown numMeanOriginY;
         private System.Windows.Forms.NumericUpDown numUnsharpK;
+        private System.Windows.Forms.ComboBox cmboKirsch;
     }
 }
 
