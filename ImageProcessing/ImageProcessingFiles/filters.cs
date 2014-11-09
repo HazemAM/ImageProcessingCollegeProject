@@ -145,13 +145,22 @@ namespace ImageProcessing
         }
         static public Bitmap highBoost(Bitmap inp,double size,double sigma,double k)
         {
+            double[][,] main = getArr(inp);
             Bitmap blurred;
             if(size==0) blurred = Gaussian(inp,sigma);
             else blurred = Gaussian(inp,(int)size,sigma);
-
-            Bitmap mask= new Enhancments().Arithmetic(inp, blurred, 1, 2);
-            double[][,] main = getArr(inp);
-            double[][,] msk = getArr(mask);
+            double[][,] blu = getArr(blurred);
+            double[][,] msk = new double [3][,];
+            msk[0] = new double[inp.Width, inp.Height];
+            msk[1] = new double[inp.Width, inp.Height];
+            msk[2] = new double[inp.Width, inp.Height];
+            for (int i = 0; i < inp.Width; i++)
+                for (int j = 0; j < inp.Height; j++)
+                {
+                    msk[0][i, j] = main[0][i, j] - blu[0][i, j];
+                    msk[1][i, j] = main[1][i, j] - blu[1][i, j];
+                    msk[2][i, j] = main[2][i, j] - blu[2][i, j];
+                }
             for(int i=0;i<inp.Width;i++)
                 for (int j = 0; j < inp.Height; j++)
                 {
