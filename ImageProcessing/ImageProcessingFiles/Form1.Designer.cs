@@ -52,6 +52,7 @@ namespace ImageProcessing
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.cmboKirsch = new System.Windows.Forms.ComboBox();
             this.rdioLaplaceSharp = new System.Windows.Forms.RadioButton();
             this.rdioKirschEdge = new System.Windows.Forms.RadioButton();
             this.rdioMean = new System.Windows.Forms.RadioButton();
@@ -89,7 +90,6 @@ namespace ImageProcessing
             this.middlePictureBox = new System.Windows.Forms.PictureBox();
             this.leftPictureBox = new System.Windows.Forms.PictureBox();
             this.saveDialog = new System.Windows.Forms.SaveFileDialog();
-            this.cmboKirsch = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.numShearX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numScaleY)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numShearY)).BeginInit();
@@ -303,7 +303,7 @@ namespace ImageProcessing
             -2147483648});
             this.numGaussMaskSize.Name = "numGaussMaskSize";
             this.numGaussMaskSize.Size = new System.Drawing.Size(48, 20);
-            this.numGaussMaskSize.TabIndex = 20;
+            this.numGaussMaskSize.TabIndex = 24;
             this.toolTip.SetToolTip(this.numGaussMaskSize, "Mask Size");
             // 
             // numGaussSigma
@@ -323,7 +323,7 @@ namespace ImageProcessing
             -2147483648});
             this.numGaussSigma.Name = "numGaussSigma";
             this.numGaussSigma.Size = new System.Drawing.Size(48, 20);
-            this.numGaussSigma.TabIndex = 21;
+            this.numGaussSigma.TabIndex = 25;
             this.toolTip.SetToolTip(this.numGaussSigma, "Sigma");
             // 
             // numMeanMaskWidth
@@ -337,7 +337,7 @@ namespace ImageProcessing
             -2147483648});
             this.numMeanMaskWidth.Name = "numMeanMaskWidth";
             this.numMeanMaskWidth.Size = new System.Drawing.Size(48, 20);
-            this.numMeanMaskWidth.TabIndex = 23;
+            this.numMeanMaskWidth.TabIndex = 20;
             this.toolTip.SetToolTip(this.numMeanMaskWidth, "Mask Width");
             // 
             // numUnsharpSigma
@@ -357,7 +357,7 @@ namespace ImageProcessing
             -2147483648});
             this.numUnsharpSigma.Name = "numUnsharpSigma";
             this.numUnsharpSigma.Size = new System.Drawing.Size(48, 20);
-            this.numUnsharpSigma.TabIndex = 26;
+            this.numUnsharpSigma.TabIndex = 27;
             this.toolTip.SetToolTip(this.numUnsharpSigma, "Sigma");
             // 
             // numMeanMaskHeight
@@ -371,7 +371,7 @@ namespace ImageProcessing
             -2147483648});
             this.numMeanMaskHeight.Name = "numMeanMaskHeight";
             this.numMeanMaskHeight.Size = new System.Drawing.Size(48, 20);
-            this.numMeanMaskHeight.TabIndex = 24;
+            this.numMeanMaskHeight.TabIndex = 21;
             this.toolTip.SetToolTip(this.numMeanMaskHeight, "Mask Height");
             // 
             // numUnsharpMaskSize
@@ -385,7 +385,7 @@ namespace ImageProcessing
             -2147483648});
             this.numUnsharpMaskSize.Name = "numUnsharpMaskSize";
             this.numUnsharpMaskSize.Size = new System.Drawing.Size(48, 20);
-            this.numUnsharpMaskSize.TabIndex = 25;
+            this.numUnsharpMaskSize.TabIndex = 26;
             this.toolTip.SetToolTip(this.numUnsharpMaskSize, "Mask Size");
             // 
             // numMeanOriginX
@@ -399,7 +399,7 @@ namespace ImageProcessing
             -2147483648});
             this.numMeanOriginX.Name = "numMeanOriginX";
             this.numMeanOriginX.Size = new System.Drawing.Size(48, 20);
-            this.numMeanOriginX.TabIndex = 32;
+            this.numMeanOriginX.TabIndex = 22;
             this.toolTip.SetToolTip(this.numMeanOriginX, "Origin X");
             // 
             // numMeanOriginY
@@ -413,7 +413,7 @@ namespace ImageProcessing
             -2147483648});
             this.numMeanOriginY.Name = "numMeanOriginY";
             this.numMeanOriginY.Size = new System.Drawing.Size(48, 20);
-            this.numMeanOriginY.TabIndex = 33;
+            this.numMeanOriginY.TabIndex = 23;
             this.toolTip.SetToolTip(this.numMeanOriginY, "Origin Y");
             // 
             // numUnsharpK
@@ -428,7 +428,7 @@ namespace ImageProcessing
             -2147483648});
             this.numUnsharpK.Name = "numUnsharpK";
             this.numUnsharpK.Size = new System.Drawing.Size(48, 20);
-            this.numUnsharpK.TabIndex = 34;
+            this.numUnsharpK.TabIndex = 28;
             this.toolTip.SetToolTip(this.numUnsharpK, "K value");
             // 
             // tableLayoutPanel2
@@ -499,8 +499,22 @@ namespace ImageProcessing
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage2.Size = new System.Drawing.Size(496, 112);
             this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Task 3";
+            this.tabPage2.Text = "Filters";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // cmboKirsch
+            // 
+            this.cmboKirsch.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmboKirsch.FormattingEnabled = true;
+            this.cmboKirsch.Items.AddRange(new object[] {
+            "Horizontal",
+            "Vertical",
+            "Diagonal 1 (\\)",
+            "Diagonal 2 (/)"});
+            this.cmboKirsch.Location = new System.Drawing.Point(177, 69);
+            this.cmboKirsch.Name = "cmboKirsch";
+            this.cmboKirsch.Size = new System.Drawing.Size(99, 21);
+            this.cmboKirsch.TabIndex = 35;
             // 
             // rdioLaplaceSharp
             // 
@@ -532,7 +546,7 @@ namespace ImageProcessing
             this.rdioMean.Location = new System.Drawing.Point(44, 5);
             this.rdioMean.Name = "rdioMean";
             this.rdioMean.Size = new System.Drawing.Size(73, 17);
-            this.rdioMean.TabIndex = 27;
+            this.rdioMean.TabIndex = 19;
             this.rdioMean.TabStop = true;
             this.rdioMean.Text = "Mean Blur";
             this.rdioMean.UseVisualStyleBackColor = true;
@@ -589,7 +603,7 @@ namespace ImageProcessing
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(496, 112);
             this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Task 1";
+            this.tabPage1.Text = "Transformations";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // btnTask1Apply
@@ -696,7 +710,7 @@ namespace ImageProcessing
             this.groupBox1.Size = new System.Drawing.Size(505, 138);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Task 2";
+            this.groupBox1.Text = "Enhancements";
             // 
             // btnOrgnlHisto
             // 
@@ -966,20 +980,6 @@ namespace ImageProcessing
             this.saveDialog.DefaultExt = "jpg";
             this.saveDialog.FileName = "image";
             this.saveDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.saveDialog_FileOk);
-            // 
-            // cmboKirsch
-            // 
-            this.cmboKirsch.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmboKirsch.FormattingEnabled = true;
-            this.cmboKirsch.Items.AddRange(new object[] {
-            "Horizontal",
-            "Vertical",
-            "Diagonal 1 (\\)",
-            "Diagonal 2 (/)"});
-            this.cmboKirsch.Location = new System.Drawing.Point(177, 69);
-            this.cmboKirsch.Name = "cmboKirsch";
-            this.cmboKirsch.Size = new System.Drawing.Size(99, 21);
-            this.cmboKirsch.TabIndex = 35;
             // 
             // mainForm
             // 
