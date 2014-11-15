@@ -1,6 +1,6 @@
 /*
 * MATLAB Compiler: 4.18 (R2012b)
-* Date: Sat Nov 15 20:22:21 2014
+* Date: Sat Nov 15 21:48:42 2014
 * Arguments: "-B" "macro_default" "-W" "dotnet:LHEQ,HEQ,0.0,private" "-T" "link:lib" "-d"
 * "D:\source Tree Gits\Image\MatLab Dlls\Local Hist EQ\LHEQ\src" "-w"
 * "enable:specified_file_mismatch" "-w" "enable:repeated_file" "-w"
