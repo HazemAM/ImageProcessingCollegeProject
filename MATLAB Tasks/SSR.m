@@ -11,7 +11,7 @@ function retImage = SSR(image, sigma)
     % Retinex
     image = double(image)+0.1;
     blurred = double(blurred)+0.1;
-    retImage = log(image ./ blurred);
+    retImage = log10(image ./ blurred);
     
     % Retinex, trying the classic way
     %[x,y] = size(blurred);
