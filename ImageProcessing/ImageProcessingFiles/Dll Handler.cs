@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using System.Text;
 using MathWorks.MATLAB.NET.Arrays;
 using MathWorks.MATLAB.NET.Utility;
-using LHEQ;
+using MatlabFilters;
 using System.Drawing;
 
 namespace ImageProcessing
 {
     class Dll_Handler
     {
-        private HEQ handler1;
-        Dll_Handler()
+        private MLFilters handler1;
+        public Dll_Handler()
         {
-            handler1=new HEQ();
+            handler1 = new MLFilters();
         }
         public Bitmap LocalHistEQ(Bitmap inp, double size)
         {
@@ -33,7 +33,7 @@ namespace ImageProcessing
             res=getImg(inp,tem);
             return res;
         }
-        public Bitmap Retenix(Bitmap inp, double sigma)
+        public Bitmap Retinex(Bitmap inp, double sigma)
         {
             Bitmap res = new Bitmap(inp);
             double[, ,] im = getArr(inp);

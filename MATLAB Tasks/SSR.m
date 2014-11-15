@@ -13,6 +13,11 @@ function retImage = SSR(image, sigma)
     blurred = double(blurred)+0.1;
     retImage = log10(image ./ blurred);
     
+    % Normalization (contrast form 0 to 255)
+    for i=1:3;
+        retImage(:,:,i) = imadjust(retImage(:,:,i));
+    end
+    
     % Retinex, trying the classic way
     %[x,y] = size(blurred);
     %retImage = zeros(x,y);

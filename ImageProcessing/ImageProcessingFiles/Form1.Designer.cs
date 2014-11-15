@@ -48,9 +48,21 @@ namespace ImageProcessing
             this.numMeanOriginX = new System.Windows.Forms.NumericUpDown();
             this.numMeanOriginY = new System.Windows.Forms.NumericUpDown();
             this.numUnsharpK = new System.Windows.Forms.NumericUpDown();
+            this.rdioLHE = new System.Windows.Forms.RadioButton();
+            this.numStatsE = new System.Windows.Forms.NumericUpDown();
+            this.numStatsWindow = new System.Windows.Forms.NumericUpDown();
+            this.numStatsK1 = new System.Windows.Forms.NumericUpDown();
+            this.numStatsK0 = new System.Windows.Forms.NumericUpDown();
+            this.numStatsK2 = new System.Windows.Forms.NumericUpDown();
+            this.numLHEWindow = new System.Windows.Forms.NumericUpDown();
+            this.numRtnxSigma = new System.Windows.Forms.NumericUpDown();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.btnMatlabApply = new System.Windows.Forms.Button();
+            this.rdioStats = new System.Windows.Forms.RadioButton();
+            this.rdioRtnx = new System.Windows.Forms.RadioButton();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.cmboKirsch = new System.Windows.Forms.ComboBox();
             this.rdioLaplaceSharp = new System.Windows.Forms.RadioButton();
@@ -106,9 +118,17 @@ namespace ImageProcessing
             ((System.ComponentModel.ISupportInitialize)(this.numMeanOriginX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numMeanOriginY)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numUnsharpK)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numStatsE)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numStatsWindow)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numStatsK1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numStatsK0)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numStatsK2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numLHEWindow)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numRtnxSigma)).BeginInit();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             this.tabControl1.SuspendLayout();
+            this.tabPage3.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -431,6 +451,146 @@ namespace ImageProcessing
             this.numUnsharpK.TabIndex = 28;
             this.toolTip.SetToolTip(this.numUnsharpK, "K value");
             // 
+            // rdioLHE
+            // 
+            this.rdioLHE.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.rdioLHE.AutoSize = true;
+            this.rdioLHE.Location = new System.Drawing.Point(52, 51);
+            this.rdioLHE.Name = "rdioLHE";
+            this.rdioLHE.Size = new System.Drawing.Size(46, 17);
+            this.rdioLHE.TabIndex = 28;
+            this.rdioLHE.Text = "LHE";
+            this.toolTip.SetToolTip(this.rdioLHE, "Local Histogram Equalization");
+            this.rdioLHE.UseVisualStyleBackColor = true;
+            // 
+            // numStatsE
+            // 
+            this.numStatsE.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.numStatsE.DecimalPlaces = 2;
+            this.numStatsE.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.numStatsE.Location = new System.Drawing.Point(174, 75);
+            this.numStatsE.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.numStatsE.Name = "numStatsE";
+            this.numStatsE.Size = new System.Drawing.Size(48, 20);
+            this.numStatsE.TabIndex = 39;
+            this.toolTip.SetToolTip(this.numStatsE, "E value");
+            // 
+            // numStatsWindow
+            // 
+            this.numStatsWindow.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.numStatsWindow.Location = new System.Drawing.Point(123, 75);
+            this.numStatsWindow.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.numStatsWindow.Name = "numStatsWindow";
+            this.numStatsWindow.Size = new System.Drawing.Size(48, 20);
+            this.numStatsWindow.TabIndex = 38;
+            this.toolTip.SetToolTip(this.numStatsWindow, "Window Size");
+            // 
+            // numStatsK1
+            // 
+            this.numStatsK1.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.numStatsK1.DecimalPlaces = 2;
+            this.numStatsK1.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.numStatsK1.Location = new System.Drawing.Point(277, 75);
+            this.numStatsK1.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.numStatsK1.Name = "numStatsK1";
+            this.numStatsK1.Size = new System.Drawing.Size(48, 20);
+            this.numStatsK1.TabIndex = 41;
+            this.toolTip.SetToolTip(this.numStatsK1, "K1");
+            // 
+            // numStatsK0
+            // 
+            this.numStatsK0.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.numStatsK0.DecimalPlaces = 2;
+            this.numStatsK0.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.numStatsK0.Location = new System.Drawing.Point(226, 75);
+            this.numStatsK0.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.numStatsK0.Name = "numStatsK0";
+            this.numStatsK0.Size = new System.Drawing.Size(48, 20);
+            this.numStatsK0.TabIndex = 40;
+            this.toolTip.SetToolTip(this.numStatsK0, "K0");
+            // 
+            // numStatsK2
+            // 
+            this.numStatsK2.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.numStatsK2.DecimalPlaces = 2;
+            this.numStatsK2.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.numStatsK2.Location = new System.Drawing.Point(328, 75);
+            this.numStatsK2.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.numStatsK2.Name = "numStatsK2";
+            this.numStatsK2.Size = new System.Drawing.Size(48, 20);
+            this.numStatsK2.TabIndex = 42;
+            this.toolTip.SetToolTip(this.numStatsK2, "K2");
+            // 
+            // numLHEWindow
+            // 
+            this.numLHEWindow.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.numLHEWindow.Location = new System.Drawing.Point(123, 50);
+            this.numLHEWindow.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.numLHEWindow.Name = "numLHEWindow";
+            this.numLHEWindow.Size = new System.Drawing.Size(48, 20);
+            this.numLHEWindow.TabIndex = 37;
+            this.toolTip.SetToolTip(this.numLHEWindow, "Window Size");
+            // 
+            // numRtnxSigma
+            // 
+            this.numRtnxSigma.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.numRtnxSigma.DecimalPlaces = 2;
+            this.numRtnxSigma.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.numRtnxSigma.Location = new System.Drawing.Point(123, 25);
+            this.numRtnxSigma.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.numRtnxSigma.Name = "numRtnxSigma";
+            this.numRtnxSigma.Size = new System.Drawing.Size(48, 20);
+            this.numRtnxSigma.TabIndex = 36;
+            this.toolTip.SetToolTip(this.numRtnxSigma, "Sigma");
+            // 
             // tableLayoutPanel2
             // 
             this.tableLayoutPanel2.ColumnCount = 1;
@@ -467,6 +627,7 @@ namespace ImageProcessing
             // 
             // tabControl1
             // 
+            this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -475,6 +636,62 @@ namespace ImageProcessing
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(504, 138);
             this.tabControl1.TabIndex = 19;
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.numRtnxSigma);
+            this.tabPage3.Controls.Add(this.numLHEWindow);
+            this.tabPage3.Controls.Add(this.numStatsK2);
+            this.tabPage3.Controls.Add(this.numStatsK1);
+            this.tabPage3.Controls.Add(this.numStatsK0);
+            this.tabPage3.Controls.Add(this.btnMatlabApply);
+            this.tabPage3.Controls.Add(this.rdioStats);
+            this.tabPage3.Controls.Add(this.rdioLHE);
+            this.tabPage3.Controls.Add(this.rdioRtnx);
+            this.tabPage3.Controls.Add(this.numStatsE);
+            this.tabPage3.Controls.Add(this.numStatsWindow);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(496, 112);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Filters [MATLAB]";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // btnMatlabApply
+            // 
+            this.btnMatlabApply.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.btnMatlabApply.Location = new System.Drawing.Point(404, 36);
+            this.btnMatlabApply.Name = "btnMatlabApply";
+            this.btnMatlabApply.Size = new System.Drawing.Size(63, 44);
+            this.btnMatlabApply.TabIndex = 43;
+            this.btnMatlabApply.Text = "Apply";
+            this.btnMatlabApply.UseVisualStyleBackColor = true;
+            this.btnMatlabApply.Click += new System.EventHandler(this.btnMatlabApply_Click);
+            // 
+            // rdioStats
+            // 
+            this.rdioStats.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.rdioStats.AutoSize = true;
+            this.rdioStats.Location = new System.Drawing.Point(52, 75);
+            this.rdioStats.Name = "rdioStats";
+            this.rdioStats.Size = new System.Drawing.Size(70, 17);
+            this.rdioStats.TabIndex = 29;
+            this.rdioStats.Text = "Statistical";
+            this.rdioStats.UseVisualStyleBackColor = true;
+            // 
+            // rdioRtnx
+            // 
+            this.rdioRtnx.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.rdioRtnx.AutoSize = true;
+            this.rdioRtnx.Checked = true;
+            this.rdioRtnx.Location = new System.Drawing.Point(52, 27);
+            this.rdioRtnx.Name = "rdioRtnx";
+            this.rdioRtnx.Size = new System.Drawing.Size(61, 17);
+            this.rdioRtnx.TabIndex = 27;
+            this.rdioRtnx.TabStop = true;
+            this.rdioRtnx.Text = "Retinex";
+            this.rdioRtnx.UseVisualStyleBackColor = true;
             // 
             // tabPage2
             // 
@@ -1007,9 +1224,18 @@ namespace ImageProcessing
             ((System.ComponentModel.ISupportInitialize)(this.numMeanOriginX)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numMeanOriginY)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numUnsharpK)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numStatsE)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numStatsWindow)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numStatsK1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numStatsK0)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numStatsK2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numLHEWindow)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numRtnxSigma)).EndInit();
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel3.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
+            this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
             this.tabPage1.ResumeLayout(false);
@@ -1091,6 +1317,18 @@ namespace ImageProcessing
         private System.Windows.Forms.NumericUpDown numMeanOriginY;
         private System.Windows.Forms.NumericUpDown numUnsharpK;
         private System.Windows.Forms.ComboBox cmboKirsch;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.Button btnMatlabApply;
+        private System.Windows.Forms.RadioButton rdioStats;
+        private System.Windows.Forms.RadioButton rdioLHE;
+        private System.Windows.Forms.RadioButton rdioRtnx;
+        private System.Windows.Forms.NumericUpDown numStatsE;
+        private System.Windows.Forms.NumericUpDown numStatsWindow;
+        private System.Windows.Forms.NumericUpDown numRtnxSigma;
+        private System.Windows.Forms.NumericUpDown numLHEWindow;
+        private System.Windows.Forms.NumericUpDown numStatsK2;
+        private System.Windows.Forms.NumericUpDown numStatsK1;
+        private System.Windows.Forms.NumericUpDown numStatsK0;
     }
 }
 

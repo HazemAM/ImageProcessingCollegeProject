@@ -95,8 +95,9 @@
     <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="LHEQ">
-      <HintPath>..\..\MatLab Dlls\Local Hist EQ\LHEQ\distrib\LHEQ.dll</HintPath>
+    <Reference Include="MatlabFilters, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\MATLAB DLLs\MatlabFilters\MatlabFilters.dll</HintPath>
     </Reference>
     <Reference Include="MWArray, Version=2.12.1.0, Culture=neutral, PublicKeyToken=e1d84a0da19db86f, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
@@ -169,6 +170,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="filterIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
