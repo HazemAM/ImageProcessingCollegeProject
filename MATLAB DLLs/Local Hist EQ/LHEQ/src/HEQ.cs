@@ -1,7 +1,7 @@
 /*
 * MATLAB Compiler: 4.18 (R2012b)
-* Date: Sat Nov 15 21:48:42 2014
-* Arguments: "-B" "macro_default" "-W" "dotnet:LHEQ,HEQ,0.0,private" "-T" "link:lib" "-d"
+* Date: Mon Nov 17 01:47:52 2014
+* Arguments: "-B" "macro_default" "-W" "dotnet:LHEQ,HEQ,4.0,private" "-T" "link:lib" "-d"
 * "D:\source Tree Gits\Image\MatLab Dlls\Local Hist EQ\LHEQ\src" "-w"
 * "enable:specified_file_mismatch" "-w" "enable:repeated_file" "-w"
 * "enable:switch_ignored" "-w" "enable:missing_lib_sentinel" "-w" "enable:demo_license"
@@ -36,7 +36,7 @@ namespace LHEQ
   /// printdlg.m
   /// </summary>
   /// <remarks>
-  /// @Version 0.0
+  /// @Version 4.0
   /// </remarks>
   public class HEQ : IDisposable
   {

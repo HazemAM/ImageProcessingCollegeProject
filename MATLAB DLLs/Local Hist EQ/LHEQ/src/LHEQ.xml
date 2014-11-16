@@ -20,7 +20,7 @@
             printdlg.m
             </summary>
             <remarks>
-            @Version 0.0
+            @Version 4.0
             </remarks>
         </member>
         <member name="M:LHEQ.HEQ.#cctor">
