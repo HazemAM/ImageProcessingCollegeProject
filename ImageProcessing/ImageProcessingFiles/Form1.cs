@@ -417,14 +417,20 @@ namespace ImageProcessing
         }
 
         private void btnMatlabApply_Click(object sender, EventArgs e){
+            if(leftPictureBox.Image==null) return;
+
+            Bitmap bitmap = null;
             if(rdioRtnx.Checked)
-                middlePictureBox.Image = new Dll_Handler().Retinex(theBitmapImage, (double)numRtnxSigma.Value);
+                bitmap = new Dll_Handler().Retinex(theBitmapImage, (double)numRtnxSigma.Value);
             else if(rdioLHE.Checked)
-                middlePictureBox.Image = new Dll_Handler().LocalHistEQ(theBitmapImage, (int)numLHEWindow.Value);
+                bitmap = new Dll_Handler().LocalHistEQ(theBitmapImage, (int)numLHEWindow.Value);
             else if(rdioStats.Checked)
-                middlePictureBox.Image = new Dll_Handler().LocalStat(theBitmapImage,
+                bitmap = new Dll_Handler().LocalStat(theBitmapImage,
                     (int)numStatsWindow.Value, (double)numStatsE.Value,
                     (double)numStatsK0.Value, (double)numStatsK1.Value, (double)numStatsK2.Value);
+
+            middlePictureBox.Image = bitmap;
+            rightPictureBox.Image  = getHistogramBitmap(bitmap, null, 256, 256);
         }
     }
 }

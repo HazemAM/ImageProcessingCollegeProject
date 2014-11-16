@@ -1,5 +1,5 @@
 <deployment-project plugin="plugin.ezdeploy" plugin-version="1.0">
-  <configuration build-checksum="933661475" file="D:\Box Sync\College\Year 4\Image Processing\Labs\IP'14 4th Lab\materials\Images\MatlabFilters.prj" location="D:\Box Sync\College\Year 4\Image Processing\Labs\IP'14 4th Lab\materials\Images" name="MatlabFilters" preferred-package-location="C:\Users\Hazem\Desktop\MLFilters\dist" preferred-package-type="package.type.exe" target="target.ezdeploy.library" target-name="MATLAB Compiler for Libraries and Classes">
+  <configuration build-checksum="2834289326" file="D:\GitHub\ImageProcessingCollegeProject\MATLAB DLLs\MatlabFilters.prj" location="D:\GitHub\ImageProcessingCollegeProject\MATLAB DLLs" name="MatlabFilters" preferred-package-location="C:\Users\Hazem\Desktop\MLFilters\dist" preferred-package-type="package.type.exe" target="target.ezdeploy.library" target-name="MATLAB Compiler for Libraries and Classes">
     <param.appname>MatlabFilters</param.appname>
     <param.icon />
     <param.icons />

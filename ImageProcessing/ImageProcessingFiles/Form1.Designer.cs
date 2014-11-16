@@ -486,9 +486,19 @@ namespace ImageProcessing
             // numStatsWindow
             // 
             this.numStatsWindow.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.numStatsWindow.Increment = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
             this.numStatsWindow.Location = new System.Drawing.Point(123, 75);
             this.numStatsWindow.Maximum = new decimal(new int[] {
             1000,
+            0,
+            0,
+            0});
+            this.numStatsWindow.Minimum = new decimal(new int[] {
+            1,
             0,
             0,
             0});
@@ -496,6 +506,11 @@ namespace ImageProcessing
             this.numStatsWindow.Size = new System.Drawing.Size(48, 20);
             this.numStatsWindow.TabIndex = 38;
             this.toolTip.SetToolTip(this.numStatsWindow, "Window Size");
+            this.numStatsWindow.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
             // numStatsK1
             // 
@@ -560,9 +575,19 @@ namespace ImageProcessing
             // numLHEWindow
             // 
             this.numLHEWindow.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.numLHEWindow.Increment = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
             this.numLHEWindow.Location = new System.Drawing.Point(123, 50);
             this.numLHEWindow.Maximum = new decimal(new int[] {
             1000,
+            0,
+            0,
+            0});
+            this.numLHEWindow.Minimum = new decimal(new int[] {
+            1,
             0,
             0,
             0});
@@ -570,16 +595,16 @@ namespace ImageProcessing
             this.numLHEWindow.Size = new System.Drawing.Size(48, 20);
             this.numLHEWindow.TabIndex = 37;
             this.toolTip.SetToolTip(this.numLHEWindow, "Window Size");
+            this.numLHEWindow.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
             // numRtnxSigma
             // 
             this.numRtnxSigma.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.numRtnxSigma.DecimalPlaces = 2;
-            this.numRtnxSigma.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
             this.numRtnxSigma.Location = new System.Drawing.Point(123, 25);
             this.numRtnxSigma.Maximum = new decimal(new int[] {
             1000,
