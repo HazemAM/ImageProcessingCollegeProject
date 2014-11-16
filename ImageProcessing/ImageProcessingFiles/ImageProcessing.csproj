@@ -95,9 +95,9 @@
     <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MatlabFilters, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="LHEQ, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\MATLAB DLLs\MatlabFilters\MatlabFilters.dll</HintPath>
+      <HintPath>..\..\MatLab Dlls\Local Hist EQ\LHEQ\distrib\LHEQ.dll</HintPath>
     </Reference>
     <Reference Include="MWArray, Version=2.12.1.0, Culture=neutral, PublicKeyToken=e1d84a0da19db86f, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
