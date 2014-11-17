@@ -46,11 +46,11 @@ namespace ImageProcessing
             Bitmap res = new Bitmap(inp);
             double[][,] im = getArr(inp);
             MWArray re = handler1.SSR((MWNumericArray)im[0], sigma);
-            double[,] tem = (double[,])re.ToArray();
+            byte[,] tem = (byte[,])re.ToArray();
             re = handler1.SSR((MWNumericArray)im[1], sigma);
-            double[,] tem1 = (double[,])re.ToArray();
+            byte[,] tem1 = (byte[,])re.ToArray();
             re = handler1.SSR((MWNumericArray)im[2], sigma);
-            double[,] tem2 = (double[,])re.ToArray();
+            byte[,] tem2 = (byte[,])re.ToArray();
             res = getImg(inp, tem, tem1, tem2);
             return res;
         }
@@ -70,7 +70,18 @@ namespace ImageProcessing
                 }
             return img;
         }
+        
         private static Bitmap getImg(Bitmap inp, double[,] arr, double[,] arr1, double[,] arr2)
+        {
+            Bitmap img = new Bitmap(inp);
+            for (int i = 0; i < inp.Width; i++)
+                for (int j = 0; j < inp.Height; j++)
+                {
+                    img.SetPixel(i, j, Color.FromArgb((int)arr[i, j], (int)arr1[i, j], (int)arr2[i, j]));
+                }
+            return img;
+        }
+        private static Bitmap getImg(Bitmap inp, byte[,] arr, byte[,] arr1, byte[,] arr2)
         {
             Bitmap img = new Bitmap(inp);
             for (int i = 0; i < inp.Width; i++)

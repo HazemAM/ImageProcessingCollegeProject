@@ -1,0 +1,163 @@
+<deployment-project plugin="plugin.ezdeploy" plugin-version="1.0">
+  <configuration build-checksum="4271814037" file="D:\GitHub\ImageProcessingCollegeProject\MATLAB DLLs\LHEQ.prj" location="D:\GitHub\ImageProcessingCollegeProject\MATLAB DLLs" name="LHEQ" preferred-package-location="C:\Users\Hazem\Desktop\LHEQ\dist" preferred-package-type="package.type.exe" target="target.ezdeploy.library" target-name="MATLAB Compiler for Libraries and Classes">
+    <param.appname>LHEQ</param.appname>
+    <param.icon />
+    <param.icons />
+    <param.version>1.0</param.version>
+    <param.authnamewatermark />
+    <param.email />
+    <param.company />
+    <param.summary />
+    <param.description />
+    <param.screenshot />
+    <param.guid />
+    <param.installpath.string>\LHEQ\</param.installpath.string>
+    <param.installpath.combo>option.installpath.programfiles</param.installpath.combo>
+    <param.logo />
+    <param.install.notes />
+    <param.intermediate>C:\Users\Hazem\Desktop\LHEQ\test</param.intermediate>
+    <param.output>C:\Users\Hazem\Desktop\LHEQ\dist</param.output>
+    <param.user.defined.mcr.options />
+    <param.embed.ctf>true</param.embed.ctf>
+    <param.server.ctf>C:\Users\Hazem\Desktop\LHEQ\test\LHEQ.ctf</param.server.ctf>
+    <param.server.readme>C:\Users\Hazem\Desktop\LHEQ\test\readme.txt</param.server.readme>
+    <param.target.type>subtarget.net.component</param.target.type>
+    <param.support.packages />
+    <param.namespace>LHEQ</param.namespace>
+    <param.classorg />
+    <param.function.data />
+    <param.web.mcr>true</param.web.mcr>
+    <param.package.mcr>false</param.package.mcr>
+    <param.no.mcr>false</param.no.mcr>
+    <param.web.mcr.name>MyAppInstaller_web</param.web.mcr.name>
+    <param.package.mcr.name>MyAppInstaller_mcr</param.package.mcr.name>
+    <param.no.mcr.name>MyAppInstaller_app</param.no.mcr.name>
+    <param.windows.command.prompt>true</param.windows.command.prompt>
+    <param.create.log>false</param.create.log>
+    <param.log.file />
+    <param.user.only.registration>false</param.user.only.registration>
+    <param.net.framework>option.net.framework.default</param.net.framework>
+    <param.assembly.type>false</param.assembly.type>
+    <param.encryption.key.file />
+    <param.net.enable.remoting>false</param.net.enable.remoting>
+    <param.net.tsa.enable>false</param.net.tsa.enable>
+    <param.net.tsa.assembly />
+    <param.net.tsa.interface />
+    <param.net.tsa.namespace>LHEQ</param.net.tsa.namespace>
+    <param.net.tsa.superclass>HEQ</param.net.tsa.superclass>
+    <param.net.tsa.metadata />
+    <param.net.tsa.metadata.assembly>C:\Users\Hazem\Documents\MATLAB</param.net.tsa.metadata.assembly>
+    <unset>
+      <param.icon />
+      <param.icons />
+      <param.version />
+      <param.authnamewatermark />
+      <param.email />
+      <param.company />
+      <param.summary />
+      <param.description />
+      <param.screenshot />
+      <param.guid />
+      <param.installpath.string />
+      <param.installpath.combo />
+      <param.logo />
+      <param.install.notes />
+      <param.user.defined.mcr.options />
+      <param.embed.ctf />
+      <param.server.ctf />
+      <param.server.readme />
+      <param.support.packages />
+      <param.namespace />
+      <param.classorg />
+      <param.function.data />
+      <param.web.mcr />
+      <param.package.mcr />
+      <param.no.mcr />
+      <param.web.mcr.name />
+      <param.package.mcr.name />
+      <param.no.mcr.name />
+      <param.windows.command.prompt />
+      <param.create.log />
+      <param.log.file />
+      <param.user.only.registration />
+      <param.net.framework />
+      <param.assembly.type />
+      <param.encryption.key.file />
+      <param.net.enable.remoting />
+      <param.net.tsa.enable />
+      <param.net.tsa.assembly />
+      <param.net.tsa.interface />
+      <param.net.tsa.namespace />
+      <param.net.tsa.superclass />
+      <param.net.tsa.metadata />
+      <param.net.tsa.metadata.assembly />
+    </unset>
+    <fileset.exports>
+      <file>D:\GitHub\ImageProcessingCollegeProject\MATLAB Tasks\LocalHE.m</file>
+      <file>D:\GitHub\ImageProcessingCollegeProject\MATLAB Tasks\LocalStatistics.m</file>
+      <file>D:\GitHub\ImageProcessingCollegeProject\MATLAB Tasks\SSR.m</file>
+    </fileset.exports>
+    <fileset.classes>
+      <entity.package name="">
+        <entity.class name="HEQ">
+          <file>D:\GitHub\ImageProcessingCollegeProject\MATLAB Tasks\LocalHE.m</file>
+          <file>D:\GitHub\ImageProcessingCollegeProject\MATLAB Tasks\LocalStatistics.m</file>
+          <file>D:\GitHub\ImageProcessingCollegeProject\MATLAB Tasks\SSR.m</file>
+        </entity.class>
+      </entity.package>
+    </fileset.classes>
+    <fileset.resources />
+    <fileset.package />
+    <build-deliverables>
+      <file location="C:\Users\Hazem\Desktop\LHEQ\test" name="LHEQ.dll" optional="false">C:\Users\Hazem\Desktop\LHEQ\test\LHEQ.dll</file>
+      <file location="C:\Users\Hazem\Desktop\LHEQ\test" name="readme.txt" optional="true">C:\Users\Hazem\Desktop\LHEQ\test\readme.txt</file>
+      <file location="C:\Users\Hazem\Desktop\LHEQ\test" name="LHEQ_overview.html" optional="false">C:\Users\Hazem\Desktop\LHEQ\test\LHEQ_overview.html</file>
+      <file location="C:\Users\Hazem\Desktop\LHEQ\test" name="LHEQNative.dll" optional="false">C:\Users\Hazem\Desktop\LHEQ\test\LHEQNative.dll</file>
+    </build-deliverables>
+    <workflow />
+    <matlab>
+      <root>D:\Programs\MATLAB\R2014a</root>
+      <toolboxes>
+        <toolbox name="matlabhdlcoder" />
+        <toolbox name="fixedpoint" />
+        <toolbox name="embeddedcoder" />
+        <toolbox name="matlabcoder" />
+      </toolboxes>
+      <toolbox>
+        <matlabhdlcoder>
+          <enabled>true</enabled>
+        </matlabhdlcoder>
+      </toolbox>
+      <toolbox>
+        <fixedpoint>
+          <enabled>true</enabled>
+        </fixedpoint>
+      </toolbox>
+      <toolbox>
+        <embeddedcoder>
+          <enabled>true</enabled>
+        </embeddedcoder>
+      </toolbox>
+      <toolbox>
+        <matlabcoder>
+          <enabled>true</enabled>
+        </matlabcoder>
+      </toolbox>
+    </matlab>
+    <platform>
+      <unix>false</unix>
+      <mac>false</mac>
+      <windows>true</windows>
+      <win2k>false</win2k>
+      <winxp>false</winxp>
+      <vista>false</vista>
+      <linux>false</linux>
+      <solaris>false</solaris>
+      <osver>6.2</osver>
+      <os32>false</os32>
+      <os64>true</os64>
+      <arch>win64</arch>
+      <matlab>true</matlab>
+    </platform>
+  </configuration>
+</deployment-project>
