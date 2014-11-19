@@ -429,6 +429,18 @@ namespace ImageProcessing
                     (int)numStatsWindow.Value, (double)numStatsE.Value,
                     (double)numStatsK0.Value, (double)numStatsK1.Value, (double)numStatsK2.Value);
 
+            if(!rdioMLGaussian.Checked){
+                middlePictureBox.Image = bitmap;
+                rightPictureBox.Image = getHistogramBitmap(bitmap, null, 256, 256);
+            }
+        }
+
+        private void slideMLGaussian_Scroll(object sender, EventArgs e){
+            if(theBitmapImage==null) return;
+            rdioMLGaussian.Checked = true;
+            double value = (double)((TrackBar)sender).Value/10;
+            Bitmap bitmap = (Bitmap)leftPictureBox.Image;
+            if(value>0) bitmap = new Dll_Handler().GaussianBlur(theBitmapImage,value);
             middlePictureBox.Image = bitmap;
             rightPictureBox.Image  = getHistogramBitmap(bitmap, null, 256, 256);
         }

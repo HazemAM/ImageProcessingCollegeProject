@@ -54,6 +54,19 @@ namespace ImageProcessing
             res = getImg(inp, tem, tem1, tem2);
             return res;
         }
+        public Bitmap GaussianBlur(Bitmap inp, double sigma)
+        {
+            Bitmap res = new Bitmap(inp);
+            double[][,] im = getArr(inp);
+            MWArray re = handler1.GaussianBlur((MWNumericArray)im[0], sigma);
+            double[,] tem = (double[,])re.ToArray();
+            re = handler1.GaussianBlur((MWNumericArray)im[1], sigma);
+            double[,] tem1 = (double[,])re.ToArray();
+            re = handler1.GaussianBlur((MWNumericArray)im[2], sigma);
+            double[,] tem2 = (double[,])re.ToArray();
+            res = getImg(inp, tem, tem1, tem2);
+            return res;
+        }
         private static double[][,] getArr(Bitmap inp)
         {
             double[][,] img = new double[3][,];

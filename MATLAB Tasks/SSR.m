@@ -1,12 +1,8 @@
 function retImage = SSR(image, sigma)
 %SSR Single Scale Retinex
     
-    %% Gaussian
-    N = int32((3.7 * sigma) - 0.5);
-    maskSize = double((2 * N) + 1);
-    
-    GaussianMask = fspecial('gaussian', maskSize, sigma);
-    blurred = imfilter(image, GaussianMask);
+    %% Gaussian (1D)
+    blurred = GaussianBlur(image, sigma);
     
     %% Retinex
     image = double(image)+0.1;
@@ -26,5 +22,5 @@ function retImage = SSR(image, sigma)
     %%%%%%%%%%%%%
     
     %% Back to [0,255]
-    retImage = uint8(retImage*255); %WITH CONVERT TO INT (MATLAB)
+    retImage = uint8(retImage*255); %TO BYTE
 end

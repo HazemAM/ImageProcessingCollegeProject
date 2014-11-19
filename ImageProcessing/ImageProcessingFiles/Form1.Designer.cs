@@ -60,9 +60,11 @@ namespace ImageProcessing
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.rdioMLGaussian = new System.Windows.Forms.RadioButton();
             this.btnMatlabApply = new System.Windows.Forms.Button();
             this.rdioStats = new System.Windows.Forms.RadioButton();
             this.rdioRtnx = new System.Windows.Forms.RadioButton();
+            this.slideMLGaussian = new System.Windows.Forms.TrackBar();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.cmboKirsch = new System.Windows.Forms.ComboBox();
             this.rdioLaplaceSharp = new System.Windows.Forms.RadioButton();
@@ -129,6 +131,7 @@ namespace ImageProcessing
             this.tableLayoutPanel3.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.slideMLGaussian)).BeginInit();
             this.tabPage2.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -455,7 +458,7 @@ namespace ImageProcessing
             // 
             this.rdioLHE.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.rdioLHE.AutoSize = true;
-            this.rdioLHE.Location = new System.Drawing.Point(52, 51);
+            this.rdioLHE.Location = new System.Drawing.Point(52, 36);
             this.rdioLHE.Name = "rdioLHE";
             this.rdioLHE.Size = new System.Drawing.Size(46, 17);
             this.rdioLHE.TabIndex = 28;
@@ -472,7 +475,7 @@ namespace ImageProcessing
             0,
             0,
             65536});
-            this.numStatsE.Location = new System.Drawing.Point(174, 75);
+            this.numStatsE.Location = new System.Drawing.Point(174, 60);
             this.numStatsE.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -491,7 +494,7 @@ namespace ImageProcessing
             0,
             0,
             0});
-            this.numStatsWindow.Location = new System.Drawing.Point(123, 75);
+            this.numStatsWindow.Location = new System.Drawing.Point(123, 60);
             this.numStatsWindow.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -521,7 +524,7 @@ namespace ImageProcessing
             0,
             0,
             65536});
-            this.numStatsK1.Location = new System.Drawing.Point(277, 75);
+            this.numStatsK1.Location = new System.Drawing.Point(277, 60);
             this.numStatsK1.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -541,7 +544,7 @@ namespace ImageProcessing
             0,
             0,
             65536});
-            this.numStatsK0.Location = new System.Drawing.Point(226, 75);
+            this.numStatsK0.Location = new System.Drawing.Point(226, 60);
             this.numStatsK0.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -561,7 +564,7 @@ namespace ImageProcessing
             0,
             0,
             65536});
-            this.numStatsK2.Location = new System.Drawing.Point(328, 75);
+            this.numStatsK2.Location = new System.Drawing.Point(328, 60);
             this.numStatsK2.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -580,7 +583,7 @@ namespace ImageProcessing
             0,
             0,
             0});
-            this.numLHEWindow.Location = new System.Drawing.Point(123, 50);
+            this.numLHEWindow.Location = new System.Drawing.Point(123, 35);
             this.numLHEWindow.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -605,16 +608,26 @@ namespace ImageProcessing
             // 
             this.numRtnxSigma.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.numRtnxSigma.DecimalPlaces = 2;
-            this.numRtnxSigma.Location = new System.Drawing.Point(123, 25);
+            this.numRtnxSigma.Location = new System.Drawing.Point(123, 10);
             this.numRtnxSigma.Maximum = new decimal(new int[] {
             1000,
             0,
             0,
             0});
+            this.numRtnxSigma.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
             this.numRtnxSigma.Name = "numRtnxSigma";
             this.numRtnxSigma.Size = new System.Drawing.Size(48, 20);
             this.numRtnxSigma.TabIndex = 36;
             this.toolTip.SetToolTip(this.numRtnxSigma, "Sigma");
+            this.numRtnxSigma.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
             // tableLayoutPanel2
             // 
@@ -664,6 +677,7 @@ namespace ImageProcessing
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.rdioMLGaussian);
             this.tabPage3.Controls.Add(this.numRtnxSigma);
             this.tabPage3.Controls.Add(this.numLHEWindow);
             this.tabPage3.Controls.Add(this.numStatsK2);
@@ -675,6 +689,7 @@ namespace ImageProcessing
             this.tabPage3.Controls.Add(this.rdioRtnx);
             this.tabPage3.Controls.Add(this.numStatsE);
             this.tabPage3.Controls.Add(this.numStatsWindow);
+            this.tabPage3.Controls.Add(this.slideMLGaussian);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
@@ -682,6 +697,17 @@ namespace ImageProcessing
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Filters [MATLAB]";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // rdioMLGaussian
+            // 
+            this.rdioMLGaussian.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.rdioMLGaussian.AutoSize = true;
+            this.rdioMLGaussian.Location = new System.Drawing.Point(52, 83);
+            this.rdioMLGaussian.Name = "rdioMLGaussian";
+            this.rdioMLGaussian.Size = new System.Drawing.Size(69, 17);
+            this.rdioMLGaussian.TabIndex = 44;
+            this.rdioMLGaussian.Text = "Gaussian";
+            this.rdioMLGaussian.UseVisualStyleBackColor = true;
             // 
             // btnMatlabApply
             // 
@@ -698,7 +724,7 @@ namespace ImageProcessing
             // 
             this.rdioStats.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.rdioStats.AutoSize = true;
-            this.rdioStats.Location = new System.Drawing.Point(52, 75);
+            this.rdioStats.Location = new System.Drawing.Point(52, 60);
             this.rdioStats.Name = "rdioStats";
             this.rdioStats.Size = new System.Drawing.Size(70, 17);
             this.rdioStats.TabIndex = 29;
@@ -710,13 +736,27 @@ namespace ImageProcessing
             this.rdioRtnx.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.rdioRtnx.AutoSize = true;
             this.rdioRtnx.Checked = true;
-            this.rdioRtnx.Location = new System.Drawing.Point(52, 27);
+            this.rdioRtnx.Location = new System.Drawing.Point(52, 12);
             this.rdioRtnx.Name = "rdioRtnx";
             this.rdioRtnx.Size = new System.Drawing.Size(61, 17);
             this.rdioRtnx.TabIndex = 27;
             this.rdioRtnx.TabStop = true;
             this.rdioRtnx.Text = "Retinex";
             this.rdioRtnx.UseVisualStyleBackColor = true;
+            // 
+            // slideMLGaussian
+            // 
+            this.slideMLGaussian.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.slideMLGaussian.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.slideMLGaussian.LargeChange = 10;
+            this.slideMLGaussian.Location = new System.Drawing.Point(115, 83);
+            this.slideMLGaussian.Margin = new System.Windows.Forms.Padding(0);
+            this.slideMLGaussian.Maximum = 200;
+            this.slideMLGaussian.Name = "slideMLGaussian";
+            this.slideMLGaussian.Size = new System.Drawing.Size(143, 45);
+            this.slideMLGaussian.TabIndex = 3;
+            this.slideMLGaussian.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.slideMLGaussian.Scroll += new System.EventHandler(this.slideMLGaussian_Scroll);
             // 
             // tabPage2
             // 
@@ -1261,6 +1301,7 @@ namespace ImageProcessing
             this.tabControl1.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.slideMLGaussian)).EndInit();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
             this.tabPage1.ResumeLayout(false);
@@ -1354,6 +1395,8 @@ namespace ImageProcessing
         private System.Windows.Forms.NumericUpDown numStatsK2;
         private System.Windows.Forms.NumericUpDown numStatsK1;
         private System.Windows.Forms.NumericUpDown numStatsK0;
+        private System.Windows.Forms.TrackBar slideMLGaussian;
+        private System.Windows.Forms.RadioButton rdioMLGaussian;
     }
 }
 
