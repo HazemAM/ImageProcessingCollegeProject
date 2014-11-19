@@ -17,6 +17,7 @@ namespace ImageProcessing
             InitializeComponent();
             btnOpen.Select();
             cmboKirsch.SelectedIndex = 0;
+            cmboCustomPost.SelectedIndex = 0;
         }
 
         Bitmap theBitmapImage;
@@ -443,6 +444,40 @@ namespace ImageProcessing
             if(value>0) bitmap = new Dll_Handler().GaussianBlur(theBitmapImage,value);
             middlePictureBox.Image = bitmap;
             rightPictureBox.Image  = getHistogramBitmap(bitmap, null, 256, 256);
+        }
+
+        private void btnCustomApply_Click(object sender, EventArgs e){
+            if(theBitmapImage==null) return;
+
+            String[] tempMaskString = txtCustomFilter.Text.Split(new String[]{Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries);
+            int maskWidth = tempMaskString[0].Split(new String[]{" "}, StringSplitOptions.RemoveEmptyEntries).Length;
+
+            Filter f = new Filter(tempMaskString.GetLength(0),maskWidth); f.CreateFilter();
+            double[,] mask = f.getFilter();
+
+            for(int i=0; i<tempMaskString.Length; i++){
+                String[] tempMaskRowString = tempMaskString[i].Split(new String[]{" "}, StringSplitOptions.RemoveEmptyEntries);
+                for(int j=0; j<tempMaskRowString.Length; j++)
+                    mask[i,j] = double.Parse(tempMaskRowString[j]);
+            }
+
+            PostProcessing post = PostProcessing.No;
+            switch(cmboCustomPost.SelectedIndex){
+                case 0: post=PostProcessing.No; break;
+                case 1: post=PostProcessing.Normalization; break;
+                case 2: post=PostProcessing.Abs; break;
+                case 3: post=PostProcessing.CutOff; break;
+            }
+
+            Bitmap bitmap = null;
+            try{
+                bitmap = filters.LinearFilter(theBitmapImage, f, (int)numCustomOriginX.Value, (int)numCustomOriginY.Value, post);
+                middlePictureBox.Image = bitmap;
+                rightPictureBox.Image = getHistogramBitmap(bitmap, null, 256, 256);
+            } catch {
+                MessageBox.Show("Something went wrong.\nMake sure you choose the right post-processing method.","Watch out!",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
     }
 }

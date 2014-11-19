@@ -104,6 +104,12 @@ namespace ImageProcessing
             this.middlePictureBox = new System.Windows.Forms.PictureBox();
             this.leftPictureBox = new System.Windows.Forms.PictureBox();
             this.saveDialog = new System.Windows.Forms.SaveFileDialog();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.btnCustomApply = new System.Windows.Forms.Button();
+            this.txtCustomFilter = new System.Windows.Forms.TextBox();
+            this.numCustomOriginX = new System.Windows.Forms.NumericUpDown();
+            this.numCustomOriginY = new System.Windows.Forms.NumericUpDown();
+            this.cmboCustomPost = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.numShearX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numScaleY)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numShearY)).BeginInit();
@@ -144,6 +150,9 @@ namespace ImageProcessing
             ((System.ComponentModel.ISupportInitialize)(this.rightPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.middlePictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.leftPictureBox)).BeginInit();
+            this.tabPage4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numCustomOriginX)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numCustomOriginY)).BeginInit();
             this.SuspendLayout();
             // 
             // btnOpen
@@ -667,6 +676,7 @@ namespace ImageProcessing
             // 
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(3, 3);
@@ -1263,6 +1273,72 @@ namespace ImageProcessing
             this.saveDialog.FileName = "image";
             this.saveDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.saveDialog_FileOk);
             // 
+            // tabPage4
+            // 
+            this.tabPage4.Controls.Add(this.cmboCustomPost);
+            this.tabPage4.Controls.Add(this.numCustomOriginY);
+            this.tabPage4.Controls.Add(this.numCustomOriginX);
+            this.tabPage4.Controls.Add(this.txtCustomFilter);
+            this.tabPage4.Controls.Add(this.btnCustomApply);
+            this.tabPage4.Location = new System.Drawing.Point(4, 22);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Size = new System.Drawing.Size(496, 112);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "Custom Filter";
+            this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // btnCustomApply
+            // 
+            this.btnCustomApply.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.btnCustomApply.Location = new System.Drawing.Point(286, 59);
+            this.btnCustomApply.Name = "btnCustomApply";
+            this.btnCustomApply.Size = new System.Drawing.Size(63, 44);
+            this.btnCustomApply.TabIndex = 20;
+            this.btnCustomApply.Text = "Apply";
+            this.btnCustomApply.UseVisualStyleBackColor = true;
+            this.btnCustomApply.Click += new System.EventHandler(this.btnCustomApply_Click);
+            // 
+            // txtCustomFilter
+            // 
+            this.txtCustomFilter.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtCustomFilter.Location = new System.Drawing.Point(83, 10);
+            this.txtCustomFilter.Multiline = true;
+            this.txtCustomFilter.Name = "txtCustomFilter";
+            this.txtCustomFilter.Size = new System.Drawing.Size(198, 92);
+            this.txtCustomFilter.TabIndex = 21;
+            this.txtCustomFilter.Text = " 0  -2   0\r\n-2   9  -2\r\n 0  -2   0";
+            // 
+            // numCustomOriginX
+            // 
+            this.numCustomOriginX.Location = new System.Drawing.Point(287, 10);
+            this.numCustomOriginX.Name = "numCustomOriginX";
+            this.numCustomOriginX.Size = new System.Drawing.Size(47, 20);
+            this.numCustomOriginX.TabIndex = 22;
+            this.toolTip.SetToolTip(this.numCustomOriginX, "Origin X");
+            // 
+            // numCustomOriginY
+            // 
+            this.numCustomOriginY.Location = new System.Drawing.Point(339, 10);
+            this.numCustomOriginY.Name = "numCustomOriginY";
+            this.numCustomOriginY.Size = new System.Drawing.Size(47, 20);
+            this.numCustomOriginY.TabIndex = 23;
+            this.toolTip.SetToolTip(this.numCustomOriginY, "Origin Y");
+            // 
+            // cmboCustomPost
+            // 
+            this.cmboCustomPost.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmboCustomPost.FormattingEnabled = true;
+            this.cmboCustomPost.Items.AddRange(new object[] {
+            "(Without)",
+            "Normalization",
+            "Absolute",
+            "Cut-off"});
+            this.cmboCustomPost.Location = new System.Drawing.Point(287, 32);
+            this.cmboCustomPost.Name = "cmboCustomPost";
+            this.cmboCustomPost.Size = new System.Drawing.Size(99, 21);
+            this.cmboCustomPost.TabIndex = 36;
+            this.toolTip.SetToolTip(this.cmboCustomPost, "Post Processing");
+            // 
             // mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1317,6 +1393,10 @@ namespace ImageProcessing
             ((System.ComponentModel.ISupportInitialize)(this.rightPictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.middlePictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.leftPictureBox)).EndInit();
+            this.tabPage4.ResumeLayout(false);
+            this.tabPage4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numCustomOriginX)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numCustomOriginY)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1397,6 +1477,12 @@ namespace ImageProcessing
         private System.Windows.Forms.NumericUpDown numStatsK0;
         private System.Windows.Forms.TrackBar slideMLGaussian;
         private System.Windows.Forms.RadioButton rdioMLGaussian;
+        private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.TextBox txtCustomFilter;
+        private System.Windows.Forms.Button btnCustomApply;
+        private System.Windows.Forms.NumericUpDown numCustomOriginY;
+        private System.Windows.Forms.NumericUpDown numCustomOriginX;
+        private System.Windows.Forms.ComboBox cmboCustomPost;
     }
 }
 

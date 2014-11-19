@@ -16,7 +16,7 @@ namespace ImageProcessing
             return res;
         }
 
-        private static Bitmap LinearFilter(Bitmap bitmap, Filter f, int originX, int originY, PostProcessing postProcessing)
+        public static Bitmap LinearFilter(Bitmap bitmap, Filter f, int originX, int originY, PostProcessing postProcessing)
         {
             Bitmap newBitmap = new Bitmap(bitmap.Width,bitmap.Height);
             double[,,] image = new double[3,bitmap.Width,bitmap.Height];
