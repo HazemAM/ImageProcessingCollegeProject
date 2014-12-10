@@ -10,7 +10,7 @@ if type==1
     cc = bwconncomp(i);
     Discs = all-cc.NumObjects;
 else
-    SE = strel('disk',floor(size-5));
+    SE = strel('disk',floor(size/2-5));
     i = imerode(img, SE);
     cc = bwconncomp(i);
     Discs = cc.NumObjects;
