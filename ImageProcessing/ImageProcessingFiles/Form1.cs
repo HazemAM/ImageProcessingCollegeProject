@@ -288,7 +288,7 @@ namespace ImageProcessing
                 for(int j=1; j<histogram.GetLength(1); j++){
                     runningSum[i,j] = runningSum[i,j-1]+histogram[i,j];
                     double roundValue = ((double)runningSum[i,j] / ((double)width*(double)height)) * (double)histogram.GetLength(1)-1;
-                    round[i,j] = (int)Math.Round(roundValue,0);
+                    round[i,j] = (int)Math.Round(roundValue, 0, MidpointRounding.AwayFromZero);
                     round[i,j] = round[i,j]<0 ? 0 : round[i,j];
                     round[i,j] = round[i,j]>255 ? 255 : round[i,j];
                     //Console.WriteLine("{0}+{1} = {2}",runningSum[i,i-1],histogram[i,i],runningSum[i,i]);
