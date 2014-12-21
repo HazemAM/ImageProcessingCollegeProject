@@ -20,7 +20,6 @@ end
 mean_cluster_value = mean(c,2);
 [~, idx] = sort(mean_cluster_value);
 blue_cluster_num = idx(1);
-
 L = lab_img(:,:,1);
 blue_idx = find(pixel_labels == blue_cluster_num);
 L_blue = L(blue_idx);
@@ -29,13 +28,22 @@ mmsLabels = repmat(uint8(0),[nrows ncols]);
 mmsLabels(blue_idx(is_light_blue==false)) = 1;
 mmsLabels = repmat(mmsLabels,[1 1 3]);
 BlueMMs = img;
-BlueMMs(mmsLabels ~= 1) = 0;
-bwBluemms=im2bw(BlueMMs,graythresh(BlueMMs));
-se=strel('disk',10);
-bwemorphed=imdilate(bwBluemms,se);
-se=strel('disk',23);
+meh=img;
+meh(mmsLabels > 0.9) = 0;
+meh(:,:,1)=0;
+meh(:,:,2)=0;
+meh(meh<180)=0;
+BlueMMs(mmsLabels <= 0.9) = 0;
+BlueMMs=BlueMMs+meh;
+beh=BlueMMs(:,:,3);
+bwBluemms=im2bw(beh);
+se=strel('disk',5);
+bwemorphed=imfill(bwBluemms,'holes');
 bwemorphed=imerode(bwemorphed,se);
+bwemorphed=imclose(bwemorphed,se);
+BlueMMs=bwemorphed;
 bmcc=bwconncomp(bwemorphed);
 Count=bmcc.NumObjects;
+x=5;
 end
 
