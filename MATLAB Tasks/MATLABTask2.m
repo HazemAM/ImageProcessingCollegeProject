@@ -41,7 +41,20 @@ se=strel('disk',5);
 bwemorphed=imfill(bwBluemms,'holes');
 bwemorphed=imerode(bwemorphed,se);
 bwemorphed=imclose(bwemorphed,se);
-BlueMMs=bwemorphed;
+BlueMMs=img;
+for j=1:ncols
+    for i=1:nrows
+        if(bwemorphed(i,j)==1)
+            BlueMMs(i,j,1)=img(i,j,1);
+            BlueMMs(i,j,2)=img(i,j,2);
+            BlueMMs(i,j,3)=img(i,j,3);
+        else
+            BlueMMs(i,j,1)=0;
+            BlueMMs(i,j,2)=0;
+            BlueMMs(i,j,3)=0;
+        end
+    end
+end
 bmcc=bwconncomp(bwemorphed);
 Count=bmcc.NumObjects;
 x=5;
