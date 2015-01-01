@@ -3,9 +3,9 @@ function [newImg,pixelCount] = BorderObjects(img)
     img = imcomplement(img);
 
     %Apply morphology:
+    %newImg=bwmorph(img,'remove');
     SE = strel('square',3);
     i = imdilate(img, SE);
-    
     %Create border:
     newImg = i-img;
     

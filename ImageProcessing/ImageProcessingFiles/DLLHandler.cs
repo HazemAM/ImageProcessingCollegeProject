@@ -8,10 +8,10 @@ using System.Drawing;
 
 namespace ImageProcessing
 {
-    class Dll_Handler
+    class DLLHandler
     {
         private MLFilters handler1;
-        public Dll_Handler()
+        public DLLHandler()
         {
             handler1 = new MLFilters();
         }

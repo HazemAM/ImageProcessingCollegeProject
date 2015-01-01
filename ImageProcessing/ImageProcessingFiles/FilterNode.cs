@@ -5,12 +5,12 @@ using System.Drawing;
 
 namespace ImageProcessing
 {
-    class Filter
+    class FilterNode
     {
         private int width;
         private int height;
         private double [,]filter;
-        public Filter(int width, int height)
+        public FilterNode(int width, int height)
         {
             this.width = width;
             this.height = height;

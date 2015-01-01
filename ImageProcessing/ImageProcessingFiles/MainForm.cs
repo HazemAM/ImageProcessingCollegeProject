@@ -1,56 +1,69 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Windows.Forms;
 
 namespace ImageProcessing
 {
     public partial class mainForm : Form
     {
+        List<string> supported = new List<string> {"png", "jpg", "bmp", "tif", "tiff", "gif", "ppm"};
+        Bitmap theOriginalImage;
+        Bitmap sliderCache;
+
         public mainForm(){
             InitializeComponent();
+            
             btnOpen.Select();
             cmboKirsch.SelectedIndex = 0;
             cmboCustomPost.SelectedIndex = 0;
-        }
+            showMiddleImage(false);
 
-        Bitmap theBitmapImage;
-        Image  imageToSave=null;
+            leftPictureBox.AllowDrop = true;
+            middlePictureBox.AllowDrop = true;
+
+            setSliderListeners();
+        }
 
         private void btnOpen_Click(object sender, EventArgs e){
             OpenFileDialog fileDialog = new OpenFileDialog();
             if(fileDialog.ShowDialog()==DialogResult.OK){
-                theBitmapImage = openImage(fileDialog);
-                leftPictureBox.Image  = theBitmapImage;
-                rightPictureBox.Image = getHistogramBitmap(theBitmapImage,null,256,256);
+                Bitmap bitmap = openImage(fileDialog.FileName);
+
+                if(bitmap != null){
+                    theOriginalImage = bitmap;
+                    leftPictureBox.Image  = theOriginalImage;
+                    rightPictureBox.Image = getHistogramBitmap(theOriginalImage,null,256,256);
+                }
             }
         }
 
         private void btnOpenSecond_Click(object sender, EventArgs e){
             OpenFileDialog fileDialog = new OpenFileDialog();
             if(fileDialog.ShowDialog()==DialogResult.OK){
-                Bitmap bitmap = openImage(fileDialog);
-                middlePictureBox.Image = bitmap;
-                rightPictureBox.Image  = getHistogramBitmap(bitmap,null,256,256);
+                Bitmap bitmap = openImage(fileDialog.FileName);
+
+                if(bitmap != null){
+                    middlePictureBox.Image = bitmap;
+                    rightPictureBox.Image  = getHistogramBitmap(bitmap,null,256,256);
+
+                    chckSecondImage.Checked = true;
+                }
             }
         }
 
-        private Bitmap openImage(OpenFileDialog fileDialog){
-            String imageFilePath = fileDialog.FileName.ToLower();
+        private Bitmap openImage(String filePath){
+            string extension = Path.GetExtension(filePath).ToLower();
+            extension = extension.Substring(1, extension.Length-1);
+
             Bitmap bitmap = null;
-            if(imageFilePath.EndsWith(".jpg")  || imageFilePath.EndsWith(".png") ||
-                imageFilePath.EndsWith(".gif") || imageFilePath.EndsWith(".bmp") ||
-                imageFilePath.EndsWith(".tiff")|| imageFilePath.EndsWith(".tif")){
-                bitmap = new Bitmap(imageFilePath);
-            }
-            else if(imageFilePath.EndsWith(".ppm"))
-                bitmap = GetPPMBitmap(imageFilePath);
+            if(extension == "ppm")
+                bitmap = GetPPMBitmap(filePath);
+            else if(supported.Contains(extension))
+                bitmap = new Bitmap(filePath);
             else
                 MessageBox.Show("This type of files is not supported... yet.\n(Are you sure it's an image?)",
                     "Not Supported", MessageBoxButtons.OK);
@@ -136,17 +149,22 @@ namespace ImageProcessing
 
         private void pictureBox_DoubleClick(object sender, MouseEventArgs e){
             //Save the image.
-            if(((PictureBox)sender).Image!=null){
-                saveDialog.FileName = "image.png";
-                saveDialog.Filter   = "PNG|*.png|All files|*.*";
-                imageToSave = ((PictureBox)sender).Image;
-                saveDialog.ShowDialog();
-            }
-        }
+            if( (sender as PictureBox).Image != null ){
+                imageSaveDialog.FileName = "image";
+                imageSaveDialog.Filter   = "BMP|*.bmp|PNG|*.png|All files|*.*";
+                Image imageToSave = (sender as PictureBox).Image;
+                
+                if(imageSaveDialog.ShowDialog() == DialogResult.OK){
+                    ImageFormat format;
+                    string extension = Path.GetExtension(imageSaveDialog.FileName);
+                    
+                    if(extension.ToLower()==".png") format=ImageFormat.Png;
+                    else format=ImageFormat.Bmp;
 
-        private void saveDialog_FileOk(object sender, CancelEventArgs e){
-            imageToSave.Save(saveDialog.FileName, System.Drawing.Imaging.ImageFormat.Png);
-            imageToSave = null;
+                    imageToSave.Save(imageSaveDialog.FileName, format);
+                    imageToSave = null;
+                }
+            }
         }
 
         private void btnTask1Apply_Click(object sender, EventArgs e){
@@ -172,7 +190,7 @@ namespace ImageProcessing
             double shearX=(double)numShearX.Value, shearY=(double)numShearY.Value;
 
             //Do it:
-            rightPictureBox.Image = Transformations.Ops(theBitmapImage, operation, new double[]{scaleX,scaleY, rotX,rotY,rotAngle, shearX,shearY});
+            leftPictureBox.Image = Transformations.Ops((Bitmap)leftPictureBox.Image, operation, new double[]{scaleX,scaleY, rotX,rotY,rotAngle, shearX,shearY});
         }
 
         private Bitmap toGrayScale(Bitmap bitmap){
@@ -287,8 +305,8 @@ namespace ImageProcessing
             for(int i=0; i<histogram.GetLength(0); i++)
                 for(int j=1; j<histogram.GetLength(1); j++){
                     runningSum[i,j] = runningSum[i,j-1]+histogram[i,j];
-                    double roundValue = ((double)runningSum[i,j] / ((double)width*(double)height)) * (double)histogram.GetLength(1)-1;
-                    round[i,j] = (int)Math.Round(roundValue, 0, MidpointRounding.AwayFromZero);
+                    double roundValue = ((double)runningSum[i,j] / ((double)width*(double)height)) * ((double)histogram.GetLength(1)-1);
+                    round[i,j] = (int)Math.Round(Math.Round(roundValue, 1, MidpointRounding.AwayFromZero), 0, MidpointRounding.AwayFromZero);
                     round[i,j] = round[i,j]<0 ? 0 : round[i,j];
                     round[i,j] = round[i,j]>255 ? 255 : round[i,j];
                     //Console.WriteLine("{0}+{1} = {2}",runningSum[i,i-1],histogram[i,i],runningSum[i,i]);
@@ -316,93 +334,137 @@ namespace ImageProcessing
 
 
         private void btnGrayscale_Click(object sender, EventArgs e){
-            if(theBitmapImage==null) return;
-            Bitmap bitmap = toGrayScale(theBitmapImage);
-            middlePictureBox.Image = bitmap;
-            rightPictureBox.Image = getHistogramBitmap(bitmap,null,256,256);
+            Bitmap sourceImage = leftPictureBox.Image as Bitmap;
+            if (sourceImage == null) return;
+
+            Bitmap result = toGrayScale(sourceImage);
+            leftPictureBox.Image = result;
+            rightPictureBox.Image = getHistogramBitmap(result,null,256,256);
         }
 
         private void btnNegative_Click(object sender, EventArgs e){
-            if(theBitmapImage==null) return;
-            Bitmap bitmap = toNegative(theBitmapImage);
-            middlePictureBox.Image = bitmap;
-            rightPictureBox.Image = getHistogramBitmap(bitmap,null,256,256);
+            Bitmap sourceImage = leftPictureBox.Image as Bitmap;
+            if(sourceImage==null) return;
+
+            Bitmap result = toNegative(sourceImage);
+            leftPictureBox.Image = result;
+            rightPictureBox.Image = getHistogramBitmap(result,null,256,256);
         }
 
         private void btnEqualize_Click(object sender, EventArgs e){
-            if(theBitmapImage==null) return;
-            Bitmap bitmap = equalization(theBitmapImage,null);
-            middlePictureBox.Image = bitmap;
-            rightPictureBox.Image = getHistogramBitmap(bitmap,null,256,256);
+            Bitmap sourceImage = leftPictureBox.Image as Bitmap;
+            if(sourceImage==null) return;
+
+            Bitmap result = equalization(sourceImage, null);
+            leftPictureBox.Image = result;
+            rightPictureBox.Image = getHistogramBitmap(result,null,256,256);
         }
 
         private void slideContrast_ValueChanged(object sender, EventArgs e){
-            if(theBitmapImage==null) return;
-            int value = ((TrackBar)sender).Value;
-            Bitmap bitmap = contrast(theBitmapImage,null,value);
-            middlePictureBox.Image = bitmap;
+            Bitmap sourceImage = sliderCache;
+            if(sourceImage==null) return;
+
+            int value = (sender as TrackBar).Value;
+            Bitmap bitmap = contrast(sourceImage, null, value);
+            leftPictureBox.Image = bitmap;
             rightPictureBox.Image = getHistogramBitmap(bitmap,null,256,256);
+
+            toolTip.SetToolTip(sender as TrackBar, value.ToString());
         }
 
         private void slideBrightness_ValueChanged(object sender, EventArgs e){
-            if(theBitmapImage==null) return;
-            int value = ((TrackBar)sender).Value;
-            Bitmap bitmap = new Enhancments().Bright(theBitmapImage,value);
-            middlePictureBox.Image = bitmap;
+            Bitmap sourceImage = sliderCache;
+            if(sourceImage==null) return;
+
+            int value = (sender as TrackBar).Value;
+            Bitmap bitmap = new Enhancments().Bright(sourceImage, value);
+            leftPictureBox.Image = bitmap;
             rightPictureBox.Image = getHistogramBitmap(bitmap,null,256,256);
+
+            toolTip.SetToolTip(sender as TrackBar, value.ToString());
         }
 
         private void slideGamma_ValueChanged(object sender, EventArgs e){
-            if(theBitmapImage==null) return;
-            int value = ((TrackBar)sender).Value;
-            Bitmap bitmap = new Enhancments().Gamma(theBitmapImage,(double)value/10);
-            middlePictureBox.Image = bitmap;
+            Bitmap sourceImage = sliderCache;
+            if(sourceImage==null) return;
+
+            double value = (double)(sender as TrackBar).Value / 10;
+            Bitmap bitmap = new Enhancments().Gamma(sourceImage, value);
+            leftPictureBox.Image = bitmap;
             rightPictureBox.Image = getHistogramBitmap(bitmap,null,256,256);
+
+            toolTip.SetToolTip(sender as TrackBar, value.ToString());
         }
 
         private void btnSlice_Click(object sender, EventArgs e){
-            if(theBitmapImage==null) return;
-            Bitmap bitmap = new Enhancments().BitSlice(theBitmapImage,txtBitMask.Text);
-            middlePictureBox.Image = bitmap;
+            Bitmap sourceImage = leftPictureBox.Image as Bitmap;
+            if(sourceImage==null) return;
+
+            Bitmap bitmap = new Enhancments().BitSlice(sourceImage, txtBitMask.Text);
+            leftPictureBox.Image = bitmap;
             rightPictureBox.Image = getHistogramBitmap(bitmap,null,256,256);
         }
 
         private void btnMatch_Click(object sender, EventArgs e){
-            if(theBitmapImage==null||middlePictureBox.Image==null) return;
-            Bitmap bitmap = new Enhancments().Match(theBitmapImage,(Bitmap)middlePictureBox.Image);
-            rightPictureBox.Image = bitmap;
+            Bitmap firstSourceImage = leftPictureBox.Image as Bitmap;
+            Bitmap secondSourceImage = middlePictureBox.Image as Bitmap;
+            if(firstSourceImage==null || secondSourceImage==null) return;
+
+            Bitmap result = new Enhancments().Match(firstSourceImage, secondSourceImage);
+            leftPictureBox.Image = result;
+
+            rightPictureBox.Image = getHistogramBitmap(result,null,256,256);
+            chckSecondImage.Checked = false;
         }
 
         private void btnSubtract_Click(object sender, EventArgs e){
-            if(theBitmapImage==null||middlePictureBox.Image==null) return;
-            Bitmap bitmap = new Enhancments().Arithmetic(theBitmapImage,(Bitmap)middlePictureBox.Image,0,2);
-            rightPictureBox.Image = bitmap;
+            Bitmap firstSourceImage = leftPictureBox.Image as Bitmap;
+            Bitmap secondSourceImage = middlePictureBox.Image as Bitmap;
+            if(firstSourceImage==null || secondSourceImage==null) return;
+            
+            Bitmap result = new Enhancments().Arithmetic(firstSourceImage, secondSourceImage, 0,2);
+            leftPictureBox.Image = result;
+
+            rightPictureBox.Image = getHistogramBitmap(result,null,256,256);
+            chckSecondImage.Checked = false;
         }
 
         private void btnAdd_Click(object sender, EventArgs e){
-            if(theBitmapImage==null||middlePictureBox.Image==null) return;
-            Bitmap bitmap = new Enhancments().Arithmetic(theBitmapImage,(Bitmap)middlePictureBox.Image,(double)numAddFraction.Value,1);
-            rightPictureBox.Image = bitmap;
+            Bitmap firstSourceImage = leftPictureBox.Image as Bitmap;
+            Bitmap secondSourceImage = middlePictureBox.Image as Bitmap;
+            if(firstSourceImage==null || secondSourceImage==null) return;
+
+            Bitmap result = new Enhancments().Arithmetic(firstSourceImage, secondSourceImage, (double)numAddFraction.Value, 1);
+            leftPictureBox.Image = result;
+
+            rightPictureBox.Image = getHistogramBitmap(result,null,256,256);
+            chckSecondImage.Checked = false;
         }
 
-        private void btnOrgnlHisto_Click(object sender, EventArgs e){
-            if(theBitmapImage==null) return;
-            middlePictureBox.Image=null; middlePictureBox.Refresh();
-            rightPictureBox.Image = getHistogramBitmap(theBitmapImage,null,256,256);
+        private void btnRestoreOriginal_Click(object sender, EventArgs e){
+            Bitmap sourceImage = theOriginalImage;
+            if(sourceImage==null) return;
+
+            leftPictureBox.Image=sourceImage; middlePictureBox.Refresh();
+            rightPictureBox.Image = getHistogramBitmap(sourceImage,null,256,256);
         }
 
         private void btnTask3Apply_Click(object sender, EventArgs e){
-            Bitmap bitmap = null;
+            Bitmap sourceImage = leftPictureBox.Image as Bitmap;
+            if(sourceImage == null) return;
+
+            Bitmap resultImage = null;
             if(rdioMean.Checked)
-                bitmap = filters.Mean(theBitmapImage, (int)numMeanMaskWidth.Value, (int)numMeanMaskHeight.Value, (int)numMeanOriginX.Value, (int)numMeanOriginY.Value);
+                resultImage = Filters.Mean(sourceImage, (int)numMeanMaskWidth.Value, (int)numMeanMaskHeight.Value, (int)numMeanOriginX.Value, (int)numMeanOriginY.Value);
             else if(rdioGaussian.Checked){
-                if(numGaussMaskSize.Value==0) bitmap = filters.Gaussian(theBitmapImage, (double)numGaussSigma.Value);
-                else bitmap = filters.Gaussian(theBitmapImage, (int)numGaussMaskSize.Value, (double)numGaussSigma.Value);
+                if(numGaussSigma.Value==0) return;
+                if(numGaussMaskSize.Value==0) resultImage = Filters.Gaussian(sourceImage, (double)numGaussSigma.Value);
+                else resultImage = Filters.Gaussian(sourceImage, (int)numGaussMaskSize.Value, (double)numGaussSigma.Value);
             }
             else if(rdioUnsharp.Checked)
-                bitmap = filters.highBoost(theBitmapImage, (int)numUnsharpMaskSize.Value, (double)numUnsharpSigma.Value, (double)numUnsharpK.Value);
+                resultImage = Filters.highBoost(sourceImage, (int)numUnsharpMaskSize.Value, (double)numUnsharpSigma.Value, (double)numUnsharpK.Value);
             else if(rdioLaplaceSharp.Checked)
-                bitmap = filters.LaplacianSharpen(theBitmapImage, 1);
+                resultImage = Filters.LaplacianSharpen(sourceImage, 1);
             else if(rdioKirschEdge.Checked){
                 KirschType type;
                 if(cmboKirsch.SelectedIndex==0) type=KirschType.Horizontal;
@@ -410,55 +472,67 @@ namespace ImageProcessing
                 else if(cmboKirsch.SelectedIndex==2) type=KirschType.Diagonal1;
                 else if(cmboKirsch.SelectedIndex==3) type=KirschType.Diagonal2;
                 else type=KirschType.Horizontal;
-                bitmap = filters.kirsch(theBitmapImage, type);
+                resultImage = Filters.kirsch(sourceImage, type);
             }
 
-            middlePictureBox.Image = bitmap;
-            rightPictureBox.Image = getHistogramBitmap(bitmap,null,256,256);
+            leftPictureBox.Image = resultImage;
+            rightPictureBox.Image = getHistogramBitmap(resultImage,null,256,256);
         }
 
         private void btnMatlabApply_Click(object sender, EventArgs e){
-            if(leftPictureBox.Image==null) return;
+            Bitmap sourceImage = leftPictureBox.Image as Bitmap;
+            if(sourceImage==null || rdioMLGaussian.Checked) return;
 
-            Bitmap bitmap = null;
+            Bitmap result = null;
             if(rdioRtnx.Checked)
-                bitmap = new Dll_Handler().Retinex(theBitmapImage, (double)numRtnxSigma.Value);
+                result = new DLLHandler().Retinex(sourceImage, (double)numRtnxSigma.Value);
             else if(rdioLHE.Checked)
-                bitmap = new Dll_Handler().LocalHistEQ(theBitmapImage, (int)numLHEWindow.Value);
+                result = new DLLHandler().LocalHistEQ(sourceImage, (int)numLHEWindow.Value);
             else if(rdioStats.Checked)
-                bitmap = new Dll_Handler().LocalStat(theBitmapImage,
+                result = new DLLHandler().LocalStat(sourceImage,
                     (int)numStatsWindow.Value, (double)numStatsE.Value,
                     (double)numStatsK0.Value, (double)numStatsK1.Value, (double)numStatsK2.Value);
+            //MATLAB gaussian filter is handled within the slider listener.
 
-            if(!rdioMLGaussian.Checked){
-                middlePictureBox.Image = bitmap;
-                rightPictureBox.Image = getHistogramBitmap(bitmap, null, 256, 256);
-            }
+            leftPictureBox.Image = result;
+            rightPictureBox.Image = getHistogramBitmap(result, null, 256, 256);
         }
 
         private void slideMLGaussian_Scroll(object sender, EventArgs e){
-            if(theBitmapImage==null) return;
+            Bitmap sourceImage = sliderCache;
+            if(sourceImage==null) return;
             rdioMLGaussian.Checked = true;
-            double value = (double)((TrackBar)sender).Value/10;
-            Bitmap bitmap = (Bitmap)leftPictureBox.Image;
-            if(value>0) bitmap = new Dll_Handler().GaussianBlur(theBitmapImage,value);
-            middlePictureBox.Image = bitmap;
-            rightPictureBox.Image  = getHistogramBitmap(bitmap, null, 256, 256);
+
+            Bitmap result = null;
+            double sigma = (double)(sender as TrackBar).Value / 10;
+            if(sigma==0) return;
+
+            if(sigma>0) result = new DLLHandler().GaussianBlur(sourceImage, sigma);
+            leftPictureBox.Image = result;
+            rightPictureBox.Image  = getHistogramBitmap(result, null, 256, 256);
+
+            toolTip.SetToolTip(sender as TrackBar, sigma.ToString());
         }
 
         private void btnCustomApply_Click(object sender, EventArgs e){
-            if(theBitmapImage==null) return;
+            if(leftPictureBox.Image==null) return;
 
             String[] tempMaskString = txtCustomFilter.Text.Split(new String[]{Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries);
             int maskWidth = tempMaskString[0].Split(new String[]{" "}, StringSplitOptions.RemoveEmptyEntries).Length;
 
-            Filter f = new Filter(tempMaskString.GetLength(0),maskWidth); f.CreateFilter();
+            FilterNode f = new FilterNode(tempMaskString.GetLength(0),maskWidth); f.CreateFilter();
             double[,] mask = f.getFilter();
 
-            for(int i=0; i<tempMaskString.Length; i++){
-                String[] tempMaskRowString = tempMaskString[i].Split(new String[]{" "}, StringSplitOptions.RemoveEmptyEntries);
-                for(int j=0; j<tempMaskRowString.Length; j++)
-                    mask[i,j] = double.Parse(tempMaskRowString[j]);
+            try{
+                for(int i=0; i<tempMaskString.Length; i++){
+                    String[] tempMaskRowString = tempMaskString[i].Split(new String[]{" "}, StringSplitOptions.RemoveEmptyEntries);
+                    for(int j=0; j<tempMaskRowString.Length; j++)
+                        mask[i,j] = double.Parse(tempMaskRowString[j]);
+                }
+            } catch {
+                MessageBox.Show("The mask is not in a right format.", "Format error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
 
             PostProcessing post = PostProcessing.No;
@@ -471,13 +545,86 @@ namespace ImageProcessing
 
             Bitmap bitmap = null;
             try{
-                bitmap = filters.LinearFilter(theBitmapImage, f, (int)numCustomOriginX.Value, (int)numCustomOriginY.Value, post);
-                middlePictureBox.Image = bitmap;
+                bitmap = Filters.LinearFilter(leftPictureBox.Image as Bitmap, f, (int)numCustomOriginX.Value, (int)numCustomOriginY.Value, post);
+                leftPictureBox.Image = bitmap;
                 rightPictureBox.Image = getHistogramBitmap(bitmap, null, 256, 256);
             } catch {
                 MessageBox.Show("Something went wrong.\nMake sure you choose the right post-processing method.","Watch out!",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+        }
+
+        private void showMiddleImage(bool show){
+            if(show){
+                imagesTableLayoutPanel.ColumnStyles[1].SizeType = SizeType.Percent;
+                imagesTableLayoutPanel.ColumnStyles[1].Width = 50.0f;
+            }
+            else{
+                middlePictureBox.Image = null;
+                imagesTableLayoutPanel.ColumnStyles[1].SizeType = SizeType.Absolute;
+                imagesTableLayoutPanel.ColumnStyles[1].Width = 0;
+            }
+        }
+
+        private void chckSecondImage_CheckedChanged(object sender, EventArgs e){
+            showMiddleImage( (sender as CheckBox).Checked );
+        }
+
+        private void pictureBox_DragEnter(object sender, DragEventArgs e){
+            string[] filePaths = (string[])(e.Data.GetData(DataFormats.FileDrop));
+            string extension = Path.GetExtension(filePaths[0]).ToLower();
+            extension = extension.Substring(1, extension.Length-1);
+
+            if(supported.Contains(extension))
+                e.Effect = DragDropEffects.Copy;
+            else
+                e.Effect = DragDropEffects.None;
+        }
+
+        private void pictureBox_DragDrop(object sender, DragEventArgs e){
+            PictureBox pictureBox = (sender as PictureBox);
+            string[] filePaths = (string[])(e.Data.GetData(DataFormats.FileDrop));
+            pictureBox.Image = theOriginalImage = openImage(filePaths[0]);
+
+            if(pictureBox == leftPictureBox)
+                rightPictureBox.Image = getHistogramBitmap(pictureBox.Image as Bitmap, null, 256, 256);
+        }
+
+        private void setSliderListeners(){
+            slideContrast.Enter += slider_GotAndLostFocus;
+            slideContrast.LostFocus += slider_GotAndLostFocus;
+
+            slideBrightness.Enter += slider_GotAndLostFocus;
+            slideGamma.LostFocus += slider_GotAndLostFocus;
+
+            slideGamma.Enter += slider_GotAndLostFocus;
+            slideGamma.LostFocus += slider_GotAndLostFocus;
+
+            slideMLGaussian.Enter += slider_GotAndLostFocus;
+            slideMLGaussian.LostFocus += slider_GotAndLostFocus;
+        }
+
+        private void slider_GotAndLostFocus(object sender, EventArgs e){
+            sliderCache = leftPictureBox.Image as Bitmap;
+        }
+
+        private void btnOpenMask_Click(object sender, EventArgs e){
+            OpenFileDialog fileDialog = new OpenFileDialog();
+            
+            if(fileDialog.ShowDialog() == DialogResult.OK)
+                if(File.Exists(fileDialog.FileName)){
+                    txtCustomFilter.Text = File.ReadAllText(fileDialog.FileName);
+                    txtCustomFilter.Focus();
+                }
+        }
+
+        private void btnSaveMask_Click(object sender, EventArgs e){
+            SaveFileDialog saveDialog = new SaveFileDialog();
+            saveDialog.FileName = "mask";
+            saveDialog.Filter = "Text files|*.txt|All files|*.*";
+
+            if(saveDialog.ShowDialog() == DialogResult.OK)
+                File.WriteAllText(saveDialog.FileName, txtCustomFilter.Text);
         }
     }
 }

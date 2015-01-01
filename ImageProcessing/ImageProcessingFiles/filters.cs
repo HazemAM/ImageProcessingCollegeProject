@@ -5,18 +5,18 @@ using System.Drawing;
 
 namespace ImageProcessing
 {
-    class filters
+    class Filters
     {
         static public Bitmap  Mean(Bitmap inp,int width,int height,int xOrig,int yOrig)
         {
             Bitmap res=new Bitmap(inp);
-            Filter f = new Filter(width, height);
+            FilterNode f = new FilterNode(width, height);
             f.CreateFilter( (double)1/((double)width*(double)height) );
             res = LinearFilter(inp,f,xOrig,yOrig,PostProcessing.No);
             return res;
         }
 
-        public static Bitmap LinearFilter(Bitmap bitmap, Filter f, int originX, int originY, PostProcessing postProcessing)
+        public static Bitmap LinearFilter(Bitmap bitmap, FilterNode f, int originX, int originY, PostProcessing postProcessing)
         {
             Bitmap newBitmap = new Bitmap(bitmap.Width,bitmap.Height);
             double[,,] image = new double[3,bitmap.Width,bitmap.Height];
@@ -101,7 +101,7 @@ namespace ImageProcessing
         static public Bitmap LaplacianSharpen(Bitmap inp, int type)
         {
             Bitmap res = new Bitmap(inp);
-            Filter f = new Filter(3,3);
+            FilterNode f = new FilterNode(3,3);
             f.CreateFilter();
             double[,] filter = f.getFilter();
             if (type == 0)
@@ -209,7 +209,7 @@ namespace ImageProcessing
         static public Bitmap kirsch(Bitmap inp, KirschType t)
         {
             Bitmap res = new Bitmap(inp);
-            Filter f = new Filter(3, 3);
+            FilterNode f = new FilterNode(3, 3);
             f.CreateFilter();
             double[,] filter = f.getFilter();
             if (t == KirschType.Horizontal)
@@ -267,7 +267,7 @@ namespace ImageProcessing
         public static Bitmap Gaussian(Bitmap bitmap, int maskSize, double sigma){
             Bitmap newBitmap = new Bitmap(bitmap.Width,bitmap.Height);
 
-            Filter f = new Filter(maskSize,maskSize);
+            FilterNode f = new FilterNode(maskSize,maskSize);
             f.CreateFilter();
             double[,] mask = f.getFilter();
 
@@ -294,7 +294,7 @@ namespace ImageProcessing
             double maskSize = (2*((3.7*sigma)-0.5))+1;
             maskSize = (int)maskSize;
 
-            Filter f = new Filter((int)maskSize,(int)maskSize);
+            FilterNode f = new FilterNode((int)maskSize,(int)maskSize);
             f.CreateFilter();
             double[,] mask = f.getFilter();
 

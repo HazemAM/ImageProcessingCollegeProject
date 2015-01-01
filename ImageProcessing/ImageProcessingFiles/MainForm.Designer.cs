@@ -56,6 +56,9 @@ namespace ImageProcessing
             this.numStatsK2 = new System.Windows.Forms.NumericUpDown();
             this.numLHEWindow = new System.Windows.Forms.NumericUpDown();
             this.numRtnxSigma = new System.Windows.Forms.NumericUpDown();
+            this.numCustomOriginX = new System.Windows.Forms.NumericUpDown();
+            this.numCustomOriginY = new System.Windows.Forms.NumericUpDown();
+            this.cmboCustomPost = new System.Windows.Forms.ComboBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -73,13 +76,17 @@ namespace ImageProcessing
             this.btnTask3Apply = new System.Windows.Forms.Button();
             this.rdioGaussian = new System.Windows.Forms.RadioButton();
             this.rdioUnsharp = new System.Windows.Forms.RadioButton();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.txtCustomFilter = new System.Windows.Forms.TextBox();
+            this.btnCustomApply = new System.Windows.Forms.Button();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.btnTask1Apply = new System.Windows.Forms.Button();
             this.rdioAll = new System.Windows.Forms.RadioButton();
             this.rdioShear = new System.Windows.Forms.RadioButton();
             this.rdioRotation = new System.Windows.Forms.RadioButton();
             this.rdioScale = new System.Windows.Forms.RadioButton();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.chckSecondImage = new System.Windows.Forms.CheckBox();
             this.button9 = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnOrgnlHisto = new System.Windows.Forms.Button();
@@ -99,17 +106,13 @@ namespace ImageProcessing
             this.label1 = new System.Windows.Forms.Label();
             this.slideContrast = new System.Windows.Forms.TrackBar();
             this.btnGrayscale = new System.Windows.Forms.Button();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.imagesTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.rightPictureBox = new System.Windows.Forms.PictureBox();
             this.middlePictureBox = new System.Windows.Forms.PictureBox();
             this.leftPictureBox = new System.Windows.Forms.PictureBox();
-            this.saveDialog = new System.Windows.Forms.SaveFileDialog();
-            this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.btnCustomApply = new System.Windows.Forms.Button();
-            this.txtCustomFilter = new System.Windows.Forms.TextBox();
-            this.numCustomOriginX = new System.Windows.Forms.NumericUpDown();
-            this.numCustomOriginY = new System.Windows.Forms.NumericUpDown();
-            this.cmboCustomPost = new System.Windows.Forms.ComboBox();
+            this.imageSaveDialog = new System.Windows.Forms.SaveFileDialog();
+            this.btnOpenMask = new System.Windows.Forms.Button();
+            this.btnSaveMask = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numShearX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numScaleY)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numShearY)).BeginInit();
@@ -133,33 +136,33 @@ namespace ImageProcessing
             ((System.ComponentModel.ISupportInitialize)(this.numStatsK2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numLHEWindow)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numRtnxSigma)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numCustomOriginX)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numCustomOriginY)).BeginInit();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.slideMLGaussian)).BeginInit();
             this.tabPage2.SuspendLayout();
+            this.tabPage4.SuspendLayout();
             this.tabPage1.SuspendLayout();
-            this.groupBox3.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numAddFraction)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.slideGamma)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.slideBrightness)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.slideContrast)).BeginInit();
-            this.tableLayoutPanel1.SuspendLayout();
+            this.imagesTableLayoutPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.rightPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.middlePictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.leftPictureBox)).BeginInit();
-            this.tabPage4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numCustomOriginX)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numCustomOriginY)).BeginInit();
             this.SuspendLayout();
             // 
             // btnOpen
             // 
             this.btnOpen.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnOpen.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnOpen.Location = new System.Drawing.Point(3, 27);
+            this.btnOpen.Location = new System.Drawing.Point(3, 19);
             this.btnOpen.Margin = new System.Windows.Forms.Padding(5);
             this.btnOpen.Name = "btnOpen";
             this.btnOpen.Size = new System.Drawing.Size(126, 62);
@@ -170,18 +173,21 @@ namespace ImageProcessing
             // 
             // toolTip
             // 
-            this.toolTip.AutomaticDelay = 200;
+            this.toolTip.AutomaticDelay = 0;
+            this.toolTip.AutoPopDelay = 0;
+            this.toolTip.InitialDelay = 0;
+            this.toolTip.ReshowDelay = 0;
             // 
             // numShearX
             // 
-            this.numShearX.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.numShearX.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.numShearX.DecimalPlaces = 2;
             this.numShearX.Increment = new decimal(new int[] {
             1,
             0,
             0,
             65536});
-            this.numShearX.Location = new System.Drawing.Point(161, 60);
+            this.numShearX.Location = new System.Drawing.Point(166, 60);
             this.numShearX.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -194,14 +200,14 @@ namespace ImageProcessing
             // 
             // numScaleY
             // 
-            this.numScaleY.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.numScaleY.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.numScaleY.DecimalPlaces = 2;
             this.numScaleY.Increment = new decimal(new int[] {
             1,
             0,
             0,
             65536});
-            this.numScaleY.Location = new System.Drawing.Point(212, 10);
+            this.numScaleY.Location = new System.Drawing.Point(217, 10);
             this.numScaleY.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -224,14 +230,14 @@ namespace ImageProcessing
             // 
             // numShearY
             // 
-            this.numShearY.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.numShearY.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.numShearY.DecimalPlaces = 2;
             this.numShearY.Increment = new decimal(new int[] {
             1,
             0,
             0,
             65536});
-            this.numShearY.Location = new System.Drawing.Point(212, 60);
+            this.numShearY.Location = new System.Drawing.Point(217, 60);
             this.numShearY.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -244,14 +250,14 @@ namespace ImageProcessing
             // 
             // numScaleX
             // 
-            this.numScaleX.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.numScaleX.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.numScaleX.DecimalPlaces = 2;
             this.numScaleX.Increment = new decimal(new int[] {
             1,
             0,
             0,
             65536});
-            this.numScaleX.Location = new System.Drawing.Point(161, 10);
+            this.numScaleX.Location = new System.Drawing.Point(166, 10);
             this.numScaleX.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -274,13 +280,13 @@ namespace ImageProcessing
             // 
             // numRotAngle
             // 
-            this.numRotAngle.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.numRotAngle.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.numRotAngle.Increment = new decimal(new int[] {
             5,
             0,
             0,
             0});
-            this.numRotAngle.Location = new System.Drawing.Point(263, 35);
+            this.numRotAngle.Location = new System.Drawing.Point(268, 35);
             this.numRotAngle.Maximum = new decimal(new int[] {
             360,
             0,
@@ -298,8 +304,8 @@ namespace ImageProcessing
             // 
             // numRotY
             // 
-            this.numRotY.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.numRotY.Location = new System.Drawing.Point(212, 35);
+            this.numRotY.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.numRotY.Location = new System.Drawing.Point(217, 35);
             this.numRotY.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -312,8 +318,8 @@ namespace ImageProcessing
             // 
             // numRotX
             // 
-            this.numRotX.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.numRotX.Location = new System.Drawing.Point(161, 35);
+            this.numRotX.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.numRotX.Location = new System.Drawing.Point(166, 35);
             this.numRotX.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -326,7 +332,7 @@ namespace ImageProcessing
             // 
             // numGaussMaskSize
             // 
-            this.numGaussMaskSize.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.numGaussMaskSize.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.numGaussMaskSize.Location = new System.Drawing.Point(177, 25);
             this.numGaussMaskSize.Minimum = new decimal(new int[] {
             100,
@@ -340,7 +346,7 @@ namespace ImageProcessing
             // 
             // numGaussSigma
             // 
-            this.numGaussSigma.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.numGaussSigma.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.numGaussSigma.DecimalPlaces = 1;
             this.numGaussSigma.Increment = new decimal(new int[] {
             5,
@@ -360,7 +366,7 @@ namespace ImageProcessing
             // 
             // numMeanMaskWidth
             // 
-            this.numMeanMaskWidth.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.numMeanMaskWidth.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.numMeanMaskWidth.Location = new System.Drawing.Point(177, 3);
             this.numMeanMaskWidth.Minimum = new decimal(new int[] {
             100,
@@ -374,7 +380,7 @@ namespace ImageProcessing
             // 
             // numUnsharpSigma
             // 
-            this.numUnsharpSigma.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.numUnsharpSigma.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.numUnsharpSigma.DecimalPlaces = 1;
             this.numUnsharpSigma.Increment = new decimal(new int[] {
             5,
@@ -394,7 +400,7 @@ namespace ImageProcessing
             // 
             // numMeanMaskHeight
             // 
-            this.numMeanMaskHeight.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.numMeanMaskHeight.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.numMeanMaskHeight.Location = new System.Drawing.Point(228, 3);
             this.numMeanMaskHeight.Minimum = new decimal(new int[] {
             100,
@@ -408,7 +414,7 @@ namespace ImageProcessing
             // 
             // numUnsharpMaskSize
             // 
-            this.numUnsharpMaskSize.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.numUnsharpMaskSize.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.numUnsharpMaskSize.Location = new System.Drawing.Point(177, 47);
             this.numUnsharpMaskSize.Minimum = new decimal(new int[] {
             100,
@@ -422,7 +428,7 @@ namespace ImageProcessing
             // 
             // numMeanOriginX
             // 
-            this.numMeanOriginX.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.numMeanOriginX.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.numMeanOriginX.Location = new System.Drawing.Point(279, 3);
             this.numMeanOriginX.Minimum = new decimal(new int[] {
             100,
@@ -436,7 +442,7 @@ namespace ImageProcessing
             // 
             // numMeanOriginY
             // 
-            this.numMeanOriginY.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.numMeanOriginY.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.numMeanOriginY.Location = new System.Drawing.Point(330, 3);
             this.numMeanOriginY.Minimum = new decimal(new int[] {
             100,
@@ -450,7 +456,7 @@ namespace ImageProcessing
             // 
             // numUnsharpK
             // 
-            this.numUnsharpK.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.numUnsharpK.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.numUnsharpK.DecimalPlaces = 1;
             this.numUnsharpK.Location = new System.Drawing.Point(279, 47);
             this.numUnsharpK.Minimum = new decimal(new int[] {
@@ -465,7 +471,7 @@ namespace ImageProcessing
             // 
             // rdioLHE
             // 
-            this.rdioLHE.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.rdioLHE.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rdioLHE.AutoSize = true;
             this.rdioLHE.Location = new System.Drawing.Point(52, 36);
             this.rdioLHE.Name = "rdioLHE";
@@ -477,7 +483,7 @@ namespace ImageProcessing
             // 
             // numStatsE
             // 
-            this.numStatsE.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.numStatsE.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.numStatsE.DecimalPlaces = 2;
             this.numStatsE.Increment = new decimal(new int[] {
             1,
@@ -497,7 +503,7 @@ namespace ImageProcessing
             // 
             // numStatsWindow
             // 
-            this.numStatsWindow.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.numStatsWindow.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.numStatsWindow.Increment = new decimal(new int[] {
             2,
             0,
@@ -526,7 +532,7 @@ namespace ImageProcessing
             // 
             // numStatsK1
             // 
-            this.numStatsK1.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.numStatsK1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.numStatsK1.DecimalPlaces = 2;
             this.numStatsK1.Increment = new decimal(new int[] {
             1,
@@ -546,7 +552,7 @@ namespace ImageProcessing
             // 
             // numStatsK0
             // 
-            this.numStatsK0.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.numStatsK0.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.numStatsK0.DecimalPlaces = 2;
             this.numStatsK0.Increment = new decimal(new int[] {
             1,
@@ -566,7 +572,7 @@ namespace ImageProcessing
             // 
             // numStatsK2
             // 
-            this.numStatsK2.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.numStatsK2.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.numStatsK2.DecimalPlaces = 2;
             this.numStatsK2.Increment = new decimal(new int[] {
             1,
@@ -586,7 +592,7 @@ namespace ImageProcessing
             // 
             // numLHEWindow
             // 
-            this.numLHEWindow.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.numLHEWindow.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.numLHEWindow.Increment = new decimal(new int[] {
             2,
             0,
@@ -615,7 +621,7 @@ namespace ImageProcessing
             // 
             // numRtnxSigma
             // 
-            this.numRtnxSigma.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.numRtnxSigma.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.numRtnxSigma.DecimalPlaces = 2;
             this.numRtnxSigma.Location = new System.Drawing.Point(123, 10);
             this.numRtnxSigma.Maximum = new decimal(new int[] {
@@ -638,12 +644,46 @@ namespace ImageProcessing
             0,
             0});
             // 
+            // numCustomOriginX
+            // 
+            this.numCustomOriginX.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.numCustomOriginX.Location = new System.Drawing.Point(338, 10);
+            this.numCustomOriginX.Name = "numCustomOriginX";
+            this.numCustomOriginX.Size = new System.Drawing.Size(47, 20);
+            this.numCustomOriginX.TabIndex = 22;
+            this.toolTip.SetToolTip(this.numCustomOriginX, "Origin X");
+            // 
+            // numCustomOriginY
+            // 
+            this.numCustomOriginY.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.numCustomOriginY.Location = new System.Drawing.Point(390, 10);
+            this.numCustomOriginY.Name = "numCustomOriginY";
+            this.numCustomOriginY.Size = new System.Drawing.Size(47, 20);
+            this.numCustomOriginY.TabIndex = 23;
+            this.toolTip.SetToolTip(this.numCustomOriginY, "Origin Y");
+            // 
+            // cmboCustomPost
+            // 
+            this.cmboCustomPost.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.cmboCustomPost.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmboCustomPost.FormattingEnabled = true;
+            this.cmboCustomPost.Items.AddRange(new object[] {
+            "(Without)",
+            "Normalization",
+            "Absolute",
+            "Cut-off"});
+            this.cmboCustomPost.Location = new System.Drawing.Point(338, 32);
+            this.cmboCustomPost.Name = "cmboCustomPost";
+            this.cmboCustomPost.Size = new System.Drawing.Size(99, 21);
+            this.cmboCustomPost.TabIndex = 36;
+            this.toolTip.SetToolTip(this.cmboCustomPost, "Post Processing");
+            // 
             // tableLayoutPanel2
             // 
             this.tableLayoutPanel2.ColumnCount = 1;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel3, 0, 1);
-            this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel1, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.imagesTableLayoutPanel, 0, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
@@ -661,7 +701,7 @@ namespace ImageProcessing
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 138F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel3.Controls.Add(this.tabControl1, 0, 0);
-            this.tableLayoutPanel3.Controls.Add(this.groupBox3, 1, 0);
+            this.tableLayoutPanel3.Controls.Add(this.panel1, 1, 0);
             this.tableLayoutPanel3.Controls.Add(this.groupBox1, 2, 0);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 414);
@@ -710,7 +750,7 @@ namespace ImageProcessing
             // 
             // rdioMLGaussian
             // 
-            this.rdioMLGaussian.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.rdioMLGaussian.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rdioMLGaussian.AutoSize = true;
             this.rdioMLGaussian.Location = new System.Drawing.Point(52, 83);
             this.rdioMLGaussian.Name = "rdioMLGaussian";
@@ -721,7 +761,7 @@ namespace ImageProcessing
             // 
             // btnMatlabApply
             // 
-            this.btnMatlabApply.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.btnMatlabApply.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnMatlabApply.Location = new System.Drawing.Point(404, 36);
             this.btnMatlabApply.Name = "btnMatlabApply";
             this.btnMatlabApply.Size = new System.Drawing.Size(63, 44);
@@ -732,7 +772,7 @@ namespace ImageProcessing
             // 
             // rdioStats
             // 
-            this.rdioStats.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.rdioStats.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rdioStats.AutoSize = true;
             this.rdioStats.Location = new System.Drawing.Point(52, 60);
             this.rdioStats.Name = "rdioStats";
@@ -743,7 +783,7 @@ namespace ImageProcessing
             // 
             // rdioRtnx
             // 
-            this.rdioRtnx.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.rdioRtnx.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rdioRtnx.AutoSize = true;
             this.rdioRtnx.Checked = true;
             this.rdioRtnx.Location = new System.Drawing.Point(52, 12);
@@ -756,7 +796,7 @@ namespace ImageProcessing
             // 
             // slideMLGaussian
             // 
-            this.slideMLGaussian.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.slideMLGaussian.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.slideMLGaussian.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.slideMLGaussian.LargeChange = 10;
             this.slideMLGaussian.Location = new System.Drawing.Point(115, 83);
@@ -796,6 +836,7 @@ namespace ImageProcessing
             // 
             // cmboKirsch
             // 
+            this.cmboKirsch.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.cmboKirsch.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmboKirsch.FormattingEnabled = true;
             this.cmboKirsch.Items.AddRange(new object[] {
@@ -810,7 +851,7 @@ namespace ImageProcessing
             // 
             // rdioLaplaceSharp
             // 
-            this.rdioLaplaceSharp.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.rdioLaplaceSharp.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rdioLaplaceSharp.AutoSize = true;
             this.rdioLaplaceSharp.Location = new System.Drawing.Point(44, 90);
             this.rdioLaplaceSharp.Name = "rdioLaplaceSharp";
@@ -821,7 +862,7 @@ namespace ImageProcessing
             // 
             // rdioKirschEdge
             // 
-            this.rdioKirschEdge.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.rdioKirschEdge.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rdioKirschEdge.AutoSize = true;
             this.rdioKirschEdge.Location = new System.Drawing.Point(44, 69);
             this.rdioKirschEdge.Name = "rdioKirschEdge";
@@ -832,7 +873,7 @@ namespace ImageProcessing
             // 
             // rdioMean
             // 
-            this.rdioMean.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.rdioMean.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rdioMean.AutoSize = true;
             this.rdioMean.Checked = true;
             this.rdioMean.Location = new System.Drawing.Point(44, 5);
@@ -845,7 +886,7 @@ namespace ImageProcessing
             // 
             // btnTask3Apply
             // 
-            this.btnTask3Apply.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.btnTask3Apply.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnTask3Apply.Location = new System.Drawing.Point(388, 33);
             this.btnTask3Apply.Name = "btnTask3Apply";
             this.btnTask3Apply.Size = new System.Drawing.Size(63, 44);
@@ -856,7 +897,7 @@ namespace ImageProcessing
             // 
             // rdioGaussian
             // 
-            this.rdioGaussian.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.rdioGaussian.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rdioGaussian.AutoSize = true;
             this.rdioGaussian.Location = new System.Drawing.Point(44, 26);
             this.rdioGaussian.Name = "rdioGaussian";
@@ -867,7 +908,7 @@ namespace ImageProcessing
             // 
             // rdioUnsharp
             // 
-            this.rdioUnsharp.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.rdioUnsharp.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rdioUnsharp.AutoSize = true;
             this.rdioUnsharp.Location = new System.Drawing.Point(44, 48);
             this.rdioUnsharp.Name = "rdioUnsharp";
@@ -875,6 +916,44 @@ namespace ImageProcessing
             this.rdioUnsharp.TabIndex = 30;
             this.rdioUnsharp.Text = "Unsharp";
             this.rdioUnsharp.UseVisualStyleBackColor = true;
+            // 
+            // tabPage4
+            // 
+            this.tabPage4.Controls.Add(this.btnSaveMask);
+            this.tabPage4.Controls.Add(this.btnOpenMask);
+            this.tabPage4.Controls.Add(this.cmboCustomPost);
+            this.tabPage4.Controls.Add(this.numCustomOriginY);
+            this.tabPage4.Controls.Add(this.numCustomOriginX);
+            this.tabPage4.Controls.Add(this.txtCustomFilter);
+            this.tabPage4.Controls.Add(this.btnCustomApply);
+            this.tabPage4.Location = new System.Drawing.Point(4, 22);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Size = new System.Drawing.Size(496, 112);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "Custom Filter";
+            this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // txtCustomFilter
+            // 
+            this.txtCustomFilter.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.txtCustomFilter.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtCustomFilter.Location = new System.Drawing.Point(133, 10);
+            this.txtCustomFilter.Multiline = true;
+            this.txtCustomFilter.Name = "txtCustomFilter";
+            this.txtCustomFilter.Size = new System.Drawing.Size(198, 92);
+            this.txtCustomFilter.TabIndex = 21;
+            this.txtCustomFilter.Text = " 0  -2   0\r\n-2   9  -2\r\n 0  -2   0";
+            // 
+            // btnCustomApply
+            // 
+            this.btnCustomApply.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnCustomApply.Location = new System.Drawing.Point(337, 59);
+            this.btnCustomApply.Name = "btnCustomApply";
+            this.btnCustomApply.Size = new System.Drawing.Size(63, 44);
+            this.btnCustomApply.TabIndex = 20;
+            this.btnCustomApply.Text = "Apply";
+            this.btnCustomApply.UseVisualStyleBackColor = true;
+            this.btnCustomApply.Click += new System.EventHandler(this.btnCustomApply_Click);
             // 
             // tabPage1
             // 
@@ -900,8 +979,8 @@ namespace ImageProcessing
             // 
             // btnTask1Apply
             // 
-            this.btnTask1Apply.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btnTask1Apply.Location = new System.Drawing.Point(324, 33);
+            this.btnTask1Apply.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnTask1Apply.Location = new System.Drawing.Point(329, 33);
             this.btnTask1Apply.Name = "btnTask1Apply";
             this.btnTask1Apply.Size = new System.Drawing.Size(63, 44);
             this.btnTask1Apply.TabIndex = 4;
@@ -911,10 +990,10 @@ namespace ImageProcessing
             // 
             // rdioAll
             // 
-            this.rdioAll.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.rdioAll.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rdioAll.AutoSize = true;
             this.rdioAll.Checked = true;
-            this.rdioAll.Location = new System.Drawing.Point(90, 83);
+            this.rdioAll.Location = new System.Drawing.Point(95, 83);
             this.rdioAll.Name = "rdioAll";
             this.rdioAll.Size = new System.Drawing.Size(42, 17);
             this.rdioAll.TabIndex = 18;
@@ -924,9 +1003,9 @@ namespace ImageProcessing
             // 
             // rdioShear
             // 
-            this.rdioShear.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.rdioShear.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rdioShear.AutoSize = true;
-            this.rdioShear.Location = new System.Drawing.Point(90, 60);
+            this.rdioShear.Location = new System.Drawing.Point(95, 60);
             this.rdioShear.Name = "rdioShear";
             this.rdioShear.Size = new System.Drawing.Size(53, 17);
             this.rdioShear.TabIndex = 17;
@@ -935,9 +1014,9 @@ namespace ImageProcessing
             // 
             // rdioRotation
             // 
-            this.rdioRotation.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.rdioRotation.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rdioRotation.AutoSize = true;
-            this.rdioRotation.Location = new System.Drawing.Point(90, 36);
+            this.rdioRotation.Location = new System.Drawing.Point(95, 36);
             this.rdioRotation.Name = "rdioRotation";
             this.rdioRotation.Size = new System.Drawing.Size(65, 17);
             this.rdioRotation.TabIndex = 16;
@@ -946,30 +1025,41 @@ namespace ImageProcessing
             // 
             // rdioScale
             // 
-            this.rdioScale.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.rdioScale.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rdioScale.AutoSize = true;
-            this.rdioScale.Location = new System.Drawing.Point(90, 12);
+            this.rdioScale.Location = new System.Drawing.Point(95, 12);
             this.rdioScale.Name = "rdioScale";
             this.rdioScale.Size = new System.Drawing.Size(52, 17);
             this.rdioScale.TabIndex = 15;
             this.rdioScale.Text = "Scale";
             this.rdioScale.UseVisualStyleBackColor = true;
             // 
-            // groupBox3
+            // panel1
             // 
-            this.groupBox3.Controls.Add(this.button9);
-            this.groupBox3.Controls.Add(this.btnOpen);
-            this.groupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox3.Location = new System.Drawing.Point(513, 3);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(132, 138);
-            this.groupBox3.TabIndex = 19;
-            this.groupBox3.TabStop = false;
+            this.panel1.Controls.Add(this.chckSecondImage);
+            this.panel1.Controls.Add(this.button9);
+            this.panel1.Controls.Add(this.btnOpen);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(513, 3);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(132, 138);
+            this.panel1.TabIndex = 19;
+            // 
+            // chckSecondImage
+            // 
+            this.chckSecondImage.AutoSize = true;
+            this.chckSecondImage.Location = new System.Drawing.Point(21, 115);
+            this.chckSecondImage.Name = "chckSecondImage";
+            this.chckSecondImage.Size = new System.Drawing.Size(94, 17);
+            this.chckSecondImage.TabIndex = 4;
+            this.chckSecondImage.Text = "Second image";
+            this.chckSecondImage.UseVisualStyleBackColor = true;
+            this.chckSecondImage.CheckedChanged += new System.EventHandler(this.chckSecondImage_CheckedChanged);
             // 
             // button9
             // 
             this.button9.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.button9.Location = new System.Drawing.Point(3, 90);
+            this.button9.Location = new System.Drawing.Point(3, 84);
             this.button9.Name = "button9";
             this.button9.Size = new System.Drawing.Size(126, 27);
             this.button9.TabIndex = 3;
@@ -1011,9 +1101,9 @@ namespace ImageProcessing
             this.btnOrgnlHisto.Name = "btnOrgnlHisto";
             this.btnOrgnlHisto.Size = new System.Drawing.Size(178, 23);
             this.btnOrgnlHisto.TabIndex = 21;
-            this.btnOrgnlHisto.Text = "Show Original Histogram";
+            this.btnOrgnlHisto.Text = "Restore Original Image";
             this.btnOrgnlHisto.UseVisualStyleBackColor = true;
-            this.btnOrgnlHisto.Click += new System.EventHandler(this.btnOrgnlHisto_Click);
+            this.btnOrgnlHisto.Click += new System.EventHandler(this.btnRestoreOriginal_Click);
             // 
             // numAddFraction
             // 
@@ -1033,6 +1123,7 @@ namespace ImageProcessing
             this.numAddFraction.Name = "numAddFraction";
             this.numAddFraction.Size = new System.Drawing.Size(42, 20);
             this.numAddFraction.TabIndex = 20;
+            this.toolTip.SetToolTip(this.numAddFraction, "Adding fraction");
             this.numAddFraction.Value = new decimal(new int[] {
             5,
             0,
@@ -1207,32 +1298,32 @@ namespace ImageProcessing
             this.btnGrayscale.UseVisualStyleBackColor = true;
             this.btnGrayscale.Click += new System.EventHandler(this.btnGrayscale_Click);
             // 
-            // tableLayoutPanel1
+            // imagesTableLayoutPanel
             // 
-            this.tableLayoutPanel1.ColumnCount = 3;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Controls.Add(this.rightPictureBox, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.middlePictureBox, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.leftPictureBox, 0, 0);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 1;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1165, 411);
-            this.tableLayoutPanel1.TabIndex = 13;
+            this.imagesTableLayoutPanel.ColumnCount = 3;
+            this.imagesTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.imagesTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.imagesTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 300F));
+            this.imagesTableLayoutPanel.Controls.Add(this.rightPictureBox, 0, 0);
+            this.imagesTableLayoutPanel.Controls.Add(this.middlePictureBox, 0, 0);
+            this.imagesTableLayoutPanel.Controls.Add(this.leftPictureBox, 0, 0);
+            this.imagesTableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.imagesTableLayoutPanel.Location = new System.Drawing.Point(0, 0);
+            this.imagesTableLayoutPanel.Margin = new System.Windows.Forms.Padding(0);
+            this.imagesTableLayoutPanel.Name = "imagesTableLayoutPanel";
+            this.imagesTableLayoutPanel.RowCount = 1;
+            this.imagesTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.imagesTableLayoutPanel.Size = new System.Drawing.Size(1165, 411);
+            this.imagesTableLayoutPanel.TabIndex = 13;
             // 
             // rightPictureBox
             // 
             this.rightPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.rightPictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rightPictureBox.Location = new System.Drawing.Point(776, 0);
+            this.rightPictureBox.Location = new System.Drawing.Point(864, 0);
             this.rightPictureBox.Margin = new System.Windows.Forms.Padding(0);
             this.rightPictureBox.Name = "rightPictureBox";
-            this.rightPictureBox.Size = new System.Drawing.Size(389, 411);
+            this.rightPictureBox.Size = new System.Drawing.Size(301, 411);
             this.rightPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.rightPictureBox.TabIndex = 13;
             this.rightPictureBox.TabStop = false;
@@ -1243,13 +1334,15 @@ namespace ImageProcessing
             // 
             this.middlePictureBox.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.middlePictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.middlePictureBox.Location = new System.Drawing.Point(388, 0);
+            this.middlePictureBox.Location = new System.Drawing.Point(432, 0);
             this.middlePictureBox.Margin = new System.Windows.Forms.Padding(0);
             this.middlePictureBox.Name = "middlePictureBox";
-            this.middlePictureBox.Size = new System.Drawing.Size(388, 411);
+            this.middlePictureBox.Size = new System.Drawing.Size(432, 411);
             this.middlePictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.middlePictureBox.TabIndex = 12;
             this.middlePictureBox.TabStop = false;
+            this.middlePictureBox.DragDrop += new System.Windows.Forms.DragEventHandler(this.pictureBox_DragDrop);
+            this.middlePictureBox.DragEnter += new System.Windows.Forms.DragEventHandler(this.pictureBox_DragEnter);
             this.middlePictureBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox_DoubleClick);
             this.middlePictureBox.MouseHover += new System.EventHandler(this.pictureBox_MouseHover);
             // 
@@ -1260,87 +1353,43 @@ namespace ImageProcessing
             this.leftPictureBox.Location = new System.Drawing.Point(0, 0);
             this.leftPictureBox.Margin = new System.Windows.Forms.Padding(0);
             this.leftPictureBox.Name = "leftPictureBox";
-            this.leftPictureBox.Size = new System.Drawing.Size(388, 411);
+            this.leftPictureBox.Size = new System.Drawing.Size(432, 411);
             this.leftPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.leftPictureBox.TabIndex = 0;
             this.leftPictureBox.TabStop = false;
+            this.leftPictureBox.DragDrop += new System.Windows.Forms.DragEventHandler(this.pictureBox_DragDrop);
+            this.leftPictureBox.DragEnter += new System.Windows.Forms.DragEventHandler(this.pictureBox_DragEnter);
             this.leftPictureBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox_DoubleClick);
             this.leftPictureBox.MouseHover += new System.EventHandler(this.pictureBox_MouseHover);
             // 
-            // saveDialog
+            // imageSaveDialog
             // 
-            this.saveDialog.DefaultExt = "jpg";
-            this.saveDialog.FileName = "image";
-            this.saveDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.saveDialog_FileOk);
+            this.imageSaveDialog.DefaultExt = "jpg";
+            this.imageSaveDialog.FileName = "image";
             // 
-            // tabPage4
+            // btnOpenMask
             // 
-            this.tabPage4.Controls.Add(this.cmboCustomPost);
-            this.tabPage4.Controls.Add(this.numCustomOriginY);
-            this.tabPage4.Controls.Add(this.numCustomOriginX);
-            this.tabPage4.Controls.Add(this.txtCustomFilter);
-            this.tabPage4.Controls.Add(this.btnCustomApply);
-            this.tabPage4.Location = new System.Drawing.Point(4, 22);
-            this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(496, 112);
-            this.tabPage4.TabIndex = 3;
-            this.tabPage4.Text = "Custom Filter";
-            this.tabPage4.UseVisualStyleBackColor = true;
+            this.btnOpenMask.Location = new System.Drawing.Point(52, 10);
+            this.btnOpenMask.Name = "btnOpenMask";
+            this.btnOpenMask.Size = new System.Drawing.Size(75, 23);
+            this.btnOpenMask.TabIndex = 37;
+            this.btnOpenMask.Text = "Open Mask";
+            this.btnOpenMask.UseVisualStyleBackColor = true;
+            this.btnOpenMask.Click += new System.EventHandler(this.btnOpenMask_Click);
             // 
-            // btnCustomApply
+            // btnSaveMask
             // 
-            this.btnCustomApply.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btnCustomApply.Location = new System.Drawing.Point(286, 59);
-            this.btnCustomApply.Name = "btnCustomApply";
-            this.btnCustomApply.Size = new System.Drawing.Size(63, 44);
-            this.btnCustomApply.TabIndex = 20;
-            this.btnCustomApply.Text = "Apply";
-            this.btnCustomApply.UseVisualStyleBackColor = true;
-            this.btnCustomApply.Click += new System.EventHandler(this.btnCustomApply_Click);
-            // 
-            // txtCustomFilter
-            // 
-            this.txtCustomFilter.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtCustomFilter.Location = new System.Drawing.Point(83, 10);
-            this.txtCustomFilter.Multiline = true;
-            this.txtCustomFilter.Name = "txtCustomFilter";
-            this.txtCustomFilter.Size = new System.Drawing.Size(198, 92);
-            this.txtCustomFilter.TabIndex = 21;
-            this.txtCustomFilter.Text = " 0  -2   0\r\n-2   9  -2\r\n 0  -2   0";
-            // 
-            // numCustomOriginX
-            // 
-            this.numCustomOriginX.Location = new System.Drawing.Point(287, 10);
-            this.numCustomOriginX.Name = "numCustomOriginX";
-            this.numCustomOriginX.Size = new System.Drawing.Size(47, 20);
-            this.numCustomOriginX.TabIndex = 22;
-            this.toolTip.SetToolTip(this.numCustomOriginX, "Origin X");
-            // 
-            // numCustomOriginY
-            // 
-            this.numCustomOriginY.Location = new System.Drawing.Point(339, 10);
-            this.numCustomOriginY.Name = "numCustomOriginY";
-            this.numCustomOriginY.Size = new System.Drawing.Size(47, 20);
-            this.numCustomOriginY.TabIndex = 23;
-            this.toolTip.SetToolTip(this.numCustomOriginY, "Origin Y");
-            // 
-            // cmboCustomPost
-            // 
-            this.cmboCustomPost.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmboCustomPost.FormattingEnabled = true;
-            this.cmboCustomPost.Items.AddRange(new object[] {
-            "(Without)",
-            "Normalization",
-            "Absolute",
-            "Cut-off"});
-            this.cmboCustomPost.Location = new System.Drawing.Point(287, 32);
-            this.cmboCustomPost.Name = "cmboCustomPost";
-            this.cmboCustomPost.Size = new System.Drawing.Size(99, 21);
-            this.cmboCustomPost.TabIndex = 36;
-            this.toolTip.SetToolTip(this.cmboCustomPost, "Post Processing");
+            this.btnSaveMask.Location = new System.Drawing.Point(52, 33);
+            this.btnSaveMask.Name = "btnSaveMask";
+            this.btnSaveMask.Size = new System.Drawing.Size(75, 23);
+            this.btnSaveMask.TabIndex = 38;
+            this.btnSaveMask.Text = "Save Mask";
+            this.btnSaveMask.UseVisualStyleBackColor = true;
+            this.btnSaveMask.Click += new System.EventHandler(this.btnSaveMask_Click);
             // 
             // mainForm
             // 
+            this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1165, 561);
@@ -1372,6 +1421,8 @@ namespace ImageProcessing
             ((System.ComponentModel.ISupportInitialize)(this.numStatsK2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numLHEWindow)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numRtnxSigma)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numCustomOriginX)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numCustomOriginY)).EndInit();
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel3.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
@@ -1380,23 +1431,22 @@ namespace ImageProcessing
             ((System.ComponentModel.ISupportInitialize)(this.slideMLGaussian)).EndInit();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
+            this.tabPage4.ResumeLayout(false);
+            this.tabPage4.PerformLayout();
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
-            this.groupBox3.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numAddFraction)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.slideGamma)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.slideBrightness)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.slideContrast)).EndInit();
-            this.tableLayoutPanel1.ResumeLayout(false);
+            this.imagesTableLayoutPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.rightPictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.middlePictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.leftPictureBox)).EndInit();
-            this.tabPage4.ResumeLayout(false);
-            this.tabPage4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numCustomOriginX)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numCustomOriginY)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1406,9 +1456,9 @@ namespace ImageProcessing
         private System.Windows.Forms.Button btnOpen;
         private System.Windows.Forms.ToolTip toolTip;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.TableLayoutPanel imagesTableLayoutPanel;
         private System.Windows.Forms.PictureBox leftPictureBox;
-        private System.Windows.Forms.SaveFileDialog saveDialog;
+        private System.Windows.Forms.SaveFileDialog imageSaveDialog;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.PictureBox rightPictureBox;
         private System.Windows.Forms.PictureBox middlePictureBox;
@@ -1427,7 +1477,7 @@ namespace ImageProcessing
         private System.Windows.Forms.TextBox txtBitMask;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button button9;
         private System.Windows.Forms.NumericUpDown numAddFraction;
         private System.Windows.Forms.Button btnOrgnlHisto;
@@ -1483,6 +1533,9 @@ namespace ImageProcessing
         private System.Windows.Forms.NumericUpDown numCustomOriginY;
         private System.Windows.Forms.NumericUpDown numCustomOriginX;
         private System.Windows.Forms.ComboBox cmboCustomPost;
+        private System.Windows.Forms.CheckBox chckSecondImage;
+        private System.Windows.Forms.Button btnSaveMask;
+        private System.Windows.Forms.Button btnOpenMask;
     }
 }
 

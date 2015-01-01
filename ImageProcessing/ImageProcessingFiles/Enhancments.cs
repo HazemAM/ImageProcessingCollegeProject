@@ -83,15 +83,15 @@ namespace ImageProcessing
             int[,] hist = mainForm.getHistogramArray(img1);
             int[,] hist2 = mainForm.getHistogramArray(img2);
             int[,] reshist = new int[3, 256];
-            int index;
+            int color;
             hist = mainForm.getRoundArray(hist,img1.Width,img1.Height);
             hist2 = mainForm.getRoundArray(hist2,img2.Width,img2.Height);
-            for (int i = 0; i < 255; i++)
+            for (int i = 0; i < 256; i++)
             {
                 for (int j = 0; j <3 ; j++)
                 {
-                    index=getNearest(hist, hist2, j, i);
-                    reshist[j, i] = hist2[j, index];
+                    color=getNearest(hist, hist2, j, i);
+                    reshist[j, i] = color;
                 }
             }
             for (int i = 0; i < img1.Width; i++)
@@ -115,7 +115,7 @@ namespace ImageProcessing
             int index=0;
             int min = 256;
             int temp;
-            for (int j = 0; j < 255; j++)
+            for (int j = 0; j < 256; j++)
             {
                  temp=Math.Abs(input1[i,k]-input2[i,j]);
                  if (temp < min)

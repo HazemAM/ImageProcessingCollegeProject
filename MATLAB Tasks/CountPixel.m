@@ -6,6 +6,7 @@ a(L==0)=0;
 z=img;
 Image=z-a;
 Image=bwmorph(Image,'close');
+imshow(Image);
 Count=sum(sum(Image));
 end
 
